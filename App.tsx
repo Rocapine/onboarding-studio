@@ -5,6 +5,7 @@ import EditPageForm from './layout/EditPageForm';
 import StepsList from './layout/StepsList';
 import MobileScreenPreview from "./layout/MobileScreenPreview";
 import { useColorScheme } from "react-native";
+import { StepsProvider } from "./contexts/steps-context";
 
 
 
@@ -26,9 +27,11 @@ export default function App() {
   const theme = colorScheme === 'light' ? "green" : "dark_green" // 'light' or 'dark'
   return (
     <TamaguiProvider config={tamaguiConfig} >
-      <Theme name={theme} >
-        <Layout />
-      </Theme>
+      <StepsProvider>
+        <Theme name={theme} >
+          <Layout />
+        </Theme>
+      </StepsProvider>
     </TamaguiProvider>
   );
 }

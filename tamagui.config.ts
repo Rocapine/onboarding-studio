@@ -3,8 +3,6 @@ import { createTamagui } from "tamagui";
 
 export const tamaguiConfig = createTamagui(config);
 
-console.log(tamaguiConfig);
-
 export default tamaguiConfig;
 
 export type Conf = typeof tamaguiConfig;

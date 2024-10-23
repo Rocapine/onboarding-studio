@@ -1,9 +1,54 @@
-import { View, Text } from "@tamagui/core";
+import update from 'immutability-helper'
+import type { FC } from 'react'
+import { useCallback, useState } from 'react'
 
-export default function StepsList() {
-  return (
-    <View flex={1} padding={20} alignItems="center" justifyContent="center">
-      <Text>Steps List</Text>
-    </View>
-  );
+import { StepCard } from '../components/StepCard'
+import { DndProvider } from 'react-dnd'
+import { HTML5Backend } from 'react-dnd-html5-backend'
+import { View } from 'tamagui'
+import { StepProperties, useSteps } from '../contexts/steps-context'
+
+
+
+const StepList: FC = () => {
+  {
+    const { steps, setSteps } = useSteps();
+
+    const moveCard = useCallback((dragIndex: number, hoverIndex: number) => {
+      setSteps((prevCards: StepProperties[]) =>
+        update(prevCards, {
+          $splice: [
+            [dragIndex, 1],
+            [hoverIndex, 0, prevCards[dragIndex] as StepProperties],
+          ],
+        }),
+      )
+    }, [])
+
+    const renderCard = useCallback(
+      (step: StepProperties, index: number) => {
+        return (
+          <StepCard
+            key={step.id}
+            index={index}
+            id={step.id}
+            stepProperties={step}
+            moveCard={moveCard}
+          />
+        )
+      },
+      [],
+    )
+
+    return (
+      <View flex={1} alignItems="center" justifyContent="center">
+        <DndProvider backend={HTML5Backend}>
+          <View >{steps.map((card, i) => renderCard(card, i))}</View>
+        </DndProvider>
+      </View>
+    )
+  }
 }
+
+
+export default StepList;
