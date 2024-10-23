@@ -3,7 +3,7 @@
 import { createContext, useContext, useState, ReactNode } from 'react';
 
 export type StepProperties = {
-  id: number;
+  id: string;
   type: string;
   name: string;
   // Add other properties as needed
@@ -28,7 +28,7 @@ export const StepsProvider = ({ children }: { children: ReactNode }) => {
     setSteps((prevSteps) => [...prevSteps, step]);
   };
 
-  const setStep = (id: number, updatedStep: StepProperties) => {
+  const setStep = (id: StepProperties['id'], updatedStep: StepProperties) => {
     setSteps((prevSteps) =>
       prevSteps.map((step) => (step.id === id ? updatedStep : step))
     );
@@ -54,23 +54,23 @@ export const useSteps = () => {
 
 const initialSteps = [
   {
-    id: 1,
+    id: "1",
     type: 'Question 6',
     name: 'What is the problem you are solving?',
   },
   {
-    id: 2,
+    id: "2",
     type: 'Value Proposition',
     name: 'What is the value you are providing?',
   },
   {
-    id: 3,
+    id: "3",
     type: 'Feature 1',
     name: 'What is the first feature you are providing?',
   },
   {
-    id: 4,
+    id: "4",
     type: 'Feature 2',
     name: 'What is the second feature you are providing?',
   },
-]
+] satisfies StepProperties[];

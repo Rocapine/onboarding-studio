@@ -12,7 +12,7 @@ import { StepProperties, useSteps } from '../contexts/steps-context'
 
 const StepList: FC = () => {
   {
-    const { steps, setSteps } = useSteps();
+    const { steps, setSteps, setSelectedStep } = useSteps();
 
     const moveCard = useCallback((dragIndex: number, hoverIndex: number) => {
       setSteps((prevCards: StepProperties[]) =>
@@ -40,9 +40,17 @@ const StepList: FC = () => {
       [],
     )
 
+    const handleRadioChange = (id: StepProperties['id']) => {
+      console.log("New radio", id);
+      const step = steps.find(step => step.id === id);
+      if (step) {
+        setSelectedStep(step);
+      }
+    }
+
     return (
       <View flex={1} alignItems="center" justifyContent="center">
-        <RadioGroup aria-labelledby="Select one item" defaultValue="1" name="form" onValueChange={(value) => console.log("New radio", value)}>
+        <RadioGroup aria-labelledby="Select one item" name="form" onValueChange={handleRadioChange}>
 
           <DndProvider backend={HTML5Backend}>
             <View >{steps.map((card, i) => renderCard(card, i))}</View>
