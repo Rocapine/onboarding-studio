@@ -1,14 +1,34 @@
-import { StatusBar } from 'expo-status-bar';
-import { Text } from 'react-native';
-import { TamaguiProvider, View } from '@tamagui/core'
+import "@expo/metro-runtime";
+import { TamaguiProvider, View, useTheme, Theme } from '@tamagui/core'
 import { tamaguiConfig } from './tamagui.config'
-export default function App() {
+import EditPageForm from './layout/EditPageForm';
+import StepsList from './layout/StepsList';
+import MobileScreenPreview from "./layout/MobileScreenPreview";
+import { useColorScheme } from "react-native";
+
+
+
+const Layout = () => {
+  const theme = useTheme();
+  console.log('theme', theme.background0);
+
   return (
-    <TamaguiProvider config={tamaguiConfig}>
-      <View flex={1} backgroundColor="#fff" alignItems="center" justifyContent="center">
-        <Text>Open up App.tsx to start working on your app!</Text>
-        <StatusBar style="auto" />
-      </View>
+    <View backgroundColor={"$background"} flex={1} flexDirection="row">
+      <EditPageForm />
+      <MobileScreenPreview />
+      <StepsList />
+    </View>
+  );
+};
+
+export default function App() {
+  const colorScheme = useColorScheme();
+  const theme = colorScheme === 'light' ? "green" : "dark_green" // 'light' or 'dark'
+  return (
+    <TamaguiProvider config={tamaguiConfig} >
+      <Theme name={theme} >
+        <Layout />
+      </Theme>
     </TamaguiProvider>
   );
 }
