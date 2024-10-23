@@ -2,7 +2,7 @@ import type { Identifier, XYCoord } from 'dnd-core'
 import type { FC } from 'react'
 import { useRef } from 'react'
 import { useDrag, useDrop } from 'react-dnd'
-import { View, Text } from 'tamagui'
+import { View, Text, Card, RadioGroup, XStack, Stack } from 'tamagui'
 import { StepProperties } from '../contexts/steps-context'
 
 export const ItemTypes = {
@@ -98,20 +98,25 @@ export const StepCard: FC<CardProps> = ({ id, index, stepProperties, moveCard })
   const opacity = isDragging ? 0 : 1
   drag(drop(ref))
   return (
-    <View ref={ref}
+    <Card ref={ref}
       padding="$2"
       marginBottom="$2"
-      backgroundColor="$accent"
-      borderColor="$borderColor"
       borderWidth={1}
-      borderRadius="$4"
       cursor="move"
       opacity={opacity}
       width={300}
       data-handler-id={handlerId}
     >
-      <Text>Step {index + 1}</Text>
-      <Text>{stepProperties.type}</Text>
-    </View>
+      <XStack alignItems="center" justifyContent="space-between" >
+
+        <Stack flex={1} >
+          <Text>Step {index + 1}</Text>
+          <Text>{stepProperties.type}</Text>
+        </Stack>
+        <RadioGroup.Item value={id.toString()} id={id.toString()} >
+          <RadioGroup.Indicator />
+        </RadioGroup.Item>
+      </XStack>
+    </Card>
   )
 }

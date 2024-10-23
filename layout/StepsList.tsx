@@ -5,7 +5,7 @@ import { useCallback, useState } from 'react'
 import { StepCard } from '../components/StepCard'
 import { DndProvider } from 'react-dnd'
 import { HTML5Backend } from 'react-dnd-html5-backend'
-import { View } from 'tamagui'
+import { RadioGroup, View } from 'tamagui'
 import { StepProperties, useSteps } from '../contexts/steps-context'
 
 
@@ -42,9 +42,12 @@ const StepList: FC = () => {
 
     return (
       <View flex={1} alignItems="center" justifyContent="center">
-        <DndProvider backend={HTML5Backend}>
-          <View >{steps.map((card, i) => renderCard(card, i))}</View>
-        </DndProvider>
+        <RadioGroup aria-labelledby="Select one item" defaultValue="1" name="form" onValueChange={(value) => console.log("New radio", value)}>
+
+          <DndProvider backend={HTML5Backend}>
+            <View >{steps.map((card, i) => renderCard(card, i))}</View>
+          </DndProvider>
+        </RadioGroup>
       </View>
     )
   }
