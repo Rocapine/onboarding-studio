@@ -50,7 +50,7 @@ const StepList: FC = () => {
 
     return (
       <View flex={1} alignItems="center" justifyContent="center">
-        <RadioGroup aria-labelledby="Select one item" name="form" onValueChange={handleRadioChange}>
+        <RadioGroup aria-labelledby="Select one item" name="form" defaultValue={steps[0].id} onValueChange={handleRadioChange}>
 
           <DndProvider backend={HTML5Backend}>
             <View >{steps.map((card, i) => renderCard(card, i))}</View>

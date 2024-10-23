@@ -1,18 +1,21 @@
-// create a steps context to manage the steps list
-
 import { createContext, useContext, useState, ReactNode } from 'react';
+
+export enum StepType {
+  Question = 'Question',
+  ValueProposition = 'Value Proposition',
+  Feature = 'Feature',
+}
 
 export type StepProperties = {
   id: string;
-  type: string;
+  type: StepType;
   name: string;
-  // Add other properties as needed
 };
 
 type StepsContextType = {
   steps: StepProperties[];
   addStep: (step: StepProperties) => void;
-  setStep: (id: number, updatedStep: StepProperties) => void;
+  setStep: (id: StepProperties['id'], updatedStep: StepProperties) => void;
   setSteps: React.Dispatch<React.SetStateAction<StepProperties[]>>;
   selectedStep: StepProperties | null;
   setSelectedStep: (step: StepProperties | null) => void;
@@ -22,7 +25,7 @@ const StepsContext = createContext<StepsContextType | undefined>(undefined);
 
 export const StepsProvider = ({ children }: { children: ReactNode }) => {
   const [steps, setSteps] = useState<StepProperties[]>(initialSteps);
-  const [selectedStep, setSelectedStep] = useState<StepProperties | null>(null);
+  const [selectedStep, setSelectedStep] = useState<StepProperties | null>(steps[0]);
 
   const addStep = (step: StepProperties) => {
     setSteps((prevSteps) => [...prevSteps, step]);
@@ -32,6 +35,9 @@ export const StepsProvider = ({ children }: { children: ReactNode }) => {
     setSteps((prevSteps) =>
       prevSteps.map((step) => (step.id === id ? updatedStep : step))
     );
+    if (id === selectedStep?.id) {
+      setSelectedStep(updatedStep);
+    }
   };
 
   return (
@@ -55,22 +61,22 @@ export const useSteps = () => {
 const initialSteps = [
   {
     id: "1",
-    type: 'Question 6',
+    type: StepType.Question,
     name: 'What is the problem you are solving?',
   },
   {
     id: "2",
-    type: 'Value Proposition',
+    type: StepType.ValueProposition,
     name: 'What is the value you are providing?',
   },
   {
     id: "3",
-    type: 'Feature 1',
+    type: StepType.Feature,
     name: 'What is the first feature you are providing?',
   },
   {
     id: "4",
-    type: 'Feature 2',
+    type: StepType.Feature,
     name: 'What is the second feature you are providing?',
   },
 ] satisfies StepProperties[];
