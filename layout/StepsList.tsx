@@ -6,8 +6,9 @@ import { StepCard } from '../components/StepCard'
 import { DndProvider } from 'react-dnd'
 import { HTML5Backend } from 'react-dnd-html5-backend'
 import { Button, RadioGroup, View } from 'tamagui'
-import { StepProperties, StepType, useSteps } from '../contexts/steps-context'
+import { useSteps } from '../contexts/steps-context'
 import { v4 as uuidv4 } from 'uuid'
+import { QuestionStep, StepProperties, StepType } from '../contexts/step.type'
 
 
 
@@ -53,7 +54,12 @@ const StepList: FC = () => {
         id: uuidv4(),
         type: StepType.Question,
         name: "New Step",
-      } satisfies StepProperties;
+        hideHeader: false,
+        payload: {
+          answers: [],
+          title: 'New Question',
+        }
+      } satisfies QuestionStep;
       addStep(newStep);
       setSelectedStep(newStep);
     }

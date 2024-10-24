@@ -1,16 +1,6 @@
 import { createContext, useContext, useState, ReactNode } from 'react';
+import { StepProperties, StepType } from './step.type';
 
-export enum StepType {
-  Question = 'Question',
-  ValueProposition = 'Value Proposition',
-  Feature = 'Feature',
-}
-
-export type StepProperties = {
-  id: string;
-  type: StepType;
-  name: string;
-};
 
 type StepsContextType = {
   steps: StepProperties[];
@@ -61,22 +51,24 @@ export const useSteps = () => {
 const initialSteps = [
   {
     id: "1",
-    type: StepType.Question,
+    type: StepType.HalfImageHalfContent,
     name: 'What is the problem you are solving?',
+    hideHeader: true,
+    payload: {
+      image: '',
+      title: 'Hello',
+      description: 'World',
+    }
   },
   {
     id: "2",
-    type: StepType.ValueProposition,
+    type: StepType.Question,
     name: 'What is the value you are providing?',
+    hideHeader: false,
+    payload: {
+      answers: [],
+      title: 'Hello',
+    }
   },
-  {
-    id: "3",
-    type: StepType.Feature,
-    name: 'What is the first feature you are providing?',
-  },
-  {
-    id: "4",
-    type: StepType.Feature,
-    name: 'What is the second feature you are providing?',
-  },
+
 ] satisfies StepProperties[];

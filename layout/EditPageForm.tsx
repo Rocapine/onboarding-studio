@@ -1,8 +1,9 @@
 import { View } from "@tamagui/core";
-import { StepType, useSteps } from "../contexts/steps-context";
+import { useSteps } from "../contexts/steps-context";
 import { Heading, YStack } from "tamagui";
 import React from "react";
 import { SelectType } from "../components/SelectType";
+import { StepType } from "../contexts/step.type";
 
 
 export default function EditPageForm() {
