@@ -1,10 +1,10 @@
 import { YStack, Text, Image, XStack, Stack, Button, Paragraph, View } from "tamagui";
 import { ChevronRight } from "@tamagui/lucide-icons";
-import { HalfImageHalfContentStep } from "../../contexts/step.type";
+import { MediaContentStepType as MediaContentStepType } from "../../contexts/step.type";
 import { useIPhoneContext } from "../../contexts/iphone-context";
 
 type ContentProps = {
-  step: HalfImageHalfContentStep;
+  step: MediaContentStepType;
 };
 
 export const MediaContentStep = ({ step }: ContentProps) => {

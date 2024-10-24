@@ -8,7 +8,7 @@ import { HTML5Backend } from 'react-dnd-html5-backend'
 import { Button, RadioGroup, View } from 'tamagui'
 import { useSteps } from '../contexts/steps-context'
 import { v4 as uuidv4 } from 'uuid'
-import { QuestionStep, StepProperties, StepType } from '../contexts/step.type'
+import { QuestionStepType, StepProperties, StepType } from '../contexts/step.type'
 
 
 
@@ -59,7 +59,7 @@ const StepList: FC = () => {
           answers: [],
           title: 'New Question',
         }
-      } satisfies QuestionStep;
+      } satisfies QuestionStepType;
       addStep(newStep);
       setSelectedStep(newStep);
     }

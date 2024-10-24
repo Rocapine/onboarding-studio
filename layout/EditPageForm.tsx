@@ -18,9 +18,13 @@ export default function EditPageForm() {
     }
   }, [selectedStep, setStep]);
 
+  const updateStep = React.useCallback((step: StepProperties) => {
+    setStep(selectedStep.id, step)
+  }, [selectedStep, setStep])
+
   const editor = React.useMemo(() => {
     switch (selectedStep?.type) {
-      case StepType.MediaContent: return <MediaContentEditor />
+      case StepType.MediaContent: return <MediaContentEditor updateStep={updateStep} step={selectedStep} />
       default: return null
     }
   }, [selectedStep?.type])

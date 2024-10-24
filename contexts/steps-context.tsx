@@ -7,7 +7,7 @@ type StepsContextType = {
   addStep: (step: StepProperties) => void;
   setStep: (id: StepProperties['id'], updatedStep: StepProperties) => void;
   setSteps: React.Dispatch<React.SetStateAction<StepProperties[]>>;
-  selectedStep: StepProperties | null;
+  selectedStep: StepProperties;
   setSelectedStep: (step: StepProperties | null) => void;
 };
 
@@ -15,7 +15,7 @@ const StepsContext = createContext<StepsContextType | undefined>(undefined);
 
 export const StepsProvider = ({ children }: { children: ReactNode }) => {
   const [steps, setSteps] = useState<StepProperties[]>(initialSteps);
-  const [selectedStep, setSelectedStep] = useState<StepProperties | null>(steps[0]);
+  const [selectedStep, setSelectedStep] = useState<StepProperties>(steps[0]);
 
   const addStep = (step: StepProperties) => {
     setSteps((prevSteps) => [...prevSteps, step]);

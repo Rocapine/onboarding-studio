@@ -12,7 +12,7 @@ type BaseStepProperties = {
   payload?: Record<string, any>;
 };
 
-export type HalfImageHalfContentStep = BaseStepProperties & {
+export type MediaContentStepType = BaseStepProperties & {
   type: StepType.MediaContent;
   payload: {
     imageUrl: string;
@@ -21,14 +21,14 @@ export type HalfImageHalfContentStep = BaseStepProperties & {
   };
 };
 
-export type QuestionStep = BaseStepProperties & {
+export type QuestionStepType = BaseStepProperties & {
   type: StepType.Question;
   payload: {
     answers: string[];
     title: string;
   };
 };
-export type PickerStep = BaseStepProperties & {
+export type PickerStepType = BaseStepProperties & {
   type: StepType.Picker;
   payload: {
     title: string;
@@ -36,9 +36,9 @@ export type PickerStep = BaseStepProperties & {
 };
 
 export type StepProperties =
-  | HalfImageHalfContentStep
-  | QuestionStep
-  | PickerStep;
+  | MediaContentStepType
+  | QuestionStepType
+  | PickerStepType;
 
 export const getInitialStepPayload = <T extends StepProperties>(
   type: T["type"]
