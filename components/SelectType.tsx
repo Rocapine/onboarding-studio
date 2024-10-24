@@ -17,10 +17,10 @@ export function SelectType({ selectedType, setSelectedType }: SelectTypeProps) {
   return (
     <YStack gap="$4">
       <XStack ai="center" gap="$4">
-        <Label htmlFor="select-demo-1" f={1} miw={80}>
+        <Label htmlFor="select-type" f={1} miw={80}>
           Type
         </Label>
-        <SelectDemoItem id="select-demo-1" selectedType={selectedType} setSelectedType={setSelectedType} />
+        <SelectTypeItem id="select-type" selectedType={selectedType} setSelectedType={setSelectedType} />
       </XStack>
 
 
@@ -28,10 +28,8 @@ export function SelectType({ selectedType, setSelectedType }: SelectTypeProps) {
   )
 }
 
-export function SelectDemoItem(props: SelectProps & SelectTypeProps) {
+export function SelectTypeItem(props: SelectProps & SelectTypeProps) {
   const { selectedType, setSelectedType } = props
-
-  console.log("inner selectedType", selectedType);
 
   return (
     <Select value={selectedType} onValueChange={setSelectedType} disablePreventBodyScroll {...props}>

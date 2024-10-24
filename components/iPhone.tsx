@@ -2,14 +2,15 @@ import { Stack, styled, YStack, View } from 'tamagui'
 import type { PropsWithChildren } from 'react'
 
 // Types
-type IPhoneModel =
-  | 'iphone15Pro'
-  | 'iphone15ProMax'
-  | 'iphone15'
-  | 'iphone15Plus'
-  | 'iphone14'
-  | 'iphone13'
-  | 'iphoneSE'
+export enum IPhoneModel {
+  iPhone15Pro = 'iphone15Pro',
+  iPhone15ProMax = 'iphone15ProMax',
+  iPhone15 = 'iphone15',
+  iPhone15Plus = 'iphone15Plus',
+  iPhone14 = 'iphone14',
+  iPhone13 = 'iphone13',
+  iPhoneSE = 'iphoneSE',
+}
 
 
 
@@ -224,7 +225,7 @@ interface IPhoneFrameProps {
 }
 
 export function IPhoneFrame({
-  model = 'iphone15',
+  model = IPhoneModel.iPhone15,
   showStatusBar = true,
   showHomeIndicator = true,
   backgroundColor = 'white',
