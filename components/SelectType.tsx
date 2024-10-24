@@ -6,7 +6,7 @@ import { Adapt, Label, Select, Sheet, XStack, YStack, getFontSize } from 'tamagu
 import { LinearGradient } from 'tamagui/linear-gradient'
 import { StepType } from '../contexts/steps-context'
 
-const StepTypes = [StepType.Question, StepType.ValueProposition, StepType.Feature]
+const StepTypes = Object.values(StepType)
 
 type SelectTypeProps = {
   selectedType: StepType;
@@ -22,8 +22,6 @@ export function SelectType({ selectedType, setSelectedType }: SelectTypeProps) {
         </Label>
         <SelectTypeItem id="select-type" selectedType={selectedType} setSelectedType={setSelectedType} />
       </XStack>
-
-
     </YStack>
   )
 }
@@ -31,6 +29,24 @@ export function SelectType({ selectedType, setSelectedType }: SelectTypeProps) {
 export function SelectTypeItem(props: SelectProps & SelectTypeProps) {
   const { selectedType, setSelectedType } = props
 
+  const items = React.useMemo(
+    () =>
+      StepTypes.map((item, i) => {
+        return (
+          <Select.Item
+            index={i}
+            key={item}
+            value={item}
+          >
+            <Select.ItemText key={`${item}-text`}>{item}</Select.ItemText>
+            <Select.ItemIndicator marginLeft="auto">
+              <Check size={16} />
+            </Select.ItemIndicator>
+          </Select.Item>
+        )
+      }),
+    [StepTypes]
+  )
   return (
     <Select value={selectedType} onValueChange={setSelectedType} disablePreventBodyScroll {...props}>
       <Select.Trigger width={220} iconAfter={ChevronDown}>
@@ -93,24 +109,7 @@ export function SelectTypeItem(props: SelectProps & SelectTypeProps) {
           <Select.Group>
             <Select.Label>Type</Select.Label>
             {/* for longer lists memoizing these is useful */}
-            {React.useMemo(
-              () =>
-                StepTypes.map((item, i) => {
-                  return (
-                    <Select.Item
-                      index={i}
-                      key={item}
-                      value={item}
-                    >
-                      <Select.ItemText>{item}</Select.ItemText>
-                      <Select.ItemIndicator marginLeft="auto">
-                        <Check size={16} />
-                      </Select.ItemIndicator>
-                    </Select.Item>
-                  )
-                }),
-              [StepTypes]
-            )}
+            {items}
           </Select.Group>
           {/* Native gets an extra icon */}
           {props.native && (

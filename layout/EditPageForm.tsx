@@ -9,11 +9,12 @@ export default function EditPageForm() {
 
   const { selectedStep, setStep } = useSteps();
 
-  const setSelectedType = (type: StepType) => {
+  const setSelectedType = React.useCallback((type: StepType) => {
+    console.log("setSelectedType", type);
     if (selectedStep) {
       setStep(selectedStep.id, { ...selectedStep, type });
     }
-  }
+  }, [selectedStep, setStep]);
 
   return (
     <View flex={1} padding={20} alignItems="center" justifyContent="center">

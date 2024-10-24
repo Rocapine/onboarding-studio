@@ -5,14 +5,15 @@ import { useCallback, useState } from 'react'
 import { StepCard } from '../components/StepCard'
 import { DndProvider } from 'react-dnd'
 import { HTML5Backend } from 'react-dnd-html5-backend'
-import { RadioGroup, View } from 'tamagui'
-import { StepProperties, useSteps } from '../contexts/steps-context'
+import { Button, RadioGroup, View } from 'tamagui'
+import { StepProperties, StepType, useSteps } from '../contexts/steps-context'
+import { v4 as uuidv4 } from 'uuid'
 
 
 
 const StepList: FC = () => {
   {
-    const { steps, setSteps, setSelectedStep } = useSteps();
+    const { steps, setSteps, setSelectedStep, addStep, selectedStep } = useSteps();
 
     const moveCard = useCallback((dragIndex: number, hoverIndex: number) => {
       setSteps((prevCards: StepProperties[]) =>
@@ -47,12 +48,23 @@ const StepList: FC = () => {
       }
     }
 
+    const handleAddStep = () => {
+      const newStep = {
+        id: uuidv4(),
+        type: StepType.Question,
+        name: "New Step",
+      } satisfies StepProperties;
+      addStep(newStep);
+      setSelectedStep(newStep);
+    }
+
     return (
-      <View flex={1} alignItems="center" justifyContent="center">
-        <RadioGroup aria-labelledby="Select one item" name="form" defaultValue={steps[0].id} onValueChange={handleRadioChange}>
+      <View flex={1} alignItems="center" justifyContent="flex-start" paddingVertical={"$3"}>
+        <RadioGroup aria-labelledby="Select one item" name="form" value={selectedStep?.id} onValueChange={handleRadioChange}>
 
           <DndProvider backend={HTML5Backend}>
-            <View >{steps.map((card, i) => renderCard(card, i))}</View>
+            <View>{steps.map((card, i) => renderCard(card, i))}</View>
+            <Button onPress={handleAddStep}>Add Step</Button>
           </DndProvider>
         </RadioGroup>
       </View>
