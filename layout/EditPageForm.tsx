@@ -3,7 +3,7 @@ import { useSteps } from "../contexts/steps-context";
 import { Heading, YStack } from "tamagui";
 import React from "react";
 import { SelectType } from "../components/SelectType";
-import { StepType } from "../contexts/step.type";
+import { getInitialStepPayload, StepProperties, StepType } from "../contexts/step.type";
 
 
 export default function EditPageForm() {
@@ -11,14 +11,14 @@ export default function EditPageForm() {
   const { selectedStep, setStep } = useSteps();
 
   const setSelectedType = React.useCallback((type: StepType) => {
-    console.log("setSelectedType", type);
     if (selectedStep) {
-      setStep(selectedStep.id, { ...selectedStep, type });
+      const initialPayload = getInitialStepPayload(type)
+      setStep(selectedStep.id, { ...selectedStep, type, payload: initialPayload, } as StepProperties);
     }
   }, [selectedStep, setStep]);
 
   return (
-    <View flex={1} padding={20} alignItems="center" justifyContent="center">
+    <View flex={1} padding={"$4"} alignItems="center" justifyContent="flex-start">
       {selectedStep ? (
         <YStack gap="$4" width="$20">
           <Heading>{selectedStep.name}</Heading>

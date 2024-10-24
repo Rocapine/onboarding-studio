@@ -1,6 +1,7 @@
 export enum StepType {
   HalfImageHalfContent = "Half Image Half Content",
   Question = "Question",
+  Picker = "Picker",
 }
 
 type BaseStepProperties = {
@@ -27,5 +28,33 @@ export type QuestionStep = BaseStepProperties & {
     title: string;
   };
 };
+export type PickerStep = BaseStepProperties & {
+  type: StepType.Picker;
+  payload: {
+    title: string;
+  };
+};
 
-export type StepProperties = HalfImageHalfContentStep | QuestionStep;
+export type StepProperties =
+  | HalfImageHalfContentStep
+  | QuestionStep
+  | PickerStep;
+
+export const getInitialStepPayload = <T extends StepProperties>(
+  type: T["type"]
+): T["payload"] => {
+  if (type === StepType.Question) {
+    return {
+      answers: [],
+      title: "",
+    };
+  }
+  if (type === StepType.HalfImageHalfContent) {
+    return {
+      image: "",
+      title: "",
+      description: "",
+    };
+  }
+  return {} as T["payload"];
+};

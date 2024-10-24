@@ -65,7 +65,7 @@ const StepList: FC = () => {
     }
 
     return (
-      <View flex={1} alignItems="center" justifyContent="flex-start" paddingVertical={"$3"}>
+      <View flex={1} alignItems="center" justifyContent="flex-start" paddingVertical={"$4"}>
         <RadioGroup aria-labelledby="Select one item" name="form" value={selectedStep?.id} onValueChange={handleRadioChange}>
 
           <DndProvider backend={HTML5Backend}>
