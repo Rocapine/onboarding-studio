@@ -1,6 +1,6 @@
 import update from 'immutability-helper'
 import type { FC } from 'react'
-import { useCallback, useState } from 'react'
+import { useCallback } from 'react'
 
 import { StepCard } from '../components/StepCard'
 import { DndProvider } from 'react-dnd'

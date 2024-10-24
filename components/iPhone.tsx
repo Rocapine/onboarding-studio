@@ -1,4 +1,4 @@
-import { Stack, styled, YStack, View } from 'tamagui'
+import { Stack, styled, YStack, View, Text } from 'tamagui'
 import type { PropsWithChildren } from 'react'
 
 // Types
@@ -156,6 +156,7 @@ const StatusBar = styled(View, {
   height: 24,
   backgroundColor: 'transparent',
   width: '100%',
+  position: 'absolute',
 })
 
 const ContentContainer = styled(YStack, {
@@ -207,11 +208,11 @@ const Button = styled(View, {
 const HomeIndicator = styled(View, {
   name: 'HomeIndicator',
   position: 'absolute',
-  bottom: 4,
+  bottom: 30,
   left: '50%',
   width: 96,
   height: 4,
-  backgroundColor: '$gray600',
+  backgroundColor: 'black',
   borderRadius: 100,
   transform: [{ translateX: -48 }],
 })
@@ -262,11 +263,12 @@ export function IPhoneFrame({
         )}
 
         <Screen model={model} backgroundColor={backgroundColor}>
-          {showStatusBar && <StatusBar />}
+          {showStatusBar && <StatusBar><Text>1</Text></StatusBar>}
           <ContentContainer>
             {children}
           </ContentContainer>
         </Screen>
+        <HomeIndicator />
         {showHomeIndicator && <HomeIndicator />}
       </PhoneFrame>
 

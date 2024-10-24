@@ -1,5 +1,5 @@
 export enum StepType {
-  HalfImageHalfContent = "Half Image Half Content",
+  MediaContent = "MediaContent",
   Question = "Question",
   Picker = "Picker",
 }
@@ -13,9 +13,9 @@ type BaseStepProperties = {
 };
 
 export type HalfImageHalfContentStep = BaseStepProperties & {
-  type: StepType.HalfImageHalfContent;
+  type: StepType.MediaContent;
   payload: {
-    image: string;
+    imageUrl: string;
     title: string;
     description: string;
   };
@@ -49,11 +49,11 @@ export const getInitialStepPayload = <T extends StepProperties>(
       title: "",
     };
   }
-  if (type === StepType.HalfImageHalfContent) {
+  if (type === StepType.MediaContent) {
     return {
-      image: "",
-      title: "",
-      description: "",
+      imageUrl: "https://api-ninjas.com/images/cats/abyssinian.jpg",
+      title: "Hello",
+      description: "World",
     };
   }
   return {} as T["payload"];

@@ -1,11 +1,11 @@
 import { View } from "@tamagui/core";
-import { H3, Theme } from "tamagui";
+import { Theme } from "tamagui";
 import { useSteps } from "../contexts/steps-context";
-import { Paragraph } from "tamagui";
 import { IPhoneFrame, IPhoneModel } from "../components/iPhone";
 import React from "react";
 import { SelectModel } from "../components/SelectModel";
 import { IPhoneProvider, useIPhoneContext } from "../contexts/iphone-context";
+import { StepsRenderer } from "../components/StepsRenderer/StepsRenderer";
 
 function MobileScreenPreview() {
   const { selectedStep } = useSteps();
@@ -21,10 +21,7 @@ function MobileScreenPreview() {
       <SelectModel selectedModel={iphoneModel} handleModelChange={handleModelChange} />
       <Theme name="light">
         <IPhoneFrame model={iphoneModel} >
-          <View>
-            <H3>{selectedStep?.type}</H3 >
-            <Paragraph color={"$pink"}>{selectedStep?.name}</Paragraph>
-          </View>
+          {selectedStep && <StepsRenderer step={selectedStep} />}
         </IPhoneFrame>
       </Theme>
     </View>

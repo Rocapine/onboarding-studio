@@ -3,7 +3,7 @@ import type { FC } from 'react'
 import { useRef } from 'react'
 import { useDrag, useDrop } from 'react-dnd'
 import { View, Text, Card, RadioGroup, XStack, Stack } from 'tamagui'
-import { StepProperties } from '../contexts/steps-context'
+import { StepProperties } from '../contexts/step.type'
 
 export const ItemTypes = {
   CARD: 'card',

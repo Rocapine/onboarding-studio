@@ -51,11 +51,11 @@ export const useSteps = () => {
 const initialSteps = [
   {
     id: "1",
-    type: StepType.HalfImageHalfContent,
+    type: StepType.MediaContent,
     name: 'What is the problem you are solving?',
     hideHeader: true,
     payload: {
-      image: '',
+      imageUrl: 'https://api-ninjas.com/images/cats/abyssinian.jpg',
       title: 'Hello',
       description: 'World',
     }

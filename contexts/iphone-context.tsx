@@ -4,8 +4,9 @@ import { IPhoneModel } from '../components/iPhone';
 interface IPhoneContextType {
   iphoneModel: IPhoneModel;
   setIphoneModel: (model: IPhoneModel) => void;
-  Dimensions: () => { width: number; height: number };
-  getSafeAreaInset: () => { top: number; bottom: number; left: number; right: number };
+  Dimensions: {
+    get: (dim: 'window' | 'screen') => { width: number; height: number };
+  }; useSafeAreaInsets: () => { top: number; bottom: number; left: number; right: number };
 }
 
 const IPhoneContext = createContext<IPhoneContextType | undefined>(undefined);
@@ -14,18 +15,24 @@ const IPhoneContext = createContext<IPhoneContextType | undefined>(undefined);
 export const IPhoneProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [iphoneModel, setIphoneModel] = useState<IPhoneModel>(IPhoneModel.iPhone15);
 
-  const Dimensions = () => {
-    // Example implementation, replace with actual logic
-    return { width: 375, height: 812 };
+  const Dimensions = {
+    get: (dim: 'window' | 'screen') => {
+      // Example implementation, replace with actual logic
+      if (dim === 'window') {
+        return { width: 375, height: 812 };
+      } else {
+        return { width: 375, height: 812 };
+      }
+    }
   };
 
-  const getSafeAreaInset = () => {
+  const useSafeAreaInsets = () => {
     // Example implementation, replace with actual logic
     return { top: 44, bottom: 34, left: 0, right: 0 };
   };
 
   return (
-    <IPhoneContext.Provider value={{ iphoneModel, setIphoneModel, Dimensions, getSafeAreaInset }}>
+    <IPhoneContext.Provider value={{ iphoneModel, setIphoneModel, Dimensions, useSafeAreaInsets }}>
       {children}
     </IPhoneContext.Provider>
   );
@@ -39,4 +46,3 @@ export const useIPhoneContext = (): IPhoneContextType => {
   }
   return context;
 };
-

@@ -1,15 +1,14 @@
-import { YStack, Text, Image, XStack, Stack, Button, Paragraph } from "tamagui";
-import { Dimensions } from "react-native";
-import LottieView from "lottie-react-native";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { YStack, Text, Image, XStack, Stack, Button, Paragraph, View } from "tamagui";
 import { ChevronRight } from "@tamagui/lucide-icons";
 import { HalfImageHalfContentStep } from "../../contexts/step.type";
+import { useIPhoneContext } from "../../contexts/iphone-context";
 
 type ContentProps = {
   step: HalfImageHalfContentStep;
 };
 
-export const Content = ({ step }: ContentProps) => {
+export const MediaContentStep = ({ step }: ContentProps) => {
+  const { useSafeAreaInsets, Dimensions } = useIPhoneContext();
   const question = step.payload;
   const { bottom } = useSafeAreaInsets();
   const { height } = Dimensions.get("window");
@@ -18,32 +17,20 @@ export const Content = ({ step }: ContentProps) => {
     imageHeight += 60;
   }
 
-  const goNext = () => {
-    console.log("goNext");
-  };
+  const goNext = () => { };
 
   return (
     <YStack flex={1}>
-      {question.image ? (
+      {question.imageUrl ? (
         <Image
-          source={{ uri: question.image }}
+          source={{ uri: question.imageUrl }}
           alignSelf="center"
           width="100%"
-          height={imageHeight}
+          height={"50%"}
           objectFit="cover"
         />
       ) : (
-        <LottieView
-          source={question.lottie}
-          autoPlay
-          loop={false}
-          style={{
-            alignSelf: "center",
-            width: "100%",
-            height: imageHeight,
-          }}
-          resizeMode="cover"
-        />
+        <View width="100%" height={"50%"} backgroundColor="green" />
       )}
       <YStack
         flex={1}
@@ -88,7 +75,7 @@ export const Content = ({ step }: ContentProps) => {
             textAlign="center"
             fontFamily={"$body"}
           >
-            {question.content}
+            {question.description}
           </Text>
         </Stack>
         <Stack>

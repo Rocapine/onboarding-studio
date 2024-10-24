@@ -1,31 +1,26 @@
 import { H3, Paragraph, View, YStack } from "tamagui";
 import { StepProperties, StepType } from "../../contexts/step.type";
+import { MediaContentStep } from "./MediaContentStep";
 
 export const StepsRenderer = ({ step }: { step: StepProperties }) => {
   switch (step.type) {
     case StepType.Question:
       return (
-        <View>
+        <YStack padding="$4" flex={1} justifyContent="center">
           <H3>{step.type}</H3>
-          <Paragraph color={"$pink"}>{step.name}</Paragraph>
-        </View>
+          <Paragraph >{step.name}</Paragraph>
+        </YStack>
       )
     case StepType.Picker:
       return (
-        <View>
+        <YStack padding="$4" flex={1} justifyContent="center">
           <H3>{step.type}</H3>
-          <Paragraph color={"$pink"}>{step.name}</Paragraph>
-        </View>
+          <Paragraph >{step.name}</Paragraph>
+        </YStack>
       )
-    case StepType.HalfImageHalfContent:
+    case StepType.MediaContent:
       return (
-        <View flex={1} alignItems="center" justifyContent="center">
-          <Image source={{ uri: step.payload.image }} />
-          <YStack gap="$4">
-
-            <Paragraph color={"$pink"}>{step.name}</Paragraph>
-          </YStack>
-        </View>
+        <MediaContentStep step={step} />
       )
     default:
       return null;
