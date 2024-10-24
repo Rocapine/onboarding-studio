@@ -1,4 +1,4 @@
-import { Button, Heading, Input, Label, View } from "tamagui"
+import { Button, Heading, Input, Label, TextArea, View } from "tamagui"
 import { MediaContentStepType } from "../../contexts/step.type"
 import { useState } from "react";
 
@@ -33,7 +33,7 @@ export const MediaContentEditor = ({ updateStep, step }: { updateStep: (step: Me
         onChangeText={handleChange('title')}
       />
       <Label>Description</Label>
-      <Input
+      <TextArea
         placeholder="Description"
         value={formData.description}
         onChangeText={handleChange('description')}
