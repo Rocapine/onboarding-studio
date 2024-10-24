@@ -1,6 +1,6 @@
 import { H3, Paragraph, View, YStack } from "tamagui";
 import { StepProperties, StepType } from "../../contexts/step.type";
-import { MediaContentStep } from "./MediaContentStep";
+import { MediaContentStep } from "../../OnboardingSteps/MediaContent/MediaContent.page";
 
 export const StepsRenderer = ({ step }: { step: StepProperties }) => {
   switch (step.type) {
