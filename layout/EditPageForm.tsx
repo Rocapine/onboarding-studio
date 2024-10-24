@@ -1,7 +1,6 @@
 import { View } from "@tamagui/core";
 import { StepType, useSteps } from "../contexts/steps-context";
-import { Accordion, Heading, Paragraph, Select, Square, YStack } from "tamagui";
-import { Check, ChevronDown } from '@tamagui/lucide-icons'
+import { Heading, YStack } from "tamagui";
 import React from "react";
 import { SelectType } from "../components/SelectType";
 
@@ -9,10 +8,8 @@ import { SelectType } from "../components/SelectType";
 export default function EditPageForm() {
 
   const { selectedStep, setStep } = useSteps();
-  console.log("selectedStep", selectedStep);
 
   const setSelectedType = (type: StepType) => {
-    console.log("setSelectedType", type);
     if (selectedStep) {
       setStep(selectedStep.id, { ...selectedStep, type });
     }

@@ -41,7 +41,6 @@ const StepList: FC = () => {
     )
 
     const handleRadioChange = (id: StepProperties['id']) => {
-      console.log("New radio", id);
       const step = steps.find(step => step.id === id);
       if (step) {
         setSelectedStep(step);

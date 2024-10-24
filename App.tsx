@@ -7,11 +7,8 @@ import MobileScreenPreview from "./layout/MobileScreenPreview";
 import { useColorScheme } from "react-native";
 import { StepsProvider } from "./contexts/steps-context";
 
-
-
 const Layout = () => {
   const theme = useTheme();
-  console.log('theme', theme.background0);
 
   return (
     <View backgroundColor={"$background"} flex={1} flexDirection="row">
