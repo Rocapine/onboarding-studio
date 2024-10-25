@@ -5,7 +5,7 @@ import { useCallback } from 'react'
 import { StepCard } from '../components/StepCard'
 import { DndProvider } from 'react-dnd'
 import { HTML5Backend } from 'react-dnd-html5-backend'
-import { Button, RadioGroup, View } from 'tamagui'
+import { Button, RadioGroup, ScrollView, View, YStack } from 'tamagui'
 import { useSteps } from '../contexts/steps-context'
 import { v4 as uuidv4 } from 'uuid'
 import { QuestionStepType, StepProperties, StepType } from '../contexts/step.type'
@@ -66,14 +66,20 @@ const StepList: FC = () => {
     }
 
     return (
-      <View flex={1} alignItems="center" justifyContent="flex-start" paddingVertical={"$4"}>
-        <RadioGroup aria-labelledby="Select one item" name="form" value={selectedStep?.id} onValueChange={handleRadioChange}>
-
-          <DndProvider backend={HTML5Backend}>
-            <View>{steps.map((card, i) => renderCard(card, i))}</View>
-            <Button onPress={handleAddStep}>Add Step</Button>
-          </DndProvider>
-        </RadioGroup>
+      <View flex={1} flexGrow={1}>
+        <YStack flex={1} padding={"$4"} gap="$2">
+          <View flex={1} alignItems="center" justifyContent="flex-start" >
+            <ScrollView width={"100%"}>
+              <RadioGroup aria-labelledby="Select one item" name="form" value={selectedStep?.id} onValueChange={handleRadioChange}>
+                <DndProvider backend={HTML5Backend}>
+                  <View width={"100%"}>{steps.map((card, i) => renderCard(card, i))}</View>
+                  <Button variant="outlined" onPress={handleAddStep}>Add Step</Button>
+                </DndProvider>
+              </RadioGroup>
+            </ScrollView>
+          </View>
+          <Button>Export</Button>
+        </YStack>
       </View>
     )
   }

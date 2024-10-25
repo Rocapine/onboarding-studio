@@ -17,7 +17,7 @@ function MobileScreenPreview() {
   };
 
   return (
-    <View flex={1} padding={20} alignItems="center" justifyContent="space-around" backgroundColor={"$accentBackground"}>
+    <View paddingHorizontal={"5vw"} alignItems="center" justifyContent="space-around" backgroundColor={"$accentBackground"}>
       <SelectModel selectedModel={iphoneModel} handleModelChange={handleModelChange} />
       <Theme name="light">
         <IPhoneFrame model={iphoneModel} >

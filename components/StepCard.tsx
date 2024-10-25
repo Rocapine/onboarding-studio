@@ -106,7 +106,7 @@ export const StepCard: FC<CardProps> = ({ id, index, stepProperties, moveCard, o
       borderWidth={1}
       cursor="move"
       opacity={opacity}
-      width={300}
+      width={"100%"}
       data-handler-id={handlerId}
     >
       <XStack alignItems="center" justifyContent="space-between" gap="$2" >

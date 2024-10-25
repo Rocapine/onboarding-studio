@@ -38,9 +38,9 @@ export default function EditPageForm() {
   }, [selectedStep?.type])
 
   return (
-    <View flex={1} padding={"$4"} alignItems="center" justifyContent="flex-start">
+    <View flex={1} flexGrow={1} padding={"$4"} alignItems="center" justifyContent="flex-start">
       {selectedStep ? (
-        <YStack gap="$4" width="$20">
+        <YStack flex={1} width={"100%"} gap="$2">
           <TextArea
             value={selectedStep.name}
             onChange={handleNameChange}

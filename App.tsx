@@ -1,5 +1,5 @@
 import "@expo/metro-runtime";
-import { TamaguiProvider, View, useTheme, Theme } from '@tamagui/core'
+import { TamaguiProvider, View, Theme } from '@tamagui/core'
 import { tamaguiConfig } from './tamagui.config'
 import EditPageForm from './layout/EditPageForm';
 import StepsList from './layout/StepsList';
@@ -8,8 +8,6 @@ import { useColorScheme } from "react-native";
 import { StepsProvider } from "./contexts/steps-context";
 
 const Layout = () => {
-  const theme = useTheme();
-
   return (
     <View backgroundColor={"$background"} flex={1} flexDirection="row">
       <EditPageForm />
