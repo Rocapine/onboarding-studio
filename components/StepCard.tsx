@@ -5,6 +5,7 @@ import { useDrag, useDrop } from 'react-dnd'
 import { Text, Card, RadioGroup, XStack, Stack } from 'tamagui'
 import { StepProperties } from '../contexts/step.type'
 import { Trash2 } from '@tamagui/lucide-icons'
+import { Pressable } from 'react-native'
 
 export const ItemTypes = {
   CARD: 'card',
@@ -114,7 +115,7 @@ export const StepCard: FC<CardProps> = ({ id, index, stepProperties, moveCard, o
           <Text>Step {index + 1}</Text>
           <Text>{stepProperties.type}</Text>
         </Stack>
-        <Trash2 onPress={onDelete} strokeWidth={1} />
+        <Pressable onPress={onDelete}><Trash2 strokeWidth={1} /></Pressable>
         <RadioGroup.Item value={id.toString()} id={id.toString()} >
           <RadioGroup.Indicator />
         </RadioGroup.Item>
