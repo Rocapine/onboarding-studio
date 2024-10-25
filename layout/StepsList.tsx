@@ -9,6 +9,8 @@ import { Button, RadioGroup, ScrollView, View, YStack } from 'tamagui'
 import { useSteps } from '../contexts/steps-context'
 import { v4 as uuidv4 } from 'uuid'
 import { QuestionStepType, StepProperties, StepType } from '../contexts/step.type'
+import { ExportSheet } from './ExportSheet'
+import React from 'react'
 
 
 
@@ -65,6 +67,8 @@ const StepList: FC = () => {
       setSelectedStep(newStep);
     }
 
+    const [exportOpen, setExportOpen] = React.useState(false)
+
     return (
       <View flex={1} flexGrow={1}>
         <YStack flex={1} padding={"$4"} gap="$2">
@@ -78,8 +82,9 @@ const StepList: FC = () => {
               </RadioGroup>
             </ScrollView>
           </View>
-          <Button>Export</Button>
+          <Button onPress={() => setExportOpen(true)}>Export</Button>
         </YStack>
+        <ExportSheet open={exportOpen} setOpen={setExportOpen} />
       </View>
     )
   }
