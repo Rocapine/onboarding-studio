@@ -14,7 +14,7 @@ import { QuestionStepType, StepProperties, StepType } from '../contexts/step.typ
 
 const StepList: FC = () => {
   {
-    const { steps, setSteps, setSelectedStep, addStep, selectedStep } = useSteps();
+    const { steps, setSteps, setSelectedStep, addStep, selectedStep, deleteStep } = useSteps();
 
     const moveCard = useCallback((dragIndex: number, hoverIndex: number) => {
       setSteps((prevCards: StepProperties[]) =>
@@ -36,6 +36,7 @@ const StepList: FC = () => {
             id={step.id}
             stepProperties={step}
             moveCard={moveCard}
+            onDelete={() => deleteStep(step.id)}
           />
         )
       },

@@ -2,8 +2,9 @@ import type { Identifier, XYCoord } from 'dnd-core'
 import type { FC } from 'react'
 import { useRef } from 'react'
 import { useDrag, useDrop } from 'react-dnd'
-import { View, Text, Card, RadioGroup, XStack, Stack } from 'tamagui'
+import { Text, Card, RadioGroup, XStack, Stack } from 'tamagui'
 import { StepProperties } from '../contexts/step.type'
+import { Trash2 } from '@tamagui/lucide-icons'
 
 export const ItemTypes = {
   CARD: 'card',
@@ -14,6 +15,7 @@ export interface CardProps {
   index: number
   stepProperties: StepProperties
   moveCard: (dragIndex: number, hoverIndex: number) => void
+  onDelete: () => void
 }
 
 interface DragItem {
@@ -22,7 +24,7 @@ interface DragItem {
   type: string
 }
 
-export const StepCard: FC<CardProps> = ({ id, index, stepProperties, moveCard }) => {
+export const StepCard: FC<CardProps> = ({ id, index, stepProperties, moveCard, onDelete }) => {
   const ref = useRef<HTMLDivElement>(null)
   const [{ handlerId }, drop] = useDrop<
     DragItem,
@@ -107,12 +109,12 @@ export const StepCard: FC<CardProps> = ({ id, index, stepProperties, moveCard })
       width={300}
       data-handler-id={handlerId}
     >
-      <XStack alignItems="center" justifyContent="space-between" >
-
+      <XStack alignItems="center" justifyContent="space-between" gap="$2" >
         <Stack flex={1} >
           <Text>Step {index + 1}</Text>
           <Text>{stepProperties.type}</Text>
         </Stack>
+        <Trash2 onPress={onDelete} strokeWidth={1} />
         <RadioGroup.Item value={id.toString()} id={id.toString()} >
           <RadioGroup.Indicator />
         </RadioGroup.Item>

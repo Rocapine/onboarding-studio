@@ -8,7 +8,8 @@ type StepsContextType = {
   setStep: (id: StepProperties['id'], updatedStep: StepProperties) => void;
   setSteps: React.Dispatch<React.SetStateAction<StepProperties[]>>;
   selectedStep: StepProperties;
-  setSelectedStep: (step: StepProperties | null) => void;
+  setSelectedStep: (step: StepProperties) => void;
+  deleteStep: (id: StepProperties['id']) => void;
 };
 
 const StepsContext = createContext<StepsContextType | undefined>(undefined);
@@ -30,9 +31,13 @@ export const StepsProvider = ({ children }: { children: ReactNode }) => {
     }
   };
 
+  const deleteStep = (id: StepProperties['id']) => {
+    setSteps((prevSteps) => prevSteps.filter((step) => step.id !== id));
+  };
+
   return (
     <StepsContext.Provider
-      value={{ steps, addStep, setStep, setSteps, selectedStep, setSelectedStep }}
+      value={{ steps, addStep, setStep, setSteps, selectedStep, setSelectedStep, deleteStep }}
     >
       {children}
     </StepsContext.Provider>
