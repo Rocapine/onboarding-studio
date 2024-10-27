@@ -32,6 +32,7 @@ export const ExportSheet = ({ open, setOpen, getJsonSteps }: { open: boolean, se
   const [position, setPosition] = React.useState(0)
   const jsonSteps = getJsonSteps();
 
+
   // Function to copy jsonSteps to clipboard
   const copyToClipboard = () => {
     navigator.clipboard.writeText(jsonSteps).then(() => {
