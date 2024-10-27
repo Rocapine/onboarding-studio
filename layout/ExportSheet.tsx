@@ -1,4 +1,4 @@
-import { Sheet, ScrollView } from "tamagui"
+import { Sheet, ScrollView, Button } from "tamagui"
 import React from "react"
 
 const syntaxHighlight = (json: string) => {
@@ -19,17 +19,27 @@ const syntaxHighlight = (json: string) => {
   });
 };
 
-export const ExportSheet = ({ open, setOpen, getJsonSteps }: { open: boolean, setOpen: (open: boolean) => void, getJsonSteps: () => string }) => {
-  const [position, setPosition] = React.useState(0)
-  const jsonSteps = getJsonSteps();
-  // Add CSS styles for JSON syntax highlighting
-  const styles = `
+// Add CSS styles for JSON syntax highlighting
+const styles = `
 .key { color: #d73a49; } /* Red for keys */
 .string { color: #032f62; } /* Blue for strings */
 .number { color: #005cc5; } /* Dark blue for numbers */
 .boolean { color: #d73a49; } /* Red for booleans */
 .null { color: #6f42c1; } /* Purple for null */
 `;
+
+export const ExportSheet = ({ open, setOpen, getJsonSteps }: { open: boolean, setOpen: (open: boolean) => void, getJsonSteps: () => string }) => {
+  const [position, setPosition] = React.useState(0)
+  const jsonSteps = getJsonSteps();
+
+  // Function to copy jsonSteps to clipboard
+  const copyToClipboard = () => {
+    navigator.clipboard.writeText(jsonSteps).then(() => {
+      console.log('JSON steps copied to clipboard');
+    }).catch(err => {
+      console.error('Failed to copy: ', err);
+    });
+  };
 
   // Inject styles into the document
   const styleSheet = document.createElement("style");
@@ -58,6 +68,7 @@ export const ExportSheet = ({ open, setOpen, getJsonSteps }: { open: boolean, se
 
       <Sheet.Handle />
       <Sheet.Frame padding="$4" justifyContent="center" alignItems="center" gap="$5" backgroundColor={"black"}>
+        <Button onPress={copyToClipboard}>Copy to clipboard</Button>
         <ScrollView height={"100%"} width={"100%"} backgroundColor={"$background"} >
           <pre style={{ whiteSpace: 'pre-wrap', wordWrap: 'break-word' }} dangerouslySetInnerHTML={{ __html: syntaxHighlight(jsonSteps) }} />
         </ScrollView>
