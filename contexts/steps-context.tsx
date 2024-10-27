@@ -1,4 +1,4 @@
-import { createContext, useContext, useState, ReactNode } from 'react';
+import { createContext, useContext, useState, ReactNode, useEffect } from 'react';
 import { StepProperties, StepType } from './step.type';
 import { exportSteps } from './export.utils';
 
@@ -17,8 +17,17 @@ type StepsContextType = {
 const StepsContext = createContext<StepsContextType | undefined>(undefined);
 
 export const StepsProvider = ({ children }: { children: ReactNode }) => {
-  const [steps, setSteps] = useState<StepProperties[]>(initialSteps);
+  const [steps, setSteps] = useState<StepProperties[]>(() => {
+    const storedSteps = localStorage.getItem('steps');
+    return storedSteps ? JSON.parse(storedSteps) : initialSteps;
+  });
   const [selectedStep, setSelectedStep] = useState<StepProperties>(steps[0]);
+
+  useEffect(() => {
+    const jsonSteps = exportSteps(steps);
+    localStorage.setItem('steps', jsonSteps); // Store JSON in local storage whenever steps change
+  }, [steps]);
+
 
   const addStep = (step: StepProperties) => {
     setSteps((prevSteps) => [...prevSteps, step]);
