@@ -31,12 +31,15 @@ const styles = `
 export const ExportSheet = ({ open, setOpen, getJsonSteps }: { open: boolean, setOpen: (open: boolean) => void, getJsonSteps: () => string }) => {
   const [position, setPosition] = React.useState(0)
   const jsonSteps = getJsonSteps();
+  const [buttonLabel, setButtonLabel] = React.useState("Copy JSON");
 
 
   // Function to copy jsonSteps to clipboard
   const copyToClipboard = () => {
     navigator.clipboard.writeText(jsonSteps).then(() => {
       console.log('JSON steps copied to clipboard');
+      setButtonLabel("Copied to clipboard");
+      setTimeout(() => setButtonLabel("Copy JSON"), 2000);
     }).catch(err => {
       console.error('Failed to copy: ', err);
     });
@@ -69,7 +72,7 @@ export const ExportSheet = ({ open, setOpen, getJsonSteps }: { open: boolean, se
 
       <Sheet.Handle />
       <Sheet.Frame padding="$4" justifyContent="center" alignItems="center" gap="$5" backgroundColor={"black"}>
-        <Button onPress={copyToClipboard}>Copy to clipboard</Button>
+        <Button onPress={copyToClipboard}>{buttonLabel}</Button>
         <ScrollView height={"100%"} width={"100%"} backgroundColor={"$background"} >
           <pre style={{ whiteSpace: 'pre-wrap', wordWrap: 'break-word' }} dangerouslySetInnerHTML={{ __html: syntaxHighlight(jsonSteps) }} />
         </ScrollView>
