@@ -16,7 +16,7 @@ import React from 'react'
 
 const StepList: FC = () => {
   {
-    const { steps, setSteps, setSelectedStep, addStep, selectedStep, deleteStep } = useSteps();
+    const { steps, setSteps, setSelectedStep, addStep, selectedStep, deleteStep, getJsonSteps } = useSteps();
 
     const moveCard = useCallback((dragIndex: number, hoverIndex: number) => {
       setSteps((prevCards: StepProperties[]) =>
@@ -84,7 +84,7 @@ const StepList: FC = () => {
           </View>
           <Button onPress={() => setExportOpen(true)}>Export</Button>
         </YStack>
-        <ExportSheet open={exportOpen} setOpen={setExportOpen} />
+        <ExportSheet open={exportOpen} setOpen={setExportOpen} getJsonSteps={getJsonSteps} />
       </View>
     )
   }

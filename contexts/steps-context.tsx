@@ -1,5 +1,6 @@
 import { createContext, useContext, useState, ReactNode } from 'react';
 import { StepProperties, StepType } from './step.type';
+import { exportSteps } from './export.utils';
 
 
 type StepsContextType = {
@@ -10,6 +11,7 @@ type StepsContextType = {
   selectedStep: StepProperties;
   setSelectedStep: (step: StepProperties) => void;
   deleteStep: (id: StepProperties['id']) => void;
+  getJsonSteps: () => string;
 };
 
 const StepsContext = createContext<StepsContextType | undefined>(undefined);
@@ -35,9 +37,13 @@ export const StepsProvider = ({ children }: { children: ReactNode }) => {
     setSteps((prevSteps) => prevSteps.filter((step) => step.id !== id));
   };
 
+  const getJsonSteps = () => {
+    return exportSteps(steps);
+  }
+
   return (
     <StepsContext.Provider
-      value={{ steps, addStep, setStep, setSteps, selectedStep, setSelectedStep, deleteStep }}
+      value={{ steps, addStep, setStep, setSteps, selectedStep, setSelectedStep, deleteStep, getJsonSteps }}
     >
       {children}
     </StepsContext.Provider>

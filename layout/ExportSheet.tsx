@@ -1,10 +1,42 @@
-import { Sheet, Button, Input, View, Paragraph } from "tamagui"
+import { Sheet, ScrollView } from "tamagui"
 import React from "react"
-import { ChevronDown } from "@tamagui/lucide-icons"
 
-export const ExportSheet = ({ open, setOpen }: { open: boolean, setOpen: (open: boolean) => void }) => {
+const syntaxHighlight = (json: string) => {
+  return json.replace(/("(\\u[a-zA-Z0-9]{4}|\\[^u]|[^\\"])*"(\s*:)?)|(\b(true|false|null)\b)|(-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?)/g, (match) => {
+    let cls = 'number';
+    if (/^"/.test(match)) {
+      if (/:$/.test(match)) {
+        cls = 'key';
+      } else {
+        cls = 'string';
+      }
+    } else if (/true|false/.test(match)) {
+      cls = 'boolean';
+    } else if (/null/.test(match)) {
+      cls = 'null';
+    }
+    return `<span class="${cls}">${match}</span>`;
+  });
+};
+
+export const ExportSheet = ({ open, setOpen, getJsonSteps }: { open: boolean, setOpen: (open: boolean) => void, getJsonSteps: () => string }) => {
   const [position, setPosition] = React.useState(0)
-  const jsonString = "{\"users\":[{\"id\":1,\"name\":\"John Doe\",\"email\":\"john.doe@example.com\",\"address\":{\"street\":\"123 Main St\",\"city\":\"Anytown\",\"state\":\"CA\",\"zip\":\"12345\"},\"posts\":[{\"id\":101,\"title\":\"My First Post\",\"content\":\"This is the content of my first post.\"},{\"id\":102,\"title\":\"Another Post\",\"content\":\"This is some more content.\"}]},{\"id\":2,\"name\":\"Jane Smith\",\"email\":\"jane.smith@example.com\",\"address\":{\"street\":\"456 Elm St\",\"city\":\"Othertown\",\"state\":\"NY\",\"zip\":\"67890\"},\"posts\":[{\"id\":103,\"title\":\"Hello World\",\"content\":\"Hello, this is Jane!\"}]},{\"id\":3,\"name\":\"Alice Johnson\",\"email\":\"alice.johnson@example.com\",\"address\":{\"street\":\"789 Oak St\",\"city\":\"Sometown\",\"state\":\"TX\",\"zip\":\"11223\"},\"posts\":[{\"id\":104,\""
+  const jsonSteps = getJsonSteps();
+  // Add CSS styles for JSON syntax highlighting
+  const styles = `
+.key { color: #d73a49; } /* Red for keys */
+.string { color: #032f62; } /* Blue for strings */
+.number { color: #005cc5; } /* Dark blue for numbers */
+.boolean { color: #d73a49; } /* Red for booleans */
+.null { color: #6f42c1; } /* Purple for null */
+`;
+
+  // Inject styles into the document
+  const styleSheet = document.createElement("style");
+  styleSheet.type = "text/css";
+  styleSheet.innerText = styles;
+  document.head.appendChild(styleSheet);
+
   return (
     <Sheet
       forceRemoveScrollEnabled={open}
@@ -26,10 +58,9 @@ export const ExportSheet = ({ open, setOpen }: { open: boolean, setOpen: (open: 
 
       <Sheet.Handle />
       <Sheet.Frame padding="$4" justifyContent="center" alignItems="center" gap="$5" backgroundColor={"black"}>
-        <View height={"100%"} width={"100%"} backgroundColor={"white"} >
-          <Paragraph height={"100%"} >UN FAUX JSON</Paragraph>
-          <Paragraph height={"100%"} >{jsonString}</Paragraph>
-        </View>
+        <ScrollView height={"100%"} width={"100%"} backgroundColor={"$background"} >
+          <pre style={{ whiteSpace: 'pre-wrap', wordWrap: 'break-word' }} dangerouslySetInnerHTML={{ __html: syntaxHighlight(jsonSteps) }} />
+        </ScrollView>
       </Sheet.Frame>
     </Sheet>
   )
