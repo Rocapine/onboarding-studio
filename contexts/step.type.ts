@@ -8,7 +8,7 @@ type BaseStepProperties = {
   id: string;
   type: StepType;
   name: string;
-  hideHeader: boolean;
+  displayProgressHeader: boolean;
   payload?: Record<string, any>;
 };
 

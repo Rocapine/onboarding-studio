@@ -1,6 +1,7 @@
 import { View } from "@tamagui/core";
 import { useSteps } from "../contexts/steps-context";
-import { Heading, Input, TextArea, YStack } from "tamagui";
+import { Checkbox, Heading, Input, Label, TextArea, XStack, YStack } from "tamagui";
+import { Check as CheckIcon } from '@tamagui/lucide-icons'
 import React from "react";
 import { SelectType } from "../components/SelectType";
 import { getInitialStepPayload, StepProperties, StepType } from "../contexts/step.type";
@@ -42,7 +43,7 @@ export default function EditPageForm() {
   return (
     <View flex={1} flexGrow={1} padding={"$4"} alignItems="center" justifyContent="flex-start">
       {selectedStep ? (
-        <YStack key={selectedStep.id} flex={1} width={"100%"} gap="$2">
+        <YStack flex={1} width={"100%"} gap="$2">
           <TextArea
             value={selectedStep.name}
             onChange={handleNameChange}
@@ -51,6 +52,17 @@ export default function EditPageForm() {
             style={{ fontSize: 24, fontWeight: 'bold', borderColor: 'transparent', borderWidth: 0, padding: 0, backgroundColor: 'transparent' }} // Apply heading styles
           />
           <SelectType selectedType={selectedStep.type} setSelectedType={setSelectedType} />
+          <XStack justifyContent="space-between" alignItems="center" width="100%">
+            <Label>Display progress in header</Label>
+            <Checkbox
+              checked={selectedStep.displayProgressHeader}
+              onCheckedChange={(checked) => updateStep({ ...selectedStep, displayProgressHeader: typeof checked === 'boolean' ? checked : false })}
+            >
+              <Checkbox.Indicator>
+                <CheckIcon />
+              </Checkbox.Indicator>
+            </Checkbox>
+          </XStack>
           {editor}
         </YStack>
       ) : <Heading width="$20">No step selected</Heading>}

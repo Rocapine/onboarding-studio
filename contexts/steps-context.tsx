@@ -74,7 +74,7 @@ const initialSteps = [
     id: uuidv4(),
     type: StepType.MediaContent,
     name: 'What is the problem you are solving?',
-    hideHeader: true,
+    displayProgressHeader: true,
     payload: {
       imageUrl: 'https://api-ninjas.com/images/cats/abyssinian.jpg',
       title: 'Hello',
@@ -85,7 +85,7 @@ const initialSteps = [
     id: uuidv4(),
     type: StepType.Question,
     name: 'What is the value you are providing?',
-    hideHeader: false,
+    displayProgressHeader: false,
     payload: {
       answers: [],
       title: 'Hello',
