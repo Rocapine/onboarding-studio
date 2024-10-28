@@ -37,7 +37,7 @@ export default function EditPageForm() {
       case StepType.Question: return <QuestionEditor key={selectedStep.id} updateStep={updateStep} step={selectedStep} />
       default: return null
     }
-  }, [selectedStep])
+  }, [selectedStep?.type, selectedStep?.id])
 
   return (
     <View flex={1} flexGrow={1} padding={"$4"} alignItems="center" justifyContent="flex-start">
