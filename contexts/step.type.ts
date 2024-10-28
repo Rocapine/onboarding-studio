@@ -21,10 +21,16 @@ export type MediaContentStepType = BaseStepProperties & {
   };
 };
 
+export type Answer = {
+  label: string;
+  value: string;
+  icon?: string;
+};
+
 export type QuestionStepType = BaseStepProperties & {
   type: StepType.Question;
   payload: {
-    answers: string[];
+    answers: Answer[];
     title: string;
   };
 };

@@ -1,4 +1,4 @@
-import { Button, Heading, Input, Label, TextArea, View } from "tamagui"
+import { Heading, Input, Label, TextArea, View } from "tamagui"
 import { MediaContentStepType } from "../../contexts/step.type"
 import { useState } from "react";
 
@@ -14,8 +14,6 @@ export const MediaContentEditor = ({ updateStep, step }: { updateStep: (step: Me
     setFormData(updatedFormData);
     updateStep({ ...step, payload: updatedFormData } as MediaContentStepType);
   };
-
-
 
   return (
     <View>

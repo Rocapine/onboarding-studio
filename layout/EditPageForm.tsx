@@ -6,6 +6,7 @@ import { SelectType } from "../components/SelectType";
 import { getInitialStepPayload, StepProperties, StepType } from "../contexts/step.type";
 import { MediaContentEditor } from "../OnboardingSteps/MediaContent/MediaContent.form";
 import { NativeSyntheticEvent, TextInputChangeEventData } from "react-native";
+import { QuestionEditor } from "../OnboardingSteps/Question/Question.form";
 
 
 export default function EditPageForm() {
@@ -33,6 +34,7 @@ export default function EditPageForm() {
   const editor = React.useMemo(() => {
     switch (selectedStep?.type) {
       case StepType.MediaContent: return <MediaContentEditor updateStep={updateStep} step={selectedStep} />
+      case StepType.Question: return <QuestionEditor updateStep={updateStep} step={selectedStep} />
       default: return null
     }
   }, [selectedStep?.type])
