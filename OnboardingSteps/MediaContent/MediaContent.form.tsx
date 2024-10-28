@@ -2,18 +2,21 @@ import { Heading, Input, Label, TextArea, View } from "tamagui"
 import { MediaContentStepType } from "../../contexts/step.type"
 import { useState } from "react";
 
+type StepPayload = MediaContentStepType['payload']
+
 export const MediaContentEditor = ({ updateStep, step }: { updateStep: (step: MediaContentStepType) => void, step: MediaContentStepType }) => {
-  const [formData, setFormData] = useState<MediaContentStepType['payload']>({
+  const [formData, setFormData] = useState<StepPayload>({
     imageUrl: step.payload.imageUrl || '',
     title: step.payload.title || '',
     description: step.payload.description || ''
   });
 
-  const handleChange = (field: string) => (value: string) => {
+  const handleChange = <K extends keyof StepPayload>(field: K) => (value: StepPayload[K]) => {
     const updatedFormData = { ...formData, [field]: value };
     setFormData(updatedFormData);
     updateStep({ ...step, payload: updatedFormData } as MediaContentStepType);
   };
+
 
   return (
     <View>

@@ -2,13 +2,15 @@ import { Button, Heading, Input, Label, Stack, TextArea, View, XStack, YStack } 
 import { Answer, QuestionStepType } from "../../contexts/step.type"
 import { useState } from "react";
 
+type StepPayload = QuestionStepType['payload']
+
 export const QuestionEditor = ({ updateStep, step }: { updateStep: (step: QuestionStepType) => void, step: QuestionStepType }) => {
-  const [formData, setFormData] = useState<QuestionStepType['payload']>({
+  const [formData, setFormData] = useState<StepPayload>({
     answers: step.payload.answers || [],
     title: step.payload.title || ''
   });
 
-  const handleChange = <K extends keyof QuestionStepType['payload']>(field: K) => (value: QuestionStepType['payload'][K]) => {
+  const handleChange = <K extends keyof StepPayload>(field: K) => (value: StepPayload[K]) => {
     const updatedFormData = { ...formData, [field]: value };
     setFormData(updatedFormData);
     updateStep({ ...step, payload: updatedFormData } as QuestionStepType);
