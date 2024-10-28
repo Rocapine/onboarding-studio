@@ -33,16 +33,16 @@ export default function EditPageForm() {
 
   const editor = React.useMemo(() => {
     switch (selectedStep?.type) {
-      case StepType.MediaContent: return <MediaContentEditor updateStep={updateStep} step={selectedStep} />
-      case StepType.Question: return <QuestionEditor updateStep={updateStep} step={selectedStep} />
+      case StepType.MediaContent: return <MediaContentEditor key={selectedStep.id} updateStep={updateStep} step={selectedStep} />
+      case StepType.Question: return <QuestionEditor key={selectedStep.id} updateStep={updateStep} step={selectedStep} />
       default: return null
     }
-  }, [selectedStep?.type])
+  }, [selectedStep])
 
   return (
     <View flex={1} flexGrow={1} padding={"$4"} alignItems="center" justifyContent="flex-start">
       {selectedStep ? (
-        <YStack flex={1} width={"100%"} gap="$2">
+        <YStack key={selectedStep.id} flex={1} width={"100%"} gap="$2">
           <TextArea
             value={selectedStep.name}
             onChange={handleNameChange}

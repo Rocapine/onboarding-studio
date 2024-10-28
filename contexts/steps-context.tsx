@@ -1,6 +1,7 @@
 import { createContext, useContext, useState, ReactNode, useEffect } from 'react';
 import { StepProperties, StepType } from './step.type';
 import { exportSteps } from './export.utils';
+import { v4 as uuidv4 } from 'uuid'
 
 
 type StepsContextType = {
@@ -70,7 +71,7 @@ export const useSteps = () => {
 
 const initialSteps = [
   {
-    id: "1",
+    id: uuidv4(),
     type: StepType.MediaContent,
     name: 'What is the problem you are solving?',
     hideHeader: true,
@@ -81,147 +82,7 @@ const initialSteps = [
     }
   },
   {
-    id: "2",
-    type: StepType.Question,
-    name: 'What is the value you are providing?',
-    hideHeader: false,
-    payload: {
-      answers: [],
-      title: 'Hello',
-    },
-  },
-  {
-    id: "3",
-    type: StepType.Question,
-    name: 'What is the value you are providing?',
-    hideHeader: false,
-    payload: {
-      answers: [],
-      title: 'Hello',
-    },
-  },
-  {
-    id: "4",
-    type: StepType.Question,
-    name: 'What is the value you are providing?',
-    hideHeader: false,
-    payload: {
-      answers: [],
-      title: 'Hello',
-    },
-  },
-  {
-    id: "5",
-    type: StepType.Question,
-    name: 'What is the value you are providing?',
-    hideHeader: false,
-    payload: {
-      answers: [],
-      title: 'Hello',
-    },
-  },
-  {
-    id: "6",
-    type: StepType.Question,
-    name: 'What is the value you are providing?',
-    hideHeader: false,
-    payload: {
-      answers: [],
-      title: 'Hello',
-    },
-  },
-  {
-    id: "7",
-    type: StepType.Question,
-    name: 'What is the value you are providing?',
-    hideHeader: false,
-    payload: {
-      answers: [],
-      title: 'Hello',
-    },
-  },
-  {
-    id: "8",
-    type: StepType.Question,
-    name: 'What is the value you are providing?',
-    hideHeader: false,
-    payload: {
-      answers: [],
-      title: 'Hello',
-    },
-  },
-  {
-    id: "9",
-    type: StepType.Question,
-    name: 'What is the value you are providing?',
-    hideHeader: false,
-    payload: {
-      answers: [],
-      title: 'Hello',
-    },
-  },
-  {
-    id: "10",
-    type: StepType.Question,
-    name: 'What is the value you are providing?',
-    hideHeader: false,
-    payload: {
-      answers: [],
-      title: 'Hello',
-    },
-  },
-  {
-    id: "11",
-    type: StepType.Question,
-    name: 'What is the value you are providing?',
-    hideHeader: false,
-    payload: {
-      answers: [],
-      title: 'Hello',
-    },
-  },
-  {
-    id: "12",
-    type: StepType.Question,
-    name: 'What is the value you are providing?',
-    hideHeader: false,
-    payload: {
-      answers: [],
-      title: 'Hello',
-    },
-  },
-  {
-    id: "13",
-    type: StepType.Question,
-    name: 'What is the value you are providing?',
-    hideHeader: false,
-    payload: {
-      answers: [],
-      title: 'Hello',
-    },
-  },
-  {
-    id: "14",
-    type: StepType.Question,
-    name: 'What is the value you are providing?',
-    hideHeader: false,
-    payload: {
-      answers: [],
-      title: 'Hello',
-    },
-  },
-  {
-    id: "15",
-    type: StepType.Question,
-    name: 'What is the value you are providing?',
-    hideHeader: false,
-    payload: {
-      answers: [],
-      title: 'Hello',
-    },
-  },
-  {
-    id: "16",
+    id: uuidv4(),
     type: StepType.Question,
     name: 'What is the value you are providing?',
     hideHeader: false,

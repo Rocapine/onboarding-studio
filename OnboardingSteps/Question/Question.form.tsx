@@ -10,6 +10,8 @@ export const QuestionEditor = ({ updateStep, step }: { updateStep: (step: Questi
     title: step.payload.title || ''
   });
 
+  console.log("step.id", step.id, step.payload.title)
+
   const handleChange = <K extends keyof StepPayload>(field: K) => (value: StepPayload[K]) => {
     const updatedFormData = { ...formData, [field]: value };
     setFormData(updatedFormData);
