@@ -1,7 +1,8 @@
-import { YStack, Text, Image, XStack, Stack, Button, Paragraph, View } from "tamagui";
+import { YStack, Text, Image, XStack, Stack, Paragraph, View } from "tamagui";
 import { ChevronRight } from "@tamagui/lucide-icons";
 import { MediaContentStepType as MediaContentStepType } from "../../contexts/step.type";
 import { useIPhoneContext } from "../../contexts/iphone-context";
+import { Button } from "../../components/Lib/Button";
 
 type ContentProps = {
   step: MediaContentStepType;
@@ -79,14 +80,7 @@ export const MediaContentStep = ({ step }: ContentProps) => {
           </Text>
         </Stack>
         <Stack>
-          <Button onPress={() => goNext()}>
-            <XStack justifyContent="center" alignItems="center" gap="$2.5">
-              <Paragraph fontWeight="600">
-                {question.buttonText ? question.buttonText : "Next"}
-              </Paragraph>
-              <ChevronRight size={23} color={"$white"} />
-            </XStack>
-          </Button>
+          <Button goNext={goNext} text={question.buttonText ? question.buttonText : "Next"} />
         </Stack>
       </YStack>
     </YStack>

@@ -229,8 +229,6 @@ export function IPhoneFrame({
   model = IPhoneModel.iPhone15,
   showStatusBar = true,
   showHomeIndicator = true,
-  backgroundColor = 'white',
-  titaniumColor = '#424242',
   children,
   ...props
 }: PropsWithChildren<IPhoneFrameProps>) {
@@ -241,7 +239,7 @@ export function IPhoneFrame({
     <Stack position="relative" {...props}>
       <PhoneFrame
         model={model}
-        backgroundColor={isPro ? titaniumColor : 'black'}
+        backgroundColor={"black"}
       >
         {specs.hasDynamicIsland ? (
           <DynamicIsland model={model}>
@@ -262,7 +260,7 @@ export function IPhoneFrame({
           />
         )}
 
-        <Screen model={model} backgroundColor={backgroundColor}>
+        <Screen model={model} backgroundColor={"$background"}>
           {showStatusBar && <StatusBar><Text>1</Text></StatusBar>}
           <ContentContainer>
             {children}

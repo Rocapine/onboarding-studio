@@ -1,15 +1,108 @@
-import { H3, Paragraph, XStack, YStack } from "tamagui"
+import { H3, Heading, Paragraph, Stack, styled, XStack, YStack, Text, View } from "tamagui"
 import { QuestionStepType } from "../../contexts/step.type"
+import { useState } from "react";
+import { IPhoneSafeArea } from "../../components/StepsRenderer/SafeArea";
+import { Button } from "../../components/Lib/Button";
 
 export const QuestionPage = ({ step }: { step: QuestionStepType }) => {
+  const [selected, setSelected] = useState<Record<string, boolean>>({});
+
+  const handleContinue = async () => {
+
+  };
+
+  const toggleSelected = (answer: string) => {
+    const isNoneOfTheAbove = answer === "None of the above";
+
+    setSelected((prev) => {
+      let newSelected: Record<string, boolean>;
+
+      if (isNoneOfTheAbove) {
+        newSelected = { [answer]: true };
+      } else {
+        newSelected = { ...prev, [answer]: !prev[answer] };
+
+        if (newSelected["None of the above"]) {
+          newSelected["None of the above"] = false;
+        }
+      }
+
+      return newSelected;
+    });
+  };
+
+
   return (
-    <YStack padding="$4" flex={1} justifyContent="center">
-      <H3>{step.payload.title}</H3>
-      {step.payload.answers.map((answer, answerIndex) => (
-        <XStack key={`answer-${answerIndex}`} gap="$2">
-          <Paragraph>{answer.label}</Paragraph>
-        </XStack>
-      ))}
-    </YStack>
+    <IPhoneSafeArea>
+      <YStack
+        gap="$4"
+        flex={1}
+        paddingHorizontal="$5"
+        paddingTop="$5"
+        paddingBottom="$5"
+        alignItems="center"
+        justifyContent="space-between"
+        width={"100%"}
+      >
+        <Heading fontSize="$8" fontWeight={700}>
+          {step.payload.title}
+        </Heading>
+        <YStack width={"100%"} flex={1} justifyContent="space-evenly">
+          <YStack gap="$3">
+            {step.payload.answers.map((answer, index) => (
+              <ButtonFrame
+                key={index}
+                onPress={() => toggleSelected(answer.value)}
+                isSelected={!!selected[answer.value]}
+              >
+                <ButtonText
+                  isSelected={!!selected[answer.value]}
+                  fontSize="$5"
+                  paddingHorizontal="$2.5"
+                >
+                  {answer.label}
+                </ButtonText>
+              </ButtonFrame>
+            ))}
+          </YStack>
+        </YStack>
+        <Stack>
+          <Button goNext={handleContinue} text={"Next"} />
+        </Stack>
+      </YStack>
+    </IPhoneSafeArea>
   )
 }
+
+
+const ButtonFrame = styled(View, {
+  padding: "$4",
+  backgroundColor: '$background',
+  borderRadius: 30,
+  width: "100%",
+  pressStyle: {
+    backgroundColor: '$backgroundPress',
+  },
+  variants: {
+    isSelected: {
+      true: {
+        backgroundColor: '$backgroundPress',
+        pressStyle: {
+          backgroundColor: '$background',
+        },
+      },
+    },
+  },
+});
+
+const ButtonText = styled(Text, {
+  fontWeight: 400,
+  fontSize: 18,
+  lineHeight: 24,
+  color: '$color',
+  variants: {
+    isSelected: {
+      true: { color: '$colorPress' },
+    },
+  },
+});

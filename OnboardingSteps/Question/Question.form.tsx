@@ -1,6 +1,7 @@
 import { Button, Heading, Input, Label, Stack, TextArea, View, XStack, YStack } from "tamagui"
 import { Answer, QuestionStepType } from "../../contexts/step.type"
 import { useState } from "react";
+import { RotateCw, Wand2 } from "@tamagui/lucide-icons";
 
 type StepPayload = QuestionStepType['payload']
 
@@ -44,10 +45,16 @@ const AnswerEditor = ({ answers, onUpdate }: { answers: Answer[], onUpdate: (ans
     onUpdate(answers);
   }
 
+  const handleGenerateValue = (answerIndex: number) => {
+    const label = answers[answerIndex].label;
+    const generatedValue = generateValueFromLabel(label);
+    handleInputChange(answerIndex, 'value', generatedValue);
+  };
+
   return (
     <YStack gap="$2">
       {answers.map((answer, answerIndex) => (
-        <XStack key={`answer-${answerIndex}`} gap="$2">
+        <XStack key={`answer-${answerIndex}`} gap="$2" alignItems="center">
           <Input
             placeholder="Label"
             defaultValue={answer.label}
@@ -58,9 +65,17 @@ const AnswerEditor = ({ answers, onUpdate }: { answers: Answer[], onUpdate: (ans
             defaultValue={answer.value}
             onChangeText={(text) => handleInputChange(answerIndex, 'value', text)}
           />
+          <Stack onPress={() => handleGenerateValue(answerIndex)}>
+            <Wand2 />
+          </Stack>
         </XStack>
       ))}
       <Button onPress={() => handleAddAnswer()}>Add Answer</Button>
     </YStack>
   )
+};
+
+const generateValueFromLabel = (label: string) => {
+  // Example logic to generate a value from the label
+  return label.toLowerCase().replace(/\s+/g, '-');
 };

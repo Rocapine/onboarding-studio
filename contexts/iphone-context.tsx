@@ -6,7 +6,8 @@ interface IPhoneContextType {
   setIphoneModel: (model: IPhoneModel) => void;
   Dimensions: {
     get: (dim: 'window' | 'screen') => { width: number; height: number };
-  }; useSafeAreaInsets: () => { top: number; bottom: number; left: number; right: number };
+  };
+  useSafeAreaInsets: () => { top: number; bottom: number; left: number; right: number };
 }
 
 const IPhoneContext = createContext<IPhoneContextType | undefined>(undefined);
