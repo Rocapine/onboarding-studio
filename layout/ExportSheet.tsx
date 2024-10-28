@@ -34,10 +34,8 @@ export const ExportSheet = ({ open, setOpen, getJsonSteps }: { open: boolean, se
   const [buttonLabel, setButtonLabel] = React.useState("Copy JSON");
 
 
-  // Function to copy jsonSteps to clipboard
   const copyToClipboard = () => {
     navigator.clipboard.writeText(jsonSteps).then(() => {
-      console.log('JSON steps copied to clipboard');
       setButtonLabel("Copied to clipboard");
       setTimeout(() => setButtonLabel("Copy JSON"), 2000);
     }).catch(err => {
@@ -45,7 +43,7 @@ export const ExportSheet = ({ open, setOpen, getJsonSteps }: { open: boolean, se
     });
   };
 
-  // Inject styles into the document
+  // Inject styles into the document for syntax highlighting
   const styleSheet = document.createElement("style");
   styleSheet.type = "text/css";
   styleSheet.innerText = styles;
