@@ -14,9 +14,9 @@ const Layout = () => {
     <View backgroundColor={"$background"} flex={1} flexDirection="row">
       <ToastViewport />
       <CurrentToast />
-      <EditPageForm />
-      <MobileScreenPreview />
       <StepsList />
+      <MobileScreenPreview />
+      <EditPageForm />
     </View>
   );
 };
