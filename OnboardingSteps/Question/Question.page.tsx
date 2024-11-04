@@ -1,4 +1,4 @@
-import { Heading, Stack, styled, YStack, Text, View } from "tamagui"
+import { Heading, Stack, styled, YStack, Text, View, Progress } from "tamagui"
 import { QuestionStepType } from "../../contexts/step.type"
 import { useState } from "react";
 import { IPhoneSafeArea } from "../../components/StepsRenderer/SafeArea";
@@ -15,19 +15,23 @@ export const QuestionPage = ({ step }: { step: QuestionStepType }) => {
     const isNoneOfTheAbove = answer === "None of the above";
 
     setSelected((prev) => {
-      let newSelected: Record<string, boolean>;
+      if (step.payload.multipleAnswer) {
+        let newSelected: Record<string, boolean>;
 
-      if (isNoneOfTheAbove) {
-        newSelected = { [answer]: true };
-      } else {
-        newSelected = { ...prev, [answer]: !prev[answer] };
+        if (isNoneOfTheAbove) {
+          newSelected = { [answer]: true };
+        } else {
+          newSelected = { ...prev, [answer]: !prev[answer] };
 
-        if (newSelected["None of the above"]) {
-          newSelected["None of the above"] = false;
+          if (newSelected["None of the above"]) {
+            newSelected["None of the above"] = false;
+          }
         }
-      }
 
-      return newSelected;
+        return newSelected;
+      } else {
+        return { [answer]: true }
+      }
     });
   };
 
@@ -44,6 +48,7 @@ export const QuestionPage = ({ step }: { step: QuestionStepType }) => {
         justifyContent="space-between"
         width={"100%"}
       >
+        {step.displayProgressHeader && <ProgressBar />}
         <Heading fontSize="$8" fontWeight={700}>
           {step.payload.title}
         </Heading>
@@ -74,12 +79,28 @@ export const QuestionPage = ({ step }: { step: QuestionStepType }) => {
   )
 }
 
+const ProgressBar = () => (
+  <View width={"70%"} justifyContent="center" alignItems="center">
+    <Progress
+      value={70}
+      height={6}
+      backgroundColor={"$accentBackground"}
+    >
+      <Progress.Indicator
+        backgroundColor={"$accentColor"}
+        animation="100ms"
+      />
+    </Progress>
+  </View>
+)
+
 
 const ButtonFrame = styled(View, {
   padding: "$4",
   backgroundColor: '$background',
   borderRadius: 30,
   width: "100%",
+  borderColor: "$bakgroundPress",
   pressStyle: {
     backgroundColor: '$backgroundPress',
   },

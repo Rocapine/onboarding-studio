@@ -1,14 +1,15 @@
-import { Button, Heading, Input, Label, Stack, XStack, YStack } from "tamagui"
+import { Button, Checkbox, Heading, Input, Label, Stack, XStack, YStack } from "tamagui"
 import { Answer, QuestionStepType } from "../../contexts/step.type"
-import { useState } from "react";
-import { Wand2 } from "@tamagui/lucide-icons";
+import React, { useState } from "react";
+import { Wand2, Check as CheckIcon } from "@tamagui/lucide-icons";
 
 type StepPayload = QuestionStepType['payload']
 
 export const QuestionEditor = ({ updateStep, step }: { updateStep: (step: QuestionStepType) => void, step: QuestionStepType }) => {
   const [formData, setFormData] = useState<StepPayload>({
     answers: step.payload.answers || [],
-    title: step.payload.title || ''
+    title: step.payload.title || '',
+    multipleAnswer: step.payload.multipleAnswer || true,
   });
 
 
@@ -27,9 +28,21 @@ export const QuestionEditor = ({ updateStep, step }: { updateStep: (step: Questi
         value={formData.title}
         onChangeText={handleChange('title')}
       />
+      <XStack alignItems="center">
+        <Label flex={1}>Multiple Answer</Label>
+        <Checkbox
+          checked={formData.multipleAnswer}
+          onCheckedChange={handleChange('multipleAnswer')}
+        >
+          <Checkbox.Indicator>
+            <CheckIcon />
+          </Checkbox.Indicator>
+        </Checkbox>
+      </XStack>
+
       <Label>Answers</Label>
       <AnswerEditor answers={formData.answers} onUpdate={handleChange('answers')} />
-    </YStack>
+    </YStack >
   )
 }
 

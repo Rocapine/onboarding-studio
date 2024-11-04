@@ -56,11 +56,12 @@ const StepList: FC = () => {
       const newStep = {
         id: uuidv4(),
         type: StepType.Question,
-        name: "New Step",
+        name: "New Step " + (steps.length + 1),
         displayProgressHeader: false,
         payload: {
           answers: [],
           title: 'New Question',
+          multipleAnswer: true
         }
       } satisfies QuestionStepType;
       addStep(newStep);

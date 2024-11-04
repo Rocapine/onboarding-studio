@@ -37,6 +37,7 @@ export type QuestionStepType = BaseStepProperties & {
   payload: {
     answers: Answer[];
     title: string;
+    multipleAnswer: boolean;
   };
 };
 export type PickerStepType = BaseStepProperties & {
