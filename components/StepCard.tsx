@@ -111,8 +111,8 @@ export const StepCard: FC<CardProps> = ({ id, index, stepProperties, moveCard, o
       data-handler-id={handlerId}
     >
       <XStack alignItems="center" justifyContent="space-between" gap="$2" >
-        <Stack flex={1} >
-          <Text>Step {index + 1}</Text>
+        <Stack flex={1} width={"15vw"}>
+          <Text>{index + 1}: {stepProperties.name}</Text>
           <Text>{stepProperties.type}</Text>
         </Stack>
         <Pressable onPress={onDelete}><Trash2 strokeWidth={1} /></Pressable>
