@@ -69,6 +69,7 @@ export const MediaContentStep = ({ step }: ContentProps) => {
           </Stack>
         </YStack>
         <Stack flex={1} justifyContent="center" maxWidth={340}>
+          {step.payload.socialProof?.content && <SocialProof socialProof={step.payload.socialProof} />}
           <Text
             fontSize={18}
             fontWeight="400"
@@ -86,3 +87,19 @@ export const MediaContentStep = ({ step }: ContentProps) => {
     </YStack>
   );
 };
+
+
+const SocialProof = ({ socialProof }: { socialProof: MediaContentStepType['payload']['socialProof'] }) => {
+  return <View borderRadius={16} padding={16} backgroundColor={"$accentBackground"} alignItems="center">
+    <XStack><Text>⭐️⭐️⭐️⭐️⭐️</Text></XStack>
+    <Text
+      textAlign="center"
+      fontFamily="$body"
+      fontSize={10}
+      fontStyle="normal"
+      fontWeight={600}
+      lineHeight="130%"
+    >{socialProof.content}</Text>
+    <Text>{socialProof.authorName}</Text>
+  </View >
+}

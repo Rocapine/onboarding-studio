@@ -79,6 +79,11 @@ const initialSteps = [
       imageUrl: 'https://api-ninjas.com/images/cats/abyssinian.jpg',
       title: 'Hello',
       description: 'World',
+      socialProof: {
+        numberOfStar: 5,
+        content: "I'm a social proof",
+        authorName: "John Doe",
+      }
     }
   },
   {

@@ -18,6 +18,11 @@ export type MediaContentStepType = BaseStepProperties & {
     imageUrl: string;
     title: string;
     description: string;
+    socialProof: {
+      numberOfStar: number;
+      content: string;
+      authorName: string;
+    };
   };
 };
 

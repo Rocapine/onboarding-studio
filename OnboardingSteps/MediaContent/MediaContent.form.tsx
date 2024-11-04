@@ -8,11 +8,18 @@ export const MediaContentEditor = ({ updateStep, step }: { updateStep: (step: Me
   const [formData, setFormData] = useState<StepPayload>({
     imageUrl: step.payload.imageUrl || '',
     title: step.payload.title || '',
-    description: step.payload.description || ''
+    description: step.payload.description || '',
+    socialProof: step.payload.socialProof || {
+      numberOfStar: 0,
+      content: '',
+      authorName: ''
+    }
   });
 
-  const handleChange = <K extends keyof StepPayload>(field: K) => (value: StepPayload[K]) => {
-    const updatedFormData = { ...formData, [field]: value };
+  const handleChange = <Field extends keyof StepPayload, SubField extends keyof StepPayload[Field] | undefined>(field: Field, subField?: SubField) => (value: SubField extends keyof StepPayload[Field]
+    ? StepPayload[Field][SubField]
+    : StepPayload[Field]) => {
+    const updatedFormData = { ...formData, [field]: subField ? { ...formData[field], [subField]: value } : value };
     setFormData(updatedFormData);
     updateStep({ ...step, payload: updatedFormData } as MediaContentStepType);
   };
@@ -38,6 +45,18 @@ export const MediaContentEditor = ({ updateStep, step }: { updateStep: (step: Me
         placeholder="Description"
         value={formData.description}
         onChangeText={handleChange('description')}
+      />
+      <Label>Social Proof</Label>
+      <TextArea
+        placeholder="Social Proof"
+        value={formData.socialProof?.content}
+        onChangeText={handleChange('socialProof', "content")}
+      />
+      <Label>Author</Label>
+      <Input
+        placeholder="Social Proof"
+        value={formData.socialProof?.authorName}
+        onChangeText={handleChange('socialProof', "authorName")}
       />
     </View>
   )
