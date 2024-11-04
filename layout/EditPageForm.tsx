@@ -41,7 +41,7 @@ export default function EditPageForm() {
   }, [selectedStep?.type, selectedStep?.id])
 
   return (
-    <View flex={1} padding={"$4"} alignItems="center" justifyContent="flex-start">
+    <View key={selectedStep.id} flex={1} padding={"$4"} alignItems="center" justifyContent="flex-start">
       {selectedStep ? (
         <YStack flex={1} width={"100%"} gap="$2" overflow="scroll">
           <TextArea
@@ -49,7 +49,7 @@ export default function EditPageForm() {
             onChange={handleNameChange}
             placeholder="Enter step name"
             lineHeight={1.2 * 24}
-            style={{ fontSize: 24, fontWeight: 'bold', borderColor: 'transparent', borderWidth: 0, padding: 0, backgroundColor: 'transparent' }} // Apply heading styles
+            style={{ minHeight: 48, height: 48, fontSize: 24, fontWeight: 'bold', borderColor: 'transparent', borderRadius: 0, borderWidth: 0, padding: 0, backgroundColor: 'transparent' }} // Apply heading styles
           />
           <SelectType selectedType={selectedStep.type} setSelectedType={setSelectedType} />
           <XStack justifyContent="space-between" alignItems="center" width="100%">
