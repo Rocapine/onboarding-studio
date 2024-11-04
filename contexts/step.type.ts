@@ -38,6 +38,10 @@ export type QuestionStepType = BaseStepProperties & {
     answers: Answer[];
     title: string;
     multipleAnswer: boolean;
+    infoBox: {
+      title: string;
+      content: string;
+    };
   };
 };
 export type PickerStepType = BaseStepProperties & {

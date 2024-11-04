@@ -61,7 +61,11 @@ const StepList: FC = () => {
         payload: {
           answers: [],
           title: 'New Question',
-          multipleAnswer: true
+          multipleAnswer: true,
+          infoBox: {
+            description: "",
+            title: ""
+          }
         }
       } satisfies QuestionStepType;
       addStep(newStep);

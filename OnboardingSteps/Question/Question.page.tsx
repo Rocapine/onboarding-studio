@@ -1,8 +1,9 @@
-import { Heading, Stack, styled, YStack, Text, View, Progress } from "tamagui"
+import { Heading, Stack, styled, YStack, Text, View, Progress, XStack } from "tamagui"
 import { QuestionStepType } from "../../contexts/step.type"
 import { useState } from "react";
 import { IPhoneSafeArea } from "../../components/StepsRenderer/SafeArea";
 import { Button } from "../../components/Lib/Button";
+import { MessageCircleQuestion } from "@tamagui/lucide-icons";
 
 export const QuestionPage = ({ step }: { step: QuestionStepType }) => {
   const [selected, setSelected] = useState<Record<string, boolean>>({});
@@ -49,9 +50,10 @@ export const QuestionPage = ({ step }: { step: QuestionStepType }) => {
         width={"100%"}
       >
         {step.displayProgressHeader && <ProgressBar />}
-        <Heading fontSize="$8" fontWeight={700}>
+        {step.payload.title && <Heading fontSize="$8" fontWeight={700}>
           {step.payload.title}
-        </Heading>
+        </Heading>}
+        {Boolean(step.payload.infoBox.content || step.payload.infoBox.title) && <InfoBox infoBox={step.payload.infoBox} />}
         <YStack width={"100%"} flex={1} justifyContent="space-evenly">
           <YStack gap="$3">
             {step.payload.answers.map((answer, index) => (
@@ -94,6 +96,15 @@ const ProgressBar = () => (
   </View>
 )
 
+const InfoBox = ({ infoBox }: { infoBox: QuestionStepType['payload']['infoBox'] }) => (
+  <YStack gap="$2" borderRadius={"$2"} borderWidth={"$1"} borderColor={"$borderColor"} backgroundColor={"white"} padding="$2">
+    <XStack alignItems="center" gap="$2">
+      <MessageCircleQuestion />
+      <Text>{infoBox.title}</Text>
+    </XStack>
+    <Text>{infoBox.content}</Text>
+  </YStack>
+)
 
 const ButtonFrame = styled(View, {
   padding: "$4",

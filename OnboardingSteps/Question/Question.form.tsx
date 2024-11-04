@@ -1,4 +1,4 @@
-import { Button, Checkbox, Heading, Input, Label, Stack, XStack, YStack } from "tamagui"
+import { Button, Checkbox, Heading, Input, Label, Stack, TextArea, XStack, YStack } from "tamagui"
 import { Answer, QuestionStepType } from "../../contexts/step.type"
 import React, { useState } from "react";
 import { Wand2, Check as CheckIcon } from "@tamagui/lucide-icons";
@@ -10,17 +10,22 @@ export const QuestionEditor = ({ updateStep, step }: { updateStep: (step: Questi
     answers: step.payload.answers || [],
     title: step.payload.title || '',
     multipleAnswer: step.payload.multipleAnswer || true,
+    infoBox: step.payload.infoBox || {
+      title: "",
+      content: "",
+    },
   });
 
-
-  const handleChange = <K extends keyof StepPayload>(field: K) => (value: StepPayload[K]) => {
-    const updatedFormData = { ...formData, [field]: value };
+  const handleChange = <Field extends keyof StepPayload, SubField extends keyof StepPayload[Field] | undefined>(field: Field, subField?: SubField) => (value: SubField extends keyof StepPayload[Field]
+    ? StepPayload[Field][SubField]
+    : StepPayload[Field]) => {
+    const updatedFormData = { ...formData, [field]: subField ? { ...formData[field], [subField]: value } : value };
     setFormData(updatedFormData);
-    updateStep({ ...step, payload: updatedFormData } as QuestionStepType);
+    updateStep({ ...step, payload: updatedFormData });
   };
 
   return (
-    <YStack>
+    <YStack gap="$1">
       <Heading>Media Content Editor</Heading>
       <Label>Question</Label>
       <Input
@@ -32,7 +37,7 @@ export const QuestionEditor = ({ updateStep, step }: { updateStep: (step: Questi
         <Label flex={1}>Multiple Answer</Label>
         <Checkbox
           checked={formData.multipleAnswer}
-          onCheckedChange={handleChange('multipleAnswer')}
+          onCheckedChange={(checked) => handleChange('multipleAnswer')(typeof checked === "boolean" ? checked : false)}
         >
           <Checkbox.Indicator>
             <CheckIcon />
@@ -42,6 +47,17 @@ export const QuestionEditor = ({ updateStep, step }: { updateStep: (step: Questi
 
       <Label>Answers</Label>
       <AnswerEditor answers={formData.answers} onUpdate={handleChange('answers')} />
+      <Label>Info Box</Label>
+      <Input
+        placeholder="Info Box title"
+        value={formData.infoBox.title}
+        onChangeText={handleChange('infoBox', 'title')}
+      />
+      <TextArea
+        placeholder="Info Box content"
+        value={formData.infoBox.content}
+        onChangeText={handleChange("infoBox", "content")}
+      />
     </YStack >
   )
 }
