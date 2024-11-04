@@ -70,7 +70,7 @@ const StepList: FC = () => {
     const [exportOpen, setExportOpen] = React.useState(false)
 
     return (
-      <View flex={1} flexGrow={1}>
+      <YStack>
         <YStack flex={1} padding={"$4"} gap="$2">
           <View flex={1} alignItems="center" justifyContent="flex-start" >
             <ScrollView width={"100%"}>
@@ -85,7 +85,7 @@ const StepList: FC = () => {
           <Button onPress={() => setExportOpen(true)}>Export</Button>
         </YStack>
         <ExportSheet open={exportOpen} setOpen={setExportOpen} getJsonSteps={getJsonSteps} />
-      </View>
+      </YStack>
     )
   }
 }

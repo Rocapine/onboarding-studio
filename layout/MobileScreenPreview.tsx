@@ -1,5 +1,4 @@
-import { View } from "@tamagui/core";
-import { Theme } from "tamagui";
+import { Theme, YStack } from "tamagui";
 import { useSteps } from "../contexts/steps-context";
 import { IPhoneFrame, IPhoneModel } from "../components/iPhone";
 import React from "react";
@@ -17,14 +16,14 @@ function MobileScreenPreview() {
   };
 
   return (
-    <View paddingHorizontal={"5vw"} alignItems="center" justifyContent="space-around" backgroundColor={"$accentBackground"}>
+    <YStack overflow="scroll" paddingHorizontal={"5vw"} alignItems="center" justifyContent="space-around" backgroundColor={"$accentBackground"}>
       <SelectModel selectedModel={iphoneModel} handleModelChange={handleModelChange} />
       <Theme name="light">
         <IPhoneFrame model={iphoneModel} >
           {selectedStep && <StepsRenderer step={selectedStep} />}
         </IPhoneFrame>
       </Theme>
-    </View>
+    </YStack>
   );
 }
 

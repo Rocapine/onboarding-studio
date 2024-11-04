@@ -1,4 +1,4 @@
-import { Heading, Input, Label, TextArea, View } from "tamagui"
+import { Heading, Input, Label, TextArea, YStack } from "tamagui"
 import { MediaContentStepType } from "../../contexts/step.type"
 import { useState } from "react";
 
@@ -26,7 +26,7 @@ export const MediaContentEditor = ({ updateStep, step }: { updateStep: (step: Me
 
 
   return (
-    <View>
+    <YStack>
       <Heading>Media Content Editor</Heading>
       <Label>Image URL</Label>
       <Input
@@ -58,6 +58,6 @@ export const MediaContentEditor = ({ updateStep, step }: { updateStep: (step: Me
         value={formData.socialProof?.authorName}
         onChangeText={handleChange('socialProof', "authorName")}
       />
-    </View>
+    </YStack>
   )
 }

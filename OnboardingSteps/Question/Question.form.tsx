@@ -1,7 +1,7 @@
-import { Button, Heading, Input, Label, Stack, TextArea, View, XStack, YStack } from "tamagui"
+import { Button, Heading, Input, Label, Stack, XStack, YStack } from "tamagui"
 import { Answer, QuestionStepType } from "../../contexts/step.type"
 import { useState } from "react";
-import { RotateCw, Wand2 } from "@tamagui/lucide-icons";
+import { Wand2 } from "@tamagui/lucide-icons";
 
 type StepPayload = QuestionStepType['payload']
 
@@ -19,7 +19,7 @@ export const QuestionEditor = ({ updateStep, step }: { updateStep: (step: Questi
   };
 
   return (
-    <View>
+    <YStack>
       <Heading>Media Content Editor</Heading>
       <Label>Question</Label>
       <Input
@@ -29,7 +29,7 @@ export const QuestionEditor = ({ updateStep, step }: { updateStep: (step: Questi
       />
       <Label>Answers</Label>
       <AnswerEditor answers={formData.answers} onUpdate={handleChange('answers')} />
-    </View>
+    </YStack>
   )
 }
 
@@ -56,11 +56,13 @@ const AnswerEditor = ({ answers, onUpdate }: { answers: Answer[], onUpdate: (ans
       {answers.map((answer, answerIndex) => (
         <XStack key={`answer-${answerIndex}`} gap="$2" alignItems="center">
           <Input
+            flex={1}
             placeholder="Label"
             defaultValue={answer.label}
             onChangeText={(text) => handleInputChange(answerIndex, 'label', text)}
           />
           <Input
+            flex={1}
             placeholder="Value"
             defaultValue={answer.value}
             onChangeText={(text) => handleInputChange(answerIndex, 'value', text)}

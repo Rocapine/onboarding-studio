@@ -1,4 +1,4 @@
-import { H3, Heading, Paragraph, Stack, styled, XStack, YStack, Text, View } from "tamagui"
+import { Heading, Stack, styled, YStack, Text, View } from "tamagui"
 import { QuestionStepType } from "../../contexts/step.type"
 import { useState } from "react";
 import { IPhoneSafeArea } from "../../components/StepsRenderer/SafeArea";

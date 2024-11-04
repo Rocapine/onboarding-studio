@@ -1,6 +1,6 @@
 import { View } from "@tamagui/core";
 import { useSteps } from "../contexts/steps-context";
-import { Checkbox, Heading, Input, Label, TextArea, XStack, YStack } from "tamagui";
+import { Checkbox, Heading, Label, TextArea, XStack, YStack } from "tamagui";
 import { Check as CheckIcon } from '@tamagui/lucide-icons'
 import React from "react";
 import { SelectType } from "../components/SelectType";
@@ -41,9 +41,9 @@ export default function EditPageForm() {
   }, [selectedStep?.type, selectedStep?.id])
 
   return (
-    <View flex={1} flexGrow={1} padding={"$4"} alignItems="center" justifyContent="flex-start">
+    <View flex={1} padding={"$4"} alignItems="center" justifyContent="flex-start">
       {selectedStep ? (
-        <YStack flex={1} width={"100%"} gap="$2">
+        <YStack flex={1} width={"100%"} gap="$2" overflow="scroll">
           <TextArea
             value={selectedStep.name}
             onChange={handleNameChange}
