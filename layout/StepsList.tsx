@@ -63,7 +63,7 @@ const StepList: FC = () => {
           title: 'New Question',
           multipleAnswer: true,
           infoBox: {
-            description: "",
+            content: "",
             title: ""
           }
         }

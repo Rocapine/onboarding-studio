@@ -94,6 +94,7 @@ const initialSteps = [
     payload: {
       answers: [],
       title: 'Hello',
+      multipleAnswer: false,
     },
   },
 ] satisfies OnboardingStep[];
