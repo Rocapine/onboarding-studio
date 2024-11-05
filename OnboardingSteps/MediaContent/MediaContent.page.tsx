@@ -99,7 +99,7 @@ const SocialProof = ({ socialProof }: { socialProof: MediaContentStepType['paylo
       fontStyle="normal"
       fontWeight={600}
       lineHeight="130%"
-    >{socialProof.content}</Text>
-    <Text>{socialProof.authorName}</Text>
+    >{socialProof?.content}</Text>
+    <Text>{socialProof?.authorName}</Text>
   </View >
 }

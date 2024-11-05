@@ -18,7 +18,7 @@ export type MediaContentStepType = BaseStepProperties & {
     imageUrl: string;
     title: string;
     description: string;
-    socialProof: {
+    socialProof?: {
       numberOfStar: number;
       content: string;
       authorName: string;

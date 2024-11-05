@@ -16,9 +16,11 @@ export const MediaContentEditor = ({ updateStep, step }: { updateStep: (step: Me
     }
   });
 
-  const handleChange = <Field extends keyof StepPayload, SubField extends keyof StepPayload[Field] | undefined>(field: Field, subField?: SubField) => (value: SubField extends keyof StepPayload[Field]
-    ? StepPayload[Field][SubField]
-    : StepPayload[Field]) => {
+  const handleChange = <Field extends keyof StepPayload, SubField extends keyof NonNullable<StepPayload[Field]> | undefined>(field: Field, subField?: SubField) => (
+    value: SubField extends keyof NonNullable<StepPayload[Field]>
+      ? NonNullable<StepPayload[Field]>[SubField]
+      : NonNullable<StepPayload[Field]>
+  ) => {
     const updatedFormData = { ...formData, [field]: subField ? { ...formData[field], [subField]: value } : value };
     setFormData(updatedFormData);
     updateStep({ ...step, payload: updatedFormData });
@@ -49,13 +51,13 @@ export const MediaContentEditor = ({ updateStep, step }: { updateStep: (step: Me
       <Label>Social Proof</Label>
       <TextArea
         placeholder="Social Proof"
-        value={formData.socialProof.content}
+        value={formData.socialProof?.content}
         onChangeText={handleChange('socialProof', "content")}
       />
       <Label>Author</Label>
       <Input
         placeholder="Social Proof"
-        value={formData.socialProof.authorName}
+        value={formData.socialProof?.authorName}
         onChangeText={handleChange('socialProof', "authorName")}
       />
     </YStack>
