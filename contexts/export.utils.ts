@@ -1,6 +1,6 @@
-import { StepProperties } from "./step.type";
+import { OnboardingStep } from "./step.type";
 
-export const exportSteps = (steps: StepProperties[]) => {
+export const exportSteps = (steps: OnboardingStep[]) => {
   const json = JSON.stringify(steps);
   return json;
 };

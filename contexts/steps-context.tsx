@@ -1,28 +1,28 @@
 import { createContext, useContext, useState, ReactNode, useEffect } from 'react';
-import { StepProperties, StepType } from './step.type';
+import { OnboardingStep, StepType } from './step.type';
 import { exportSteps } from './export.utils';
 import { v4 as uuidv4 } from 'uuid'
 
 
 type StepsContextType = {
-  steps: StepProperties[];
-  addStep: (step: StepProperties) => void;
-  setStep: (id: StepProperties['id'], updatedStep: StepProperties) => void;
-  setSteps: React.Dispatch<React.SetStateAction<StepProperties[]>>;
-  selectedStep: StepProperties;
-  setSelectedStep: (step: StepProperties) => void;
-  deleteStep: (id: StepProperties['id']) => void;
+  steps: OnboardingStep[];
+  addStep: (step: OnboardingStep) => void;
+  setStep: (id: OnboardingStep['id'], updatedStep: OnboardingStep) => void;
+  setSteps: React.Dispatch<React.SetStateAction<OnboardingStep[]>>;
+  selectedStep: OnboardingStep;
+  setSelectedStep: (step: OnboardingStep) => void;
+  deleteStep: (id: OnboardingStep['id']) => void;
   getJsonSteps: () => string;
 };
 
 const StepsContext = createContext<StepsContextType | undefined>(undefined);
 
 export const StepsProvider = ({ children }: { children: ReactNode }) => {
-  const [steps, setSteps] = useState<StepProperties[]>(() => {
+  const [steps, setSteps] = useState<OnboardingStep[]>(() => {
     const storedSteps = localStorage.getItem('steps');
     return storedSteps ? JSON.parse(storedSteps) : initialSteps;
   });
-  const [selectedStep, setSelectedStep] = useState<StepProperties>(steps[0]);
+  const [selectedStep, setSelectedStep] = useState<OnboardingStep>(steps[0]);
 
   useEffect(() => {
     const jsonSteps = exportSteps(steps);
@@ -30,11 +30,11 @@ export const StepsProvider = ({ children }: { children: ReactNode }) => {
   }, [steps]);
 
 
-  const addStep = (step: StepProperties) => {
+  const addStep = (step: OnboardingStep) => {
     setSteps((prevSteps) => [...prevSteps, step]);
   };
 
-  const setStep = (id: StepProperties['id'], updatedStep: StepProperties) => {
+  const setStep = (id: OnboardingStep['id'], updatedStep: OnboardingStep) => {
     setSteps((prevSteps) =>
       prevSteps.map((step) => (step.id === id ? updatedStep : step))
     );
@@ -43,7 +43,7 @@ export const StepsProvider = ({ children }: { children: ReactNode }) => {
     }
   };
 
-  const deleteStep = (id: StepProperties['id']) => {
+  const deleteStep = (id: OnboardingStep['id']) => {
     setSteps((prevSteps) => prevSteps.filter((step) => step.id !== id));
   };
 
@@ -96,4 +96,4 @@ const initialSteps = [
       title: 'Hello',
     },
   },
-] satisfies StepProperties[];
+] satisfies OnboardingStep[];

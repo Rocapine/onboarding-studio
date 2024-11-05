@@ -3,7 +3,7 @@ import type { FC } from 'react'
 import { useRef } from 'react'
 import { useDrag, useDrop } from 'react-dnd'
 import { Text, Card, RadioGroup, XStack, Stack } from 'tamagui'
-import { StepProperties } from '../contexts/step.type'
+import { OnboardingStep } from '../contexts/step.type'
 import { Trash2 } from '@tamagui/lucide-icons'
 import { Pressable } from 'react-native'
 
@@ -14,7 +14,7 @@ export const ItemTypes = {
 export interface CardProps {
   id: any
   index: number
-  stepProperties: StepProperties
+  stepProperties: OnboardingStep
   moveCard: (dragIndex: number, hoverIndex: number) => void
   onDelete: () => void
 }

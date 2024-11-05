@@ -1,9 +1,9 @@
 import { H3, Paragraph, YStack } from "tamagui";
-import { StepProperties, StepType } from "../../contexts/step.type";
+import { OnboardingStep, StepType } from "../../contexts/step.type";
 import { MediaContentStep } from "../../OnboardingSteps/MediaContent/MediaContent.page";
 import { QuestionPage } from "../../OnboardingSteps/Question/Question.page";
 
-export const StepsRenderer = ({ step }: { step: StepProperties }) => {
+export const StepsRenderer = ({ step }: { step: OnboardingStep }) => {
   switch (step.type) {
     case StepType.Question:
       return (

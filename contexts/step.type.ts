@@ -51,12 +51,12 @@ export type PickerStepType = BaseStepProperties & {
   };
 };
 
-export type StepProperties =
+export type OnboardingStep =
   | MediaContentStepType
   | QuestionStepType
   | PickerStepType;
 
-export const getInitialStepPayload = <T extends StepProperties>(
+export const getInitialStepPayload = <T extends OnboardingStep>(
   type: T["type"]
 ): T["payload"] => {
   if (type === StepType.Question) {

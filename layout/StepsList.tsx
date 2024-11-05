@@ -8,7 +8,7 @@ import { HTML5Backend } from 'react-dnd-html5-backend'
 import { Button, RadioGroup, ScrollView, View, YStack } from 'tamagui'
 import { useSteps } from '../contexts/steps-context'
 import { v4 as uuidv4 } from 'uuid'
-import { QuestionStepType, StepProperties, StepType } from '../contexts/step.type'
+import { QuestionStepType, OnboardingStep, StepType } from '../contexts/step.type'
 import { ExportSheet } from './ExportSheet'
 import React from 'react'
 
@@ -19,18 +19,18 @@ const StepList: FC = () => {
     const { steps, setSteps, setSelectedStep, addStep, selectedStep, deleteStep, getJsonSteps } = useSteps();
 
     const moveCard = useCallback((dragIndex: number, hoverIndex: number) => {
-      setSteps((prevCards: StepProperties[]) =>
+      setSteps((prevCards: OnboardingStep[]) =>
         update(prevCards, {
           $splice: [
             [dragIndex, 1],
-            [hoverIndex, 0, prevCards[dragIndex] as StepProperties],
+            [hoverIndex, 0, prevCards[dragIndex] as OnboardingStep],
           ],
         }),
       )
     }, [])
 
     const renderCard = useCallback(
-      (step: StepProperties, index: number) => {
+      (step: OnboardingStep, index: number) => {
         return (
           <StepCard
             key={step.id}
@@ -45,7 +45,7 @@ const StepList: FC = () => {
       [],
     )
 
-    const handleRadioChange = (id: StepProperties['id']) => {
+    const handleRadioChange = (id: OnboardingStep['id']) => {
       const step = steps.find(step => step.id === id);
       if (step) {
         setSelectedStep(step);

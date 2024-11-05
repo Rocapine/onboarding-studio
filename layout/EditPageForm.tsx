@@ -4,7 +4,7 @@ import { Checkbox, Heading, Label, TextArea, XStack, YStack } from "tamagui";
 import { Check as CheckIcon } from '@tamagui/lucide-icons'
 import React from "react";
 import { SelectType } from "../components/SelectType";
-import { getInitialStepPayload, StepProperties, StepType } from "../contexts/step.type";
+import { getInitialStepPayload, OnboardingStep, StepType } from "../contexts/step.type";
 import { MediaContentEditor } from "../OnboardingSteps/MediaContent/MediaContent.form";
 import { NativeSyntheticEvent, TextInputChangeEventData } from "react-native";
 import { QuestionEditor } from "../OnboardingSteps/Question/Question.form";
@@ -17,7 +17,7 @@ export default function EditPageForm() {
   const setSelectedType = React.useCallback((type: StepType) => {
     if (selectedStep) {
       const initialPayload = getInitialStepPayload(type)
-      setStep(selectedStep.id, { ...selectedStep, type, payload: initialPayload, } as StepProperties);
+      setStep(selectedStep.id, { ...selectedStep, type, payload: initialPayload, } as OnboardingStep);
     }
   }, [selectedStep, setStep]);
 
@@ -28,7 +28,7 @@ export default function EditPageForm() {
     }
   }, [selectedStep, setStep]);
 
-  const updateStep = React.useCallback((step: StepProperties) => {
+  const updateStep = React.useCallback((step: OnboardingStep) => {
     setStep(selectedStep.id, step)
   }, [selectedStep, setStep])
 
