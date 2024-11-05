@@ -1,19 +1,24 @@
-export enum StepType {
-  MediaContent = "MediaContent",
-  Question = "Question",
-  Picker = "Picker",
-}
+const MediaContent = "MediaContent";
+const Question = "Question";
+const Picker = "Picker";
+export const StepType = {
+  MediaContent,
+  Question,
+  Picker,
+} as const;
 
 type BaseStepProperties = {
   id: string;
-  type: StepType;
+  type: typeof MediaContent | typeof Question | typeof Picker;
   name: string;
   displayProgressHeader: boolean;
   payload?: Record<string, any>;
 };
 
+export type StepType = BaseStepProperties["type"];
+
 export type MediaContentStepType = BaseStepProperties & {
-  type: StepType.MediaContent;
+  type: typeof MediaContent;
   payload: {
     imageUrl: string;
     title: string;
@@ -33,7 +38,7 @@ export type Answer = {
 };
 
 export type QuestionStepType = BaseStepProperties & {
-  type: StepType.Question;
+  type: typeof Question;
   payload: {
     answers: Answer[];
     title: string;
@@ -45,7 +50,7 @@ export type QuestionStepType = BaseStepProperties & {
   };
 };
 export type PickerStepType = BaseStepProperties & {
-  type: StepType.Picker;
+  type: typeof Picker;
   payload: {
     title: string;
   };
@@ -59,13 +64,13 @@ export type OnboardingStep =
 export const getInitialStepPayload = <T extends OnboardingStep>(
   type: T["type"]
 ): T["payload"] => {
-  if (type === StepType.Question) {
+  if (type === Question) {
     return {
       answers: [],
       title: "",
     };
   }
-  if (type === StepType.MediaContent) {
+  if (type === MediaContent) {
     return {
       imageUrl: "https://api-ninjas.com/images/cats/abyssinian.jpg",
       title: "Hello",
