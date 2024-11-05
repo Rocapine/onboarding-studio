@@ -4,6 +4,7 @@ import { useState } from "react";
 import { IPhoneSafeArea } from "../../components/StepsRenderer/SafeArea";
 import { Button } from "../../components/Lib/Button";
 import { MessageCircleQuestion } from "@tamagui/lucide-icons";
+import { infoBoxIsDefined } from "./Question.helpers";
 
 export const QuestionPage = ({ step }: { step: QuestionStepType }) => {
   const [selected, setSelected] = useState<Record<string, boolean>>({});
@@ -97,14 +98,14 @@ const ProgressBar = () => (
 )
 
 const InfoBox = ({ infoBox }: { infoBox: QuestionStepType['payload']['infoBox'] }) => {
-  if (infoBox == undefined) { return null }
+  if (!infoBoxIsDefined(infoBox)) return null
   return (
     <YStack gap="$2" borderRadius={"$2"} borderWidth={"$1"} borderColor={"$borderColor"} backgroundColor={"white"} padding="$2">
-      <XStack alignItems="center" gap="$2">
+      {infoBox.title && <XStack alignItems="center" gap="$2">
         <MessageCircleQuestion />
         <Text>{infoBox.title}</Text>
-      </XStack>
-      <Text>{infoBox.content}</Text>
+      </XStack>}
+      {infoBox.content && <Text>{infoBox.content}</Text>}
     </YStack>
   )
 }
