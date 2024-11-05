@@ -38,7 +38,7 @@ export type QuestionStepType = BaseStepProperties & {
     answers: Answer[];
     title: string;
     multipleAnswer: boolean;
-    infoBox: {
+    infoBox?: {
       title: string;
       content: string;
     };

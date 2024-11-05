@@ -16,13 +16,16 @@ export const QuestionEditor = ({ updateStep, step }: { updateStep: (step: Questi
     },
   });
 
-  const handleChange = <Field extends keyof StepPayload, SubField extends keyof StepPayload[Field] | undefined>(field: Field, subField?: SubField) => (value: SubField extends keyof StepPayload[Field]
-    ? StepPayload[Field][SubField]
-    : StepPayload[Field]) => {
+  const handleChange = <Field extends keyof StepPayload, SubField extends keyof NonNullable<StepPayload[Field]> | undefined>(field: Field, subField?: SubField) => (
+    value: SubField extends keyof NonNullable<StepPayload[Field]>
+      ? NonNullable<StepPayload[Field]>[SubField]
+      : NonNullable<StepPayload[Field]>
+  ) => {
     const updatedFormData = { ...formData, [field]: subField ? { ...formData[field], [subField]: value } : value };
     setFormData(updatedFormData);
     updateStep({ ...step, payload: updatedFormData });
   };
+
 
   return (
     <YStack gap="$1">
@@ -50,12 +53,12 @@ export const QuestionEditor = ({ updateStep, step }: { updateStep: (step: Questi
       <Label>Info Box</Label>
       <Input
         placeholder="Info Box title"
-        value={formData.infoBox.title}
+        value={formData.infoBox?.title}
         onChangeText={handleChange('infoBox', 'title')}
       />
       <TextArea
         placeholder="Info Box content"
-        value={formData.infoBox.content}
+        value={formData.infoBox?.content}
         onChangeText={handleChange("infoBox", "content")}
       />
     </YStack >

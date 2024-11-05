@@ -53,7 +53,7 @@ export const QuestionPage = ({ step }: { step: QuestionStepType }) => {
         {step.payload.title && <Heading fontSize="$8" fontWeight={700}>
           {step.payload.title}
         </Heading>}
-        {Boolean(step.payload.infoBox.content || step.payload.infoBox.title) && <InfoBox infoBox={step.payload.infoBox} />}
+        <InfoBox infoBox={step.payload.infoBox} />
         <YStack width={"100%"} flex={1} justifyContent="space-evenly">
           <YStack gap="$3">
             {step.payload.answers.map((answer, index) => (
@@ -96,15 +96,18 @@ const ProgressBar = () => (
   </View>
 )
 
-const InfoBox = ({ infoBox }: { infoBox: QuestionStepType['payload']['infoBox'] }) => (
-  <YStack gap="$2" borderRadius={"$2"} borderWidth={"$1"} borderColor={"$borderColor"} backgroundColor={"white"} padding="$2">
-    <XStack alignItems="center" gap="$2">
-      <MessageCircleQuestion />
-      <Text>{infoBox.title}</Text>
-    </XStack>
-    <Text>{infoBox.content}</Text>
-  </YStack>
-)
+const InfoBox = ({ infoBox }: { infoBox: QuestionStepType['payload']['infoBox'] }) => {
+  if (infoBox == undefined) { return null }
+  return (
+    <YStack gap="$2" borderRadius={"$2"} borderWidth={"$1"} borderColor={"$borderColor"} backgroundColor={"white"} padding="$2">
+      <XStack alignItems="center" gap="$2">
+        <MessageCircleQuestion />
+        <Text>{infoBox.title}</Text>
+      </XStack>
+      <Text>{infoBox.content}</Text>
+    </YStack>
+  )
+}
 
 const ButtonFrame = styled(View, {
   padding: "$4",
