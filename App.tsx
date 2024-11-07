@@ -47,8 +47,7 @@ const CurrentToast = () => {
 }
 
 export default function App() {
-  const colorScheme = useColorScheme();
-  const theme = colorScheme === 'light' ? "green" : "dark_green" // 'light' or 'dark'
+  const theme = "dark_green" // 'light' or 'dark'
   return (
     <TamaguiProvider config={tamaguiConfig} >
       <StepsProvider>
