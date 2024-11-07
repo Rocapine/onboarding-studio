@@ -1,6 +1,5 @@
-import { YStack, Text, Image, XStack, Stack, Paragraph, View } from "tamagui";
-import { ChevronRight } from "@tamagui/lucide-icons";
-import { MediaContentStepType as MediaContentStepType } from "../../contexts/step.type";
+import { YStack, Text, Image, XStack, Stack, View } from "tamagui";
+import { MediaContentStepType } from "../../contexts/step.type";
 import { useIPhoneContext } from "../../contexts/iphone-context";
 import { Button } from "../../components/Lib/Button";
 
