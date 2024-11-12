@@ -27,7 +27,7 @@ export const MediaContentStep = ({ step }: ContentProps) => {
     <LottieView
       source={{ uri: question.imageUrl }}
       autoPlay
-      loop
+      loop={false}
       style={{ alignSelf: "center", width: 100, height: 100, backgroundColor: "red" }}
     />
   ) : question.imageUrl ? (
