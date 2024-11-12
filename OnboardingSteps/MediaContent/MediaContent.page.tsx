@@ -2,6 +2,7 @@ import { YStack, Text, Image, XStack, Stack, View } from "tamagui";
 import { MediaContentStepType } from "../../contexts/step.type";
 import { useIPhoneContext } from "../../contexts/iphone-context";
 import { Button } from "../../components/Lib/Button";
+import LottieView from "lottie-react-native";
 
 type ContentProps = {
   step: MediaContentStepType;
@@ -19,23 +20,35 @@ export const MediaContentStep = ({ step }: ContentProps) => {
 
   const goNext = () => { };
 
+  const isLottie = question.imageUrl?.endsWith('.json');
+
+  const topImage = isLottie ? (
+
+    <LottieView
+      source={{ uri: question.imageUrl }}
+      autoPlay
+      loop
+      style={{ alignSelf: "center", width: 100, height: 100, backgroundColor: "red" }}
+    />
+  ) : question.imageUrl ? (
+    <Image
+      source={{ uri: question.imageUrl }}
+      alignSelf="center"
+      width="100%"
+      height={"50%"}
+      objectFit="cover"
+    />
+  ) : (
+    <View width="100%" height={"50%"} backgroundColor="green" />
+  );
+
   return (
-    <YStack flex={1}>
-      {question.imageUrl ? (
-        <Image
-          source={{ uri: question.imageUrl }}
-          alignSelf="center"
-          width="100%"
-          height={"50%"}
-          objectFit="cover"
-        />
-      ) : (
-        <View width="100%" height={"50%"} backgroundColor="green" />
-      )}
+    <YStack flex={1} backgroundColor={"black"}>
+      {topImage}
       <YStack
         flex={1}
         alignItems="center"
-        backgroundColor={"white"}
+        backgroundColor={"black"}
         justifyContent="space-between"
         marginTop="$-5"
         paddingHorizontal="$5"
