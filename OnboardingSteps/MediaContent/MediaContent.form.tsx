@@ -6,10 +6,10 @@ type StepPayload = MediaContentStepType['payload']
 
 export const MediaContentEditor = ({ updateStep, step }: { updateStep: (step: MediaContentStepType) => void, step: MediaContentStepType }) => {
   const [formData, setFormData] = useState<StepPayload>({
-    imageUrl: step.payload.imageUrl || '',
-    title: step.payload.title || '',
-    description: step.payload.description || '',
-    socialProof: step.payload.socialProof || {
+    imageUrl: step.payload.imageUrl ?? '',
+    title: step.payload.title ?? '',
+    description: step.payload.description ?? '',
+    socialProof: step.payload.socialProof ?? {
       numberOfStar: 0,
       content: '',
       authorName: ''

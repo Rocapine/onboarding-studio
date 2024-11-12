@@ -7,10 +7,10 @@ type StepPayload = QuestionStepType['payload']
 
 export const QuestionEditor = ({ updateStep, step }: { updateStep: (step: QuestionStepType) => void, step: QuestionStepType }) => {
   const [formData, setFormData] = useState<StepPayload>({
-    answers: step.payload.answers || [],
-    title: step.payload.title || '',
-    multipleAnswer: step.payload.multipleAnswer || true,
-    infoBox: step.payload.infoBox || {
+    answers: step.payload.answers ?? [],
+    title: step.payload.title ?? '',
+    multipleAnswer: step.payload.multipleAnswer ?? true,
+    infoBox: step.payload.infoBox ?? {
       title: "",
       content: "",
     },
