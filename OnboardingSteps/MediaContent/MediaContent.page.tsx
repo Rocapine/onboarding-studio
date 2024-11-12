@@ -22,7 +22,7 @@ export const MediaContentStep = ({ step }: ContentProps) => {
 
   const isLottie = question.imageUrl?.endsWith('.json');
 
-  const topImage = isLottie ? (
+  const mediaContent = isLottie ? (
 
     <LottieView
       source={{ uri: question.imageUrl }}
@@ -44,7 +44,7 @@ export const MediaContentStep = ({ step }: ContentProps) => {
 
   return (
     <YStack flex={1} backgroundColor={"black"}>
-      {topImage}
+      {mediaContent}
       <YStack
         flex={1}
         alignItems="center"
