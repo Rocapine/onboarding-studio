@@ -1,5 +1,5 @@
 import { createContext, useContext, useState, ReactNode, useEffect } from 'react';
-import { OnboardingStep, StepType } from './step.type';
+import { OnboardingStep, STEP_TYPES } from './step.type';
 import { exportSteps } from './export.utils';
 import { v4 as uuidv4 } from 'uuid'
 
@@ -72,7 +72,7 @@ export const useSteps = () => {
 const initialSteps = [
   {
     id: uuidv4(),
-    type: StepType.MediaContent,
+    type: STEP_TYPES.MediaContent,
     name: 'What is the problem you are solving?',
     displayProgressHeader: true,
     payload: {
@@ -88,7 +88,7 @@ const initialSteps = [
   },
   {
     id: uuidv4(),
-    type: StepType.Question,
+    type: STEP_TYPES.Question,
     name: 'What is the value you are providing?',
     displayProgressHeader: false,
     payload: {

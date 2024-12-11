@@ -8,7 +8,7 @@ import { HTML5Backend } from 'react-dnd-html5-backend'
 import { Button, RadioGroup, ScrollView, View, YStack } from 'tamagui'
 import { useSteps } from '../contexts/steps-context'
 import { v4 as uuidv4 } from 'uuid'
-import { QuestionStepType, OnboardingStep, StepType } from '../contexts/step.type'
+import { QuestionStepType, OnboardingStep, STEP_TYPES } from '../contexts/step.type'
 import { ExportSheet } from './ExportSheet'
 import React from 'react'
 
@@ -55,7 +55,7 @@ const StepList: FC = () => {
     const handleAddStep = () => {
       const newStep = {
         id: uuidv4(),
-        type: StepType.Question,
+        type: STEP_TYPES.Question,
         name: "New Step " + (steps.length + 1),
         displayProgressHeader: true,
         payload: {

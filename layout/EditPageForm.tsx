@@ -4,10 +4,11 @@ import { Checkbox, Heading, Label, TextArea, XStack, YStack } from "tamagui";
 import { Check as CheckIcon } from '@tamagui/lucide-icons'
 import React from "react";
 import { SelectType } from "../components/SelectType";
-import { getInitialStepPayload, OnboardingStep, StepType } from "../contexts/step.type";
+import { getInitialStepPayload, OnboardingStep, StepType, STEP_TYPES } from "../contexts/step.type";
 import { MediaContentEditor } from "../OnboardingSteps/MediaContent/MediaContent.form";
 import { NativeSyntheticEvent, TextInputChangeEventData } from "react-native";
 import { QuestionEditor } from "../OnboardingSteps/Question/Question.form";
+import { CustomScreenEditor } from "../OnboardingSteps/CustomScreen/CustomScreen.form";
 
 
 export default function EditPageForm() {
@@ -34,8 +35,9 @@ export default function EditPageForm() {
 
   const editor = React.useMemo(() => {
     switch (selectedStep?.type) {
-      case StepType.MediaContent: return <MediaContentEditor key={selectedStep.id} updateStep={updateStep} step={selectedStep} />
-      case StepType.Question: return <QuestionEditor key={selectedStep.id} updateStep={updateStep} step={selectedStep} />
+      case STEP_TYPES.MediaContent: return <MediaContentEditor key={selectedStep.id} updateStep={updateStep} step={selectedStep} />
+      case STEP_TYPES.Question: return <QuestionEditor key={selectedStep.id} updateStep={updateStep} step={selectedStep} />
+      case STEP_TYPES.CustomScreen: return <CustomScreenEditor key={selectedStep.id} updateStep={updateStep} step={selectedStep} />
       default: return null
     }
   }, [selectedStep])
