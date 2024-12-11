@@ -67,6 +67,8 @@ export type CustomScreenStepType = BaseStepProperties & {
   type: typeof CustomScreen;
   payload: {
     customScreenId: string;
+    type: string;
+    content: object;
   };
 };
 
