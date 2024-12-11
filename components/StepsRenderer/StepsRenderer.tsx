@@ -9,19 +9,18 @@ export const StepsRenderer = ({ step }: { step: OnboardingStep }) => {
       return (
         <QuestionPage step={step} />
       )
+    case StepType.MediaContent:
+      return (
+        <MediaContentStep step={step} />
+      )
     case StepType.Picker:
+    default:
       return (
         <YStack padding="$4" flex={1} justifyContent="center">
           <H3>{step.type}</H3>
           <Paragraph >{step.name}</Paragraph>
         </YStack>
       )
-    case StepType.MediaContent:
-      return (
-        <MediaContentStep step={step} />
-      )
-    default:
-      return null;
   }
 };
 
