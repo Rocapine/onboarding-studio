@@ -9,6 +9,7 @@ import { MediaContentEditor } from "../OnboardingSteps/MediaContent/MediaContent
 import { NativeSyntheticEvent, TextInputChangeEventData } from "react-native";
 import { QuestionEditor } from "../OnboardingSteps/Question/Question.form";
 import { CustomScreenEditor } from "../OnboardingSteps/CustomScreen/CustomScreen.form";
+import { PickerEditor } from "../OnboardingSteps/Picker/Picker.form";
 
 
 export default function EditPageForm() {
@@ -38,6 +39,7 @@ export default function EditPageForm() {
       case STEP_TYPES.MediaContent: return <MediaContentEditor key={selectedStep.id} updateStep={updateStep} step={selectedStep} />
       case STEP_TYPES.Question: return <QuestionEditor key={selectedStep.id} updateStep={updateStep} step={selectedStep} />
       case STEP_TYPES.CustomScreen: return <CustomScreenEditor key={selectedStep.id} updateStep={updateStep} step={selectedStep} />
+      case STEP_TYPES.Picker: return <PickerEditor key={selectedStep.id} updateStep={updateStep} step={selectedStep} />
       default: return null
     }
   }, [selectedStep])

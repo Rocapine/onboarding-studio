@@ -57,10 +57,22 @@ export type QuestionStepType = BaseStepProperties & {
     };
   };
 };
+
+export enum PickerType {
+  Height = "height",
+  Weight = "weight",
+  Age = "age",
+  Gender = "gender",
+  Coach = "coach",
+  Name = "name",
+}
+
 export type PickerStepType = BaseStepProperties & {
   type: typeof Picker;
   payload: {
     title: string;
+    description?: string;
+    pickerType: PickerType;
   };
 };
 
@@ -86,6 +98,7 @@ export const getInitialStepPayload = <T extends OnboardingStep>(
     return {
       answers: [],
       title: "",
+      multipleAnswer: false,
     };
   }
   if (type === MediaContent) {
@@ -93,6 +106,13 @@ export const getInitialStepPayload = <T extends OnboardingStep>(
       imageUrl: "https://api-ninjas.com/images/cats/abyssinian.jpg",
       title: "Hello",
       description: "World",
+    };
+  }
+  if (type === Picker) {
+    return {
+      title: "What is your height?",
+      description: "",
+      pickerType: PickerType.Height,
     };
   }
   return {} as T["payload"];
