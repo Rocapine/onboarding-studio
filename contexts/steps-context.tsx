@@ -18,15 +18,17 @@ type StepsContextType = {
 const StepsContext = createContext<StepsContextType | undefined>(undefined);
 
 export const StepsProvider = ({ children }: { children: ReactNode }) => {
+
+  const localStorageKey = 'steps';
   const [steps, setSteps] = useState<OnboardingStep[]>(() => {
-    const storedSteps = localStorage.getItem('steps');
+    const storedSteps = localStorage.getItem(localStorageKey);
     return storedSteps ? JSON.parse(storedSteps) : initialSteps;
   });
   const [selectedStep, setSelectedStep] = useState<OnboardingStep>(steps[0]);
 
   useEffect(() => {
     const jsonSteps = exportSteps(steps);
-    localStorage.setItem('steps', jsonSteps); // Store JSON in local storage whenever steps change
+    localStorage.setItem(localStorageKey, jsonSteps); // Store JSON in local storage whenever steps change
   }, [steps]);
 
 
