@@ -11,6 +11,7 @@ import { v4 as uuidv4 } from 'uuid'
 import { QuestionStepType, OnboardingStep, STEP_TYPES } from '../contexts/step.type'
 import { ExportSheet } from './ExportSheet'
 import React from 'react'
+import { ImportSheet } from './ImportSheet'
 
 
 
@@ -73,6 +74,7 @@ const StepList: FC = () => {
     }
 
     const [exportOpen, setExportOpen] = React.useState(false)
+    const [importOpen, setImportOpen] = React.useState(false)
 
     return (
       <YStack>
@@ -87,8 +89,10 @@ const StepList: FC = () => {
               </RadioGroup>
             </ScrollView>
           </View>
+          <Button onPress={() => setImportOpen(true)}>Import</Button>
           <Button onPress={() => setExportOpen(true)}>Export</Button>
         </YStack>
+        <ImportSheet open={importOpen} setOpen={setImportOpen} setSteps={setSteps} />
         <ExportSheet open={exportOpen} setOpen={setExportOpen} getJsonSteps={getJsonSteps} />
       </YStack>
     )
