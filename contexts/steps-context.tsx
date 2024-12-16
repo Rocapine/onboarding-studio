@@ -18,8 +18,16 @@ type StepsContextType = {
 const StepsContext = createContext<StepsContextType | undefined>(undefined);
 
 export const StepsProvider = ({ children }: { children: ReactNode }) => {
+  const urlParams = new URLSearchParams(window.location.search);
+  const projectKey = urlParams.get('project');
 
-  const localStorageKey = 'steps';
+  useEffect(() => {
+    if (!projectKey) {
+      window.location.search = '?project=default';
+    }
+  }, [projectKey]);
+
+  const localStorageKey = projectKey || 'steps';
   const [steps, setSteps] = useState<OnboardingStep[]>(() => {
     const storedSteps = localStorage.getItem(localStorageKey);
     return storedSteps ? JSON.parse(storedSteps) : initialSteps;
