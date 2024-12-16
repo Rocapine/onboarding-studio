@@ -29,12 +29,18 @@ export const QuestionEditor = ({ updateStep, step }: { updateStep: (step: Questi
 
   return (
     <YStack gap="$1">
-      <Heading>Media Content Editor</Heading>
-      <Label>Question</Label>
+      <Heading>Question Editor</Heading>
+      <Label>Title</Label>
       <Input
         placeholder="Question"
         value={formData.title}
         onChangeText={handleChange('title')}
+      />
+      <Label>Subtitle</Label>
+      <Input
+        placeholder="Subtitle"
+        value={formData.subtitle}
+        onChangeText={handleChange('subtitle')}
       />
       <XStack alignItems="center">
         <Label flex={1}>Multiple Answer</Label>

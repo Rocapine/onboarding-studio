@@ -49,6 +49,7 @@ export type QuestionStepType = BaseStepProperties & {
   payload: {
     answers: Answer[];
     title: string;
+    subtitle?: string;
     multipleAnswer: boolean;
     infoBox?: {
       title: string;

@@ -54,6 +54,9 @@ export const QuestionPage = ({ step }: { step: QuestionStepType }) => {
         {step.payload.title && <Heading fontSize="$8" fontWeight={700}>
           {step.payload.title}
         </Heading>}
+        {step.payload.subtitle && <Heading fontSize="$5" fontWeight={400}>
+          {step.payload.subtitle}
+        </Heading>}
         <InfoBox infoBox={step.payload.infoBox} />
         <YStack width={"100%"} flex={1} justifyContent="space-evenly">
           <YStack gap="$3">
