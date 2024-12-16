@@ -62,6 +62,7 @@ export const CustomScreenEditor = ({ updateStep, step }: { updateStep: (step: Cu
         placeholder="Custom Screen ID"
         value={contentString}
         onChangeText={validateContent}
+        // @ts-ignore
         style={{ resize: 'vertical' }}
       />
     </YStack>
