@@ -1,4 +1,4 @@
-import { Heading, Input, Label, TextArea, YStack } from "tamagui"
+import { H5, Heading, Input, Label, SizableText, TextArea, XStack, YStack } from "tamagui"
 import { PickerStepType, PickerType } from "../../contexts/step.type"
 import { useState } from "react";
 
@@ -25,9 +25,9 @@ export const PickerEditor = ({ updateStep, step }: { updateStep: (step: StepType
   return (
     <YStack>
       <Heading>Picker Editor</Heading>
-      <Label>Type</Label>
+      <XStack ai="center"><Label>Type </Label><SizableText size={"$2"} color="$color11">({Object.values(PickerType).join(', ')}, etc)</SizableText></XStack>
       <Input
-        placeholder="Image URL"
+        placeholder="Picker type"
         value={formData.pickerType}
         onChangeText={handleChange('pickerType')}
       />
