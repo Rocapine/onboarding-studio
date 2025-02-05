@@ -1,5 +1,5 @@
 import { Button, Checkbox, Heading, Input, Label, Stack, TextArea, XStack, YStack } from "tamagui"
-import { Answer, QuestionStepType } from "../../contexts/step.type"
+import { Answer, QuestionStepType } from "../step.type"
 import React, { useState } from "react";
 import { Wand2, Check as CheckIcon } from "@tamagui/lucide-icons";
 

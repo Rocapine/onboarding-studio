@@ -2,7 +2,7 @@ import { YStack, Text, Image, XStack, Stack, View, H3, Paragraph } from "tamagui
 import { useIPhoneContext } from "../../contexts/iphone-context";
 import { Button } from "../../components/Lib/Button";
 import LottieView from "lottie-react-native";
-import { CustomScreenStepType } from "../../contexts/step.type";
+import { CustomScreenStepType } from "../step.type";
 
 type ContentProps = {
   step: CustomScreenStepType;

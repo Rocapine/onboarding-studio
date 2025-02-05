@@ -1,5 +1,5 @@
 import { Heading, Input, Label, TextArea, YStack } from "tamagui"
-import { MediaContentStepType } from "../../contexts/step.type"
+import { MediaContentStepType } from "../step.type"
 import { useState } from "react";
 
 type StepPayload = MediaContentStepType['payload']

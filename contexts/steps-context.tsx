@@ -1,5 +1,5 @@
 import { createContext, useContext, useState, ReactNode, useEffect } from 'react';
-import { OnboardingStep, STEP_TYPES } from './step.type';
+import { OnboardingStep, STEP_TYPES } from '../OnboardingSteps/step.type';
 import { exportSteps } from './export.utils';
 import { v4 as uuidv4 } from 'uuid'
 

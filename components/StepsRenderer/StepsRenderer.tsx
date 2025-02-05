@@ -1,5 +1,5 @@
 import { H3, Paragraph, YStack } from "tamagui";
-import { OnboardingStep, STEP_TYPES } from "../../contexts/step.type";
+import { OnboardingStep, STEP_TYPES } from "../../OnboardingSteps/step.type";
 import { MediaContentStep } from "../../OnboardingSteps/MediaContent/MediaContent.page";
 import { QuestionPage } from "../../OnboardingSteps/Question/Question.page";
 import { CustomScreenStep } from "../../OnboardingSteps/CustomScreen/CustomScreen.page";

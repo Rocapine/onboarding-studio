@@ -1,5 +1,5 @@
 import { YStack, Text, Image, XStack, Stack, View } from "tamagui";
-import { MediaContentStepType } from "../../contexts/step.type";
+import { MediaContentStepType } from "../step.type";
 import { useIPhoneContext } from "../../contexts/iphone-context";
 import { Button } from "../../components/Lib/Button";
 import LottieView from "lottie-react-native";

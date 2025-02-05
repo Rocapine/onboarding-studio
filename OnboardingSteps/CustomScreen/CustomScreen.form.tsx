@@ -1,5 +1,5 @@
 import { Heading, Input, Label, TextArea, YStack } from "tamagui"
-import { CustomScreenStepType } from "../../contexts/step.type"
+import { CustomScreenStepType } from "../step.type"
 import { useState } from "react";
 
 type StepPayload = CustomScreenStepType['payload']

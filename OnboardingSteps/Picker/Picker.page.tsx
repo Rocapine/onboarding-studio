@@ -1,5 +1,5 @@
 import { YStack, Paragraph, H3 } from "tamagui"
-import { PickerStepType } from "../../contexts/step.type"
+import { PickerStepType } from "../step.type"
 
 type ContentProps = {
   step: PickerStepType;

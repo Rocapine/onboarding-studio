@@ -4,7 +4,7 @@ import { Check, ChevronDown, ChevronUp } from '@tamagui/lucide-icons'
 import type { FontSizeTokens, SelectProps } from 'tamagui'
 import { Adapt, Label, Select, Sheet, XStack, YStack, getFontSize } from 'tamagui'
 import { LinearGradient } from 'tamagui/linear-gradient'
-import { STEP_TYPES, StepType } from '../contexts/step.type'
+import { STEP_TYPES, StepType } from '../OnboardingSteps/step.type'
 
 const StepTypes = Object.values(STEP_TYPES)
 

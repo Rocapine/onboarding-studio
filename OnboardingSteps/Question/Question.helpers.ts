@@ -1,4 +1,4 @@
-import { QuestionStepType } from "../../contexts/step.type";
+import { QuestionStepType } from "../step.type";
 
 export const infoBoxIsDefined = (
   infoBox: QuestionStepType["payload"]["infoBox"]
