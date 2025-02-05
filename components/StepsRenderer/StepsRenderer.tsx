@@ -5,6 +5,7 @@ import { QuestionPage } from "../../OnboardingSteps/Question/Question.page";
 import { CustomScreenStep } from "../../OnboardingSteps/CustomScreen/CustomScreen.page";
 import { PickerStep } from "../../OnboardingSteps/Picker/Picker.page";
 import { CarouselScreenStep } from "../../OnboardingSteps/Carousel/Carousel.page";
+import { ReminderScreenStep } from "../../OnboardingSteps/Reminder/Reminder.page";
 
 export const StepsRenderer = ({ step }: { step: OnboardingStep }) => {
   switch (step.type) {
@@ -13,6 +14,7 @@ export const StepsRenderer = ({ step }: { step: OnboardingStep }) => {
     case STEP_TYPES.Picker: return <PickerStep step={step} />
     case STEP_TYPES.CustomScreen: return <CustomScreenStep step={step} />
     case STEP_TYPES.Carousel: return <CarouselScreenStep step={step} />
+    case STEP_TYPES.Reminder: return <ReminderScreenStep step={step} />
     default:
       const unknownStep: any = step;
       return (

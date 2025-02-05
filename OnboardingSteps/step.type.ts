@@ -3,6 +3,7 @@ const Question = "Question";
 const Picker = "Picker";
 const CustomScreen = "CustomScreen";
 const Carousel = "Carousel";
+const Reminder = "Reminder";
 
 export const STEP_TYPES = {
   MediaContent,
@@ -10,6 +11,7 @@ export const STEP_TYPES = {
   Picker,
   CustomScreen,
   Carousel,
+  Reminder,
 } as const;
 
 type BaseStepProperties = {
@@ -19,7 +21,8 @@ type BaseStepProperties = {
     | typeof Question
     | typeof Picker
     | typeof CustomScreen
-    | typeof Carousel;
+    | typeof Carousel
+    | typeof Reminder;
   name: string;
   displayProgressHeader: boolean;
   payload?: Record<string, any>;
@@ -95,12 +98,21 @@ export type CarouselStepType = BaseStepProperties & {
   };
 };
 
+export type ReminderStepType = BaseStepProperties & {
+  type: typeof Reminder;
+  payload: {
+    title: string;
+    subtitle: string;
+  };
+};
+
 export type OnboardingStep =
   | MediaContentStepType
   | QuestionStepType
   | PickerStepType
   | CustomScreenStepType
-  | CarouselStepType;
+  | CarouselStepType
+  | ReminderStepType;
 
 export const getInitialStepPayload = <T extends OnboardingStep>(
   type: T["type"]

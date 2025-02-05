@@ -11,6 +11,7 @@ import { QuestionEditor } from "../OnboardingSteps/Question/Question.form";
 import { CustomScreenEditor } from "../OnboardingSteps/CustomScreen/CustomScreen.form";
 import { PickerEditor } from "../OnboardingSteps/Picker/Picker.form";
 import { CarouselEditor } from "../OnboardingSteps/Carousel/Carousel.form";
+import { ReminderEditor } from "../OnboardingSteps/Reminder/Reminder.form";
 
 
 export default function EditPageForm() {
@@ -42,6 +43,7 @@ export default function EditPageForm() {
       case STEP_TYPES.CustomScreen: return <CustomScreenEditor key={selectedStep.id} updateStep={updateStep} step={selectedStep} />
       case STEP_TYPES.Picker: return <PickerEditor key={selectedStep.id} updateStep={updateStep} step={selectedStep} />
       case STEP_TYPES.Carousel: return <CarouselEditor key={selectedStep.id} updateStep={updateStep} step={selectedStep} />
+      case STEP_TYPES.Reminder: return <ReminderEditor key={selectedStep.id} updateStep={updateStep} step={selectedStep} />
       default: return null
     }
   }, [selectedStep])

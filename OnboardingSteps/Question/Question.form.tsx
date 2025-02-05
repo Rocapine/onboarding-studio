@@ -10,6 +10,7 @@ export const QuestionEditor = ({ updateStep, step }: { updateStep: (step: StepTy
   const [formData, setFormData] = useState<StepPayload>({
     answers: step.payload.answers ?? [],
     title: step.payload.title ?? '',
+    subtitle: step.payload.subtitle ?? '',
     multipleAnswer: step.payload.multipleAnswer ?? true,
     infoBox: step.payload.infoBox ?? {
       title: "",
