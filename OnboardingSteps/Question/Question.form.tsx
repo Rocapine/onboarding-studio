@@ -3,9 +3,10 @@ import { Answer, QuestionStepType } from "../step.type"
 import React, { useState } from "react";
 import { Wand2, Check as CheckIcon } from "@tamagui/lucide-icons";
 
-type StepPayload = QuestionStepType['payload']
+type StepType = QuestionStepType
+type StepPayload = StepType['payload']
 
-export const QuestionEditor = ({ updateStep, step }: { updateStep: (step: QuestionStepType) => void, step: QuestionStepType }) => {
+export const QuestionEditor = ({ updateStep, step }: { updateStep: (step: StepType) => void, step: StepType }) => {
   const [formData, setFormData] = useState<StepPayload>({
     answers: step.payload.answers ?? [],
     title: step.payload.title ?? '',
