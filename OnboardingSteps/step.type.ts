@@ -2,12 +2,14 @@ const MediaContent = "MediaContent";
 const Question = "Question";
 const Picker = "Picker";
 const CustomScreen = "CustomScreen";
+const Carousel = "Carousel";
 
 export const STEP_TYPES = {
   MediaContent,
   Question,
   Picker,
   CustomScreen,
+  Carousel,
 } as const;
 
 type BaseStepProperties = {
@@ -16,7 +18,8 @@ type BaseStepProperties = {
     | typeof MediaContent
     | typeof Question
     | typeof Picker
-    | typeof CustomScreen;
+    | typeof CustomScreen
+    | typeof Carousel;
   name: string;
   displayProgressHeader: boolean;
   payload?: Record<string, any>;
@@ -85,11 +88,19 @@ export type CustomScreenStepType = BaseStepProperties & {
   };
 };
 
+export type CarouselStepType = BaseStepProperties & {
+  type: typeof Carousel;
+  payload: {
+    screens: Array<{ mediaUrl: string; title: string; subtitle: string }>;
+  };
+};
+
 export type OnboardingStep =
   | MediaContentStepType
   | QuestionStepType
   | PickerStepType
-  | CustomScreenStepType;
+  | CustomScreenStepType
+  | CarouselStepType;
 
 export const getInitialStepPayload = <T extends OnboardingStep>(
   type: T["type"]
@@ -113,6 +124,23 @@ export const getInitialStepPayload = <T extends OnboardingStep>(
       title: "What is your height?",
       description: "",
       pickerType: PickerType.Height,
+    };
+  }
+  if (type === Carousel) {
+    return {
+      screens: [
+        {
+          mediaUrl: "https://api-ninjas.com/images/cats/abyssinian.jpg",
+          title: "Écran 1",
+          subtitle: "Sous titre 1",
+        },
+        {
+          mediaUrl:
+            "https://f360-cdn.rocapine.io/rive/Onboarding%20-%20Storytelling%20Part1.riv",
+          title: "Écran 2",
+          subtitle: "Sous titre 2",
+        },
+      ],
     };
   }
   return {} as T["payload"];
