@@ -7,22 +7,10 @@ import { PickerStep } from "../../OnboardingSteps/Picker/Picker.page";
 
 export const StepsRenderer = ({ step }: { step: OnboardingStep }) => {
   switch (step.type) {
-    case STEP_TYPES.Question:
-      return (
-        <QuestionPage step={step} />
-      )
-    case STEP_TYPES.MediaContent:
-      return (
-        <MediaContentStep step={step} />
-      )
-    case STEP_TYPES.Picker:
-      return (
-        <PickerStep step={step} />
-      )
-    case STEP_TYPES.CustomScreen:
-      return (
-        <CustomScreenStep step={step} />
-      )
+    case STEP_TYPES.Question: return <QuestionPage step={step} />
+    case STEP_TYPES.MediaContent: return <MediaContentStep step={step} />
+    case STEP_TYPES.Picker: return <PickerStep step={step} />
+    case STEP_TYPES.CustomScreen: return <CustomScreenStep step={step} />
     default:
       const unknownStep: any = step;
       return (
