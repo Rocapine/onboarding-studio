@@ -35,8 +35,8 @@
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",
-    "@lingui/babel-plugin-lingui-macro": "^5.2.0",
     "@types/react": "~18.3.12",
+    "@lingui/babel-plugin-lingui-macro": "^5.2.0",
     "@types/uuid": "^10.0.0",
     "typescript": "~5.6.3"
   },

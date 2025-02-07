@@ -4,6 +4,7 @@ module.exports = function (api) {
     presets: ["babel-preset-expo"],
     plugins: [
       [
+        "@lingui/babel-plugin-lingui-macro",
         "@tamagui/babel-plugin",
         {
           components: ["tamagui"],
