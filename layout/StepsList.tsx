@@ -12,6 +12,7 @@ import { QuestionStepType, OnboardingStep, STEP_TYPES } from '../OnboardingSteps
 import { ExportSheet } from './ExportSheet'
 import React from 'react'
 import { ImportSheet } from './ImportSheet'
+import { VariableSheet } from './VariableSheet'
 
 
 
@@ -75,7 +76,7 @@ const StepList: FC = () => {
 
     const [exportOpen, setExportOpen] = React.useState(false)
     const [importOpen, setImportOpen] = React.useState(false)
-
+    const [variableOpen, setVariableOpen] = React.useState(false)
     return (
       <YStack>
         <YStack flex={1} padding={"$4"} gap="$2">
@@ -89,9 +90,12 @@ const StepList: FC = () => {
               </RadioGroup>
             </ScrollView>
           </View>
+          <Button onPress={() => setVariableOpen(true)}>Variables</Button>
           <Button onPress={() => setImportOpen(true)}>Import</Button>
           <Button onPress={() => setExportOpen(true)}>Export</Button>
         </YStack>
+
+        <VariableSheet open={variableOpen} setOpen={setVariableOpen} />
         <ImportSheet open={importOpen} setOpen={setImportOpen} setSteps={setSteps} />
         <ExportSheet open={exportOpen} setOpen={setExportOpen} getJsonSteps={getJsonSteps} />
       </YStack>
