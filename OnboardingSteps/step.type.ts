@@ -30,7 +30,7 @@ type BaseStepProperties = {
 
 export type StepType = BaseStepProperties["type"];
 
-export type MediaContentStepType = BaseStepProperties & {
+export interface MediaContentStepType extends BaseStepProperties {
   type: typeof MediaContent;
   payload: {
     imageUrl: string;
@@ -42,7 +42,7 @@ export type MediaContentStepType = BaseStepProperties & {
       authorName: string;
     };
   };
-};
+}
 
 export type Answer = {
   label: string;
@@ -50,7 +50,7 @@ export type Answer = {
   icon?: string;
 };
 
-export type QuestionStepType = BaseStepProperties & {
+export interface QuestionStepType extends BaseStepProperties {
   type: typeof Question;
   payload: {
     answers: Answer[];
@@ -62,7 +62,7 @@ export type QuestionStepType = BaseStepProperties & {
       content: string;
     };
   };
-};
+}
 
 export enum PickerType {
   Height = "height",
@@ -73,38 +73,38 @@ export enum PickerType {
   Name = "name",
 }
 
-export type PickerStepType = BaseStepProperties & {
+export interface PickerStepType extends BaseStepProperties {
   type: typeof Picker;
   payload: {
     title: string;
     description?: string;
     pickerType: PickerType;
   };
-};
+}
 
-export type CustomScreenStepType = BaseStepProperties & {
+export interface CustomScreenStepType extends BaseStepProperties {
   type: typeof CustomScreen;
   payload: {
     customScreenId: string;
     type: string;
     content: object;
   };
-};
+}
 
-export type CarouselStepType = BaseStepProperties & {
+export interface CarouselStepType extends BaseStepProperties {
   type: typeof Carousel;
   payload: {
     screens: Array<{ mediaUrl: string; title: string; subtitle: string }>;
   };
-};
+}
 
-export type ReminderStepType = BaseStepProperties & {
+export interface ReminderStepType extends BaseStepProperties {
   type: typeof Reminder;
   payload: {
     title: string;
     subtitle: string;
   };
-};
+}
 
 export type OnboardingStep =
   | MediaContentStepType

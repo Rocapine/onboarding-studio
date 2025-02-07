@@ -16,8 +16,12 @@ export const PickerEditor = ({ updateStep, step }: { updateStep: (step: StepType
       ? NonNullable<StepPayload[Field]>[SubField]
       : NonNullable<StepPayload[Field]>
   ) => {
-    const updatedFormData = { ...formData, [field]: subField ? { ...formData[field], [subField]: value } : value };
-    setFormData(updatedFormData);
+    let newValue = value
+    if (subField) {
+      // @ts-ignore
+      newValue = { ...(formData[field]), [subField]: value }
+    }
+    const updatedFormData = { ...formData, [field]: newValue }; setFormData(updatedFormData);
     updateStep({ ...step, payload: updatedFormData });
   };
 

@@ -15,7 +15,11 @@ export const ReminderEditor = ({ updateStep, step }: { updateStep: (step: StepTy
       ? NonNullable<StepPayload[Field]>[SubField]
       : NonNullable<StepPayload[Field]>
   ) => {
-    const updatedFormData = { ...formData, [field]: subField ? { ...formData[field], [subField]: value } : value };
+    const updatedFormData = {
+      ...formData,
+      [field]: value
+    };
+
     setFormData(updatedFormData);
     updateStep({ ...step, payload: updatedFormData });
   };
