@@ -1,11 +1,11 @@
 import "@expo/metro-runtime";
 import { TamaguiProvider, View, Theme } from '@tamagui/core'
-import { tamaguiConfig } from './tamagui.config'
-import EditPageForm from './layout/EditPageForm';
-import StepsList from './layout/StepsList';
-import MobileScreenPreview from "./layout/MobileScreenPreview";
+import { tamaguiConfig } from '../tamagui.config'
+import EditPageForm from '../layout/EditPageForm';
+import StepsList from '../layout/StepsList';
+import MobileScreenPreview from "../layout/MobileScreenPreview";
 import { useColorScheme } from "react-native";
-import { StepsProvider } from "./contexts/steps-context";
+import { StepsProvider } from "../contexts/steps-context";
 import { Toast, ToastProvider, ToastViewport, useToastState } from "@tamagui/toast";
 import { YStack } from "tamagui";
 
