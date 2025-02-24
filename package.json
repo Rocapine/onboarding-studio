@@ -18,6 +18,7 @@
     "@tamagui/config": "^1.116.9",
     "@tamagui/lucide-icons": "^1.116.9",
     "@tamagui/toast": "^1.116.9",
+    "@tamagui/core": "^1.116.9",
     "burnt": "^0.12.2",
     "expo": "^52.0.37",
     "expo-status-bar": "~2.0.1",
