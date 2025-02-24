@@ -3,6 +3,7 @@ module.exports = function (api) {
   return {
     presets: [["babel-preset-expo", { jsxRuntime: "automatic" }]],
     plugins: [
+      "@lingui/babel-plugin-lingui-macro",
       [
         "@tamagui/babel-plugin",
         {
