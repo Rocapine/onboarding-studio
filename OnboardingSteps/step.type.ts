@@ -2,12 +2,16 @@ const MediaContent = "MediaContent";
 const Question = "Question";
 const Picker = "Picker";
 const CustomScreen = "CustomScreen";
+const Carousel = "Carousel";
+const Reminder = "Reminder";
 
 export const STEP_TYPES = {
   MediaContent,
   Question,
   Picker,
   CustomScreen,
+  Carousel,
+  Reminder,
 } as const;
 
 type BaseStepProperties = {
@@ -16,7 +20,9 @@ type BaseStepProperties = {
     | typeof MediaContent
     | typeof Question
     | typeof Picker
-    | typeof CustomScreen;
+    | typeof CustomScreen
+    | typeof Carousel
+    | typeof Reminder;
   name: string;
   displayProgressHeader: boolean;
   payload?: Record<string, any>;
@@ -24,7 +30,7 @@ type BaseStepProperties = {
 
 export type StepType = BaseStepProperties["type"];
 
-export type MediaContentStepType = BaseStepProperties & {
+export interface MediaContentStepType extends BaseStepProperties {
   type: typeof MediaContent;
   payload: {
     imageUrl: string;
@@ -36,7 +42,7 @@ export type MediaContentStepType = BaseStepProperties & {
       authorName: string;
     };
   };
-};
+}
 
 export type Answer = {
   label: string;
@@ -44,7 +50,7 @@ export type Answer = {
   icon?: string;
 };
 
-export type QuestionStepType = BaseStepProperties & {
+export interface QuestionStepType extends BaseStepProperties {
   type: typeof Question;
   payload: {
     answers: Answer[];
@@ -56,7 +62,7 @@ export type QuestionStepType = BaseStepProperties & {
       content: string;
     };
   };
-};
+}
 
 export enum PickerType {
   Height = "height",
@@ -67,29 +73,46 @@ export enum PickerType {
   Name = "name",
 }
 
-export type PickerStepType = BaseStepProperties & {
+export interface PickerStepType extends BaseStepProperties {
   type: typeof Picker;
   payload: {
     title: string;
     description?: string;
     pickerType: PickerType;
   };
-};
+}
 
-export type CustomScreenStepType = BaseStepProperties & {
+export interface CustomScreenStepType extends BaseStepProperties {
   type: typeof CustomScreen;
   payload: {
     customScreenId: string;
     type: string;
     content: object;
   };
-};
+}
+
+export interface CarouselStepType extends BaseStepProperties {
+  type: typeof Carousel;
+  payload: {
+    screens: Array<{ mediaUrl: string; title: string; subtitle: string }>;
+  };
+}
+
+export interface ReminderStepType extends BaseStepProperties {
+  type: typeof Reminder;
+  payload: {
+    title: string;
+    subtitle: string;
+  };
+}
 
 export type OnboardingStep =
   | MediaContentStepType
   | QuestionStepType
   | PickerStepType
-  | CustomScreenStepType;
+  | CustomScreenStepType
+  | CarouselStepType
+  | ReminderStepType;
 
 export const getInitialStepPayload = <T extends OnboardingStep>(
   type: T["type"]
@@ -113,6 +136,23 @@ export const getInitialStepPayload = <T extends OnboardingStep>(
       title: "What is your height?",
       description: "",
       pickerType: PickerType.Height,
+    };
+  }
+  if (type === Carousel) {
+    return {
+      screens: [
+        {
+          mediaUrl: "https://api-ninjas.com/images/cats/abyssinian.jpg",
+          title: "Écran 1",
+          subtitle: "Sous titre 1",
+        },
+        {
+          mediaUrl:
+            "https://f360-cdn.rocapine.io/rive/Onboarding%20-%20Storytelling%20Part1.riv",
+          title: "Écran 2",
+          subtitle: "Sous titre 2",
+        },
+      ],
     };
   }
   return {} as T["payload"];

@@ -1,5 +1,5 @@
 import { YStack, Text, Image, XStack, Stack, View } from "tamagui";
-import { MediaContentStepType } from "../../contexts/step.type";
+import { MediaContentStepType } from "../step.type";
 import { useIPhoneContext } from "../../contexts/iphone-context";
 import { Button } from "../../components/Lib/Button";
 import LottieView from "lottie-react-native";
@@ -14,7 +14,7 @@ export const MediaContentStep = ({ step }: ContentProps) => {
   const { bottom } = useSafeAreaInsets();
   const { height } = Dimensions.get("window");
   let imageHeight = height - 320 - bottom;
-  if (!question.image) {
+  if (!question.imageUrl) {
     imageHeight += 60;
   }
 
@@ -59,7 +59,7 @@ export const MediaContentStep = ({ step }: ContentProps) => {
         elevation={5}
       >
         <YStack gap={"$3.5"} marginHorizontal="$4">
-          {question.icon && (
+          {/* {question.icon && (
             <Image
               source={{ uri: question.icon }}
               width={60}
@@ -67,7 +67,7 @@ export const MediaContentStep = ({ step }: ContentProps) => {
               alignSelf="center"
               resizeMode="cover"
             />
-          )}
+          )} */}
           <Stack>
             <Text
               fontSize={"$9"}
@@ -93,7 +93,7 @@ export const MediaContentStep = ({ step }: ContentProps) => {
           </Text>
         </Stack>
         <Stack>
-          <Button goNext={goNext} text={question.buttonText ? question.buttonText : "Next"} />
+          <Button goNext={goNext} text={"Next"} />
         </Stack>
       </YStack>
     </YStack>

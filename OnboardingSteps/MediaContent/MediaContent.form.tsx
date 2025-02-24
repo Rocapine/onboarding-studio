@@ -1,5 +1,5 @@
 import { Heading, Input, Label, TextArea, YStack } from "tamagui"
-import { MediaContentStepType } from "../../contexts/step.type"
+import { MediaContentStepType } from "../step.type"
 import { useState } from "react";
 
 type StepPayload = MediaContentStepType['payload']
@@ -21,7 +21,12 @@ export const MediaContentEditor = ({ updateStep, step }: { updateStep: (step: Me
       ? NonNullable<StepPayload[Field]>[SubField]
       : NonNullable<StepPayload[Field]>
   ) => {
-    const updatedFormData = { ...formData, [field]: subField ? { ...formData[field], [subField]: value } : value };
+    let newValue = value
+    if (subField) {
+      // @ts-ignore
+      newValue = { ...(formData[field] as object), [subField]: value }
+    }
+    const updatedFormData = { ...formData, [field]: newValue };
     setFormData(updatedFormData);
     updateStep({ ...step, payload: updatedFormData });
   };

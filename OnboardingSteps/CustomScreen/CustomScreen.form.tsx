@@ -1,5 +1,5 @@
 import { Heading, Input, Label, TextArea, YStack } from "tamagui"
-import { CustomScreenStepType } from "../../contexts/step.type"
+import { CustomScreenStepType } from "../step.type"
 import { useState } from "react";
 
 type StepPayload = CustomScreenStepType['payload']
@@ -19,7 +19,7 @@ export const CustomScreenEditor = ({ updateStep, step }: { updateStep: (step: Cu
       ? NonNullable<StepPayload[Field]>[SubField]
       : NonNullable<StepPayload[Field]>
   ) => {
-    const updatedFormData = { ...formData, [field]: subField ? { ...formData[field], [subField]: value } : value };
+    const updatedFormData = { ...formData, [field]: value };
     setFormData(updatedFormData);
     updateStep({ ...step, payload: updatedFormData });
   };

@@ -1,14 +1,16 @@
 import { Button, Checkbox, Heading, Input, Label, Stack, TextArea, XStack, YStack } from "tamagui"
-import { Answer, QuestionStepType } from "../../contexts/step.type"
+import { Answer, QuestionStepType } from "../step.type"
 import React, { useState } from "react";
 import { Wand2, Check as CheckIcon } from "@tamagui/lucide-icons";
 
-type StepPayload = QuestionStepType['payload']
+type StepType = QuestionStepType
+type StepPayload = StepType['payload']
 
-export const QuestionEditor = ({ updateStep, step }: { updateStep: (step: QuestionStepType) => void, step: QuestionStepType }) => {
+export const QuestionEditor = ({ updateStep, step }: { updateStep: (step: StepType) => void, step: StepType }) => {
   const [formData, setFormData] = useState<StepPayload>({
     answers: step.payload.answers ?? [],
     title: step.payload.title ?? '',
+    subtitle: step.payload.subtitle ?? '',
     multipleAnswer: step.payload.multipleAnswer ?? true,
     infoBox: step.payload.infoBox ?? {
       title: "",
@@ -21,8 +23,12 @@ export const QuestionEditor = ({ updateStep, step }: { updateStep: (step: Questi
       ? NonNullable<StepPayload[Field]>[SubField]
       : NonNullable<StepPayload[Field]>
   ) => {
-    const updatedFormData = { ...formData, [field]: subField ? { ...formData[field], [subField]: value } : value };
-    setFormData(updatedFormData);
+    let newValue = value
+    if (subField) {
+      // @ts-ignore
+      newValue = { ...(formData[field]), [subField]: value }
+    }
+    const updatedFormData = { ...formData, [field]: newValue }; setFormData(updatedFormData);
     updateStep({ ...step, payload: updatedFormData });
   };
 

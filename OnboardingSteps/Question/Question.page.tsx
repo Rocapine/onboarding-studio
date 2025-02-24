@@ -1,5 +1,5 @@
 import { Heading, Stack, styled, YStack, Text, View, Progress, XStack } from "tamagui"
-import { QuestionStepType } from "../../contexts/step.type"
+import { QuestionStepType } from "../step.type"
 import { useState } from "react";
 import { IPhoneSafeArea } from "../../components/StepsRenderer/SafeArea";
 import { Button } from "../../components/Lib/Button";

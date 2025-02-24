@@ -4,12 +4,14 @@ import { Checkbox, Heading, Label, TextArea, XStack, YStack } from "tamagui";
 import { Check as CheckIcon } from '@tamagui/lucide-icons'
 import React from "react";
 import { SelectType } from "../components/SelectType";
-import { getInitialStepPayload, OnboardingStep, StepType, STEP_TYPES } from "../contexts/step.type";
+import { getInitialStepPayload, OnboardingStep, StepType, STEP_TYPES } from "../OnboardingSteps/step.type";
 import { MediaContentEditor } from "../OnboardingSteps/MediaContent/MediaContent.form";
 import { NativeSyntheticEvent, TextInputChangeEventData } from "react-native";
 import { QuestionEditor } from "../OnboardingSteps/Question/Question.form";
 import { CustomScreenEditor } from "../OnboardingSteps/CustomScreen/CustomScreen.form";
 import { PickerEditor } from "../OnboardingSteps/Picker/Picker.form";
+import { CarouselEditor } from "../OnboardingSteps/Carousel/Carousel.form";
+import { ReminderEditor } from "../OnboardingSteps/Reminder/Reminder.form";
 
 
 export default function EditPageForm() {
@@ -40,6 +42,8 @@ export default function EditPageForm() {
       case STEP_TYPES.Question: return <QuestionEditor key={selectedStep.id} updateStep={updateStep} step={selectedStep} />
       case STEP_TYPES.CustomScreen: return <CustomScreenEditor key={selectedStep.id} updateStep={updateStep} step={selectedStep} />
       case STEP_TYPES.Picker: return <PickerEditor key={selectedStep.id} updateStep={updateStep} step={selectedStep} />
+      case STEP_TYPES.Carousel: return <CarouselEditor key={selectedStep.id} updateStep={updateStep} step={selectedStep} />
+      case STEP_TYPES.Reminder: return <ReminderEditor key={selectedStep.id} updateStep={updateStep} step={selectedStep} />
       default: return null
     }
   }, [selectedStep])

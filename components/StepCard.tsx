@@ -3,7 +3,7 @@ import type { FC } from 'react'
 import { useRef } from 'react'
 import { useDrag, useDrop } from 'react-dnd'
 import { Text, Card, RadioGroup, XStack, Stack } from 'tamagui'
-import { OnboardingStep } from '../contexts/step.type'
+import { OnboardingStep } from '../OnboardingSteps/step.type'
 import { Trash2 } from '@tamagui/lucide-icons'
 import { Pressable } from 'react-native'
 

@@ -1,8 +1,12 @@
 import { createContext, useContext, useState, ReactNode, useEffect } from 'react';
-import { OnboardingStep, STEP_TYPES } from './step.type';
+import { OnboardingStep, STEP_TYPES } from '../OnboardingSteps/step.type';
 import { exportSteps } from './export.utils';
 import { v4 as uuidv4 } from 'uuid'
 
+type Variable = {
+  name: string;
+  value: string;
+}
 
 type StepsContextType = {
   steps: OnboardingStep[];
@@ -13,6 +17,8 @@ type StepsContextType = {
   setSelectedStep: (step: OnboardingStep) => void;
   deleteStep: (id: OnboardingStep['id']) => void;
   getJsonSteps: () => string;
+  variables: Variable[];
+  setVariables: (variables: Variable[]) => void;
 };
 
 const StepsContext = createContext<StepsContextType | undefined>(undefined);
@@ -61,9 +67,22 @@ export const StepsProvider = ({ children }: { children: ReactNode }) => {
     return exportSteps(steps);
   }
 
+
+  const localStorageVariableKey = projectKey ? `${projectKey}-variables` : 'noproject-variable';
+  const [variables, setVariables] = useState<Variable[]>(() => {
+    const storedVariables = localStorage.getItem(localStorageVariableKey);
+    return storedVariables ? JSON.parse(storedVariables) : [];
+  });
+
+  useEffect(() => {
+    const variablesString = JSON.stringify(variables);
+    localStorage.setItem(localStorageVariableKey, variablesString);
+  }, [variables]);
+
+
   return (
     <StepsContext.Provider
-      value={{ steps, addStep, setStep, setSteps, selectedStep, setSelectedStep, deleteStep, getJsonSteps }}
+      value={{ steps, addStep, setStep, setSteps, selectedStep, setSelectedStep, deleteStep, getJsonSteps, variables, setVariables }}
     >
       {children}
     </StepsContext.Provider>
