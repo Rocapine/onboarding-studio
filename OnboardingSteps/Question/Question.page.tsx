@@ -1,4 +1,4 @@
-import { Heading, Stack, styled, YStack, Text, View, Progress, XStack } from "tamagui"
+import { Heading, Stack, styled, YStack, Text, View, Progress, XStack, SelectIcon, Paragraph } from "tamagui"
 import { QuestionStepType } from "../step.type"
 import { useState } from "react";
 import { IPhoneSafeArea } from "../../components/StepsRenderer/SafeArea";
@@ -66,13 +66,34 @@ export const QuestionPage = ({ step }: { step: QuestionStepType }) => {
                 onPress={() => toggleSelected(answer.value)}
                 isSelected={!!selected[answer.value]}
               >
-                <ButtonText
-                  isSelected={!!selected[answer.value]}
-                  fontSize="$5"
-                  paddingHorizontal="$2.5"
+                <XStack
+                  flex={1}
+                  flexDirection="row"
+                  gap={"$2"}
+                  justifyContent="space-between"
+                  alignItems="center"
                 >
-                  {answer.label}
-                </ButtonText>
+                  <YStack flex={1} gap={8}>
+                    <XStack flex={1}>
+                      <ButtonText isSelected={!!selected[answer.value]}>
+                        {answer.label}
+                      </ButtonText>
+                    </XStack>
+                    {answer.description && (
+                      <XStack>
+                        <Text
+                          color={"$lightGrey"}
+                          numberOfLines={1}
+                          fontSize={14}
+                        >
+                          {answer.description}
+                        </Text>
+                      </XStack>
+                    )}
+                  </YStack>
+                  {Boolean(selected[answer.value]) && <Paragraph>✓</Paragraph>}
+                </XStack>
+
               </ButtonFrame>
             ))}
           </YStack>
@@ -119,6 +140,7 @@ const ButtonFrame = styled(View, {
   borderRadius: 30,
   width: "100%",
   borderColor: "$bakgroundPress",
+  borderWidth: 1,
   pressStyle: {
     backgroundColor: '$backgroundPress',
   },

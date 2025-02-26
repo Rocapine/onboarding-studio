@@ -114,6 +114,12 @@ const AnswerEditor = ({ answers, onUpdate }: { answers: Answer[], onUpdate: (ans
           <Stack onPress={() => handleGenerateValue(answerIndex)}>
             <Wand2 />
           </Stack>
+          <Input
+            flex={1}
+            placeholder="Description"
+            defaultValue={answer.description}
+            onChangeText={(text) => handleInputChange(answerIndex, 'description', text)}
+          />
         </XStack>
       ))}
       <Button onPress={() => handleAddAnswer()}>Add Answer</Button>

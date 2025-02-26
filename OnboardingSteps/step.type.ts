@@ -48,6 +48,7 @@ export type Answer = {
   label: string;
   value: string;
   icon?: string;
+  description?: string;
 };
 
 export interface QuestionStepType extends BaseStepProperties {
