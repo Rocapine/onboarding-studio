@@ -1,7 +1,7 @@
 import { Button, Checkbox, Heading, Input, Label, Stack, TextArea, XStack, YStack } from "tamagui"
 import { Answer, QuestionStepType } from "../step.type"
 import React, { useState } from "react";
-import { Wand2, Check as CheckIcon } from "@tamagui/lucide-icons";
+import { Wand2, Check as CheckIcon, Trash2 } from "@tamagui/lucide-icons";
 
 type StepType = QuestionStepType
 type StepPayload = StepType['payload']
@@ -89,6 +89,11 @@ const AnswerEditor = ({ answers, onUpdate }: { answers: Answer[], onUpdate: (ans
     onUpdate(answers);
   }
 
+  const handleRemoveAnswer = (answerIndex: number) => {
+    answers.splice(answerIndex, 1);
+    onUpdate(answers);
+  }
+
   const handleGenerateValue = (answerIndex: number) => {
     const label = answers[answerIndex].label;
     const generatedValue = generateValueFromLabel(label);
@@ -120,6 +125,7 @@ const AnswerEditor = ({ answers, onUpdate }: { answers: Answer[], onUpdate: (ans
             defaultValue={answer.description}
             onChangeText={(text) => handleInputChange(answerIndex, 'description', text)}
           />
+          <Button onPress={() => handleRemoveAnswer(answerIndex)}><Trash2 strokeWidth={1} /></Button>
         </XStack>
       ))}
       <Button onPress={() => handleAddAnswer()}>Add Answer</Button>
