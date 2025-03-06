@@ -37,6 +37,13 @@ export const QuestionPage = ({ step }: { step: QuestionStepType }) => {
     });
   };
 
+  console.log("step.payload.subtitle", typeof step.payload.subtitle, step.payload.subtitle?.length)
+
+
+  const subtitle = (step.payload.subtitle && step.payload.subtitle.length > 0 && <Heading fontSize="$5" fontWeight={400}>
+    {step.payload.subtitle}
+  </Heading>)
+  console.log(subtitle)
 
   return (
     <IPhoneSafeArea>
@@ -51,12 +58,12 @@ export const QuestionPage = ({ step }: { step: QuestionStepType }) => {
         width={"100%"}
       >
         {step.displayProgressHeader && <ProgressBar />}
-        {step.payload.title && <Heading fontSize="$8" fontWeight={700}>
+        {step.payload.title ? <Heading fontSize="$8" fontWeight={700}>
           {step.payload.title}
-        </Heading>}
-        {step.payload.subtitle && <Heading fontSize="$5" fontWeight={400}>
+        </Heading> : null}
+        {step.payload.subtitle ? <Heading fontSize="$5" fontWeight={400}>
           {step.payload.subtitle}
-        </Heading>}
+        </Heading> : null}
         <InfoBox infoBox={step.payload.infoBox} />
         <YStack width={"100%"} flex={1} justifyContent="space-evenly">
           <YStack gap="$3">
