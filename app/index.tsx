@@ -8,6 +8,7 @@ import { useColorScheme } from "react-native";
 import { StepsProvider } from "../contexts/steps-context";
 import { Toast, ToastProvider, ToastViewport, useToastState } from "@tamagui/toast";
 import { YStack } from "tamagui";
+import { Provider } from "@/Provider";
 
 const Layout = () => {
   return (
@@ -47,17 +48,8 @@ const CurrentToast = () => {
 }
 
 export default function App() {
-  const theme = "dark_green" // 'light' or 'dark'
   return (
-    <TamaguiProvider config={tamaguiConfig} >
-      <StepsProvider>
-        <Theme name={theme} >
-          <ToastProvider>
-            <Layout />
-          </ToastProvider>
-        </Theme>
-      </StepsProvider>
-    </TamaguiProvider>
+    <Layout />
   );
 }
 
