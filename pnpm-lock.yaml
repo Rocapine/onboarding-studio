@@ -47,6 +47,9 @@ importers:
       '@tamagui/toast':
         specifier: ^1.125.26
         version: 1.125.26(react-dom@18.3.1(react@18.3.1))(react-native@0.76.7(@babel/core@7.26.9)(@babel/preset-env@7.26.9(@babel/core@7.26.9))(@types/react@18.3.18)(react@18.3.1))(react@18.3.1)
+      '@tanstack/react-query':
+        specifier: ^5.69.0
+        version: 5.69.0(react@18.3.1)
       babel-preset-expo:
         specifier: ^12.0.9
         version: 12.0.9(@babel/core@7.26.9)(@babel/preset-env@7.26.9(@babel/core@7.26.9))
@@ -2197,6 +2200,14 @@ packages:
 
   '@tamagui/z-index-stack@1.125.26':
     resolution: {integrity: sha512-VH592cbfvMKn/f8c3q1JWrZ7BD/w3QSxu4RA5nqbHRxG0CcSiou8Vva8P8vBume1NManXz25LFzur4Xwh2nJ4Q==}
+
+  '@tanstack/query-core@5.69.0':
+    resolution: {integrity: sha512-Kn410jq6vs1P8Nm+ZsRj9H+U3C0kjuEkYLxbiCyn3MDEiYor1j2DGVULqAz62SLZtUZ/e9Xt6xMXiJ3NJ65WyQ==}
+
+  '@tanstack/react-query@5.69.0':
+    resolution: {integrity: sha512-Ift3IUNQqTcaFa1AiIQ7WCb/PPy8aexZdq9pZWLXhfLcLxH0+PZqJ2xFImxCpdDZrFRZhLJrh76geevS5xjRhA==}
+    peerDependencies:
+      react: ^18 || ^19
 
   '@types/babel__core@7.20.5':
     resolution: {integrity: sha512-qoQprZvz5wQFJwMDqeseRXWv3rqMvhgpbXFfVyWhbx9X47POIA6i/+dXefEmZKoAgOaTdaIgNSMqMIU61yRyzA==}
@@ -8385,6 +8396,13 @@ snapshots:
       react-dom: 18.3.1(react@18.3.1)
 
   '@tamagui/z-index-stack@1.125.26': {}
+
+  '@tanstack/query-core@5.69.0': {}
+
+  '@tanstack/react-query@5.69.0(react@18.3.1)':
+    dependencies:
+      '@tanstack/query-core': 5.69.0
+      react: 18.3.1
 
   '@types/babel__core@7.20.5':
     dependencies:

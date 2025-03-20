@@ -1,11 +1,15 @@
+import "@expo/metro-runtime";
 import { View } from '@tamagui/core';
 import { Toast, ToastViewport, useToastState } from "@tamagui/toast";
 import { YStack } from "tamagui";
-import EditPageForm from '../layout/EditPageForm';
-import MobileScreenPreview from "../layout/MobileScreenPreview";
-import StepsList from '../layout/StepsList';
+import EditPageForm from '@/layout/EditPageForm';
+import MobileScreenPreview from "@/layout/MobileScreenPreview";
+import StepsList from '@/layout/StepsList';
+import { useLocalSearchParams } from "expo-router/build/hooks";
 
 const Layout = () => {
+  const { projectId } = useLocalSearchParams<{ projectId: string }>();
+  console.log('projectId', projectId)
   return (
     <View backgroundColor={"$background"} flex={1} flexDirection="row">
       <ToastViewport />
