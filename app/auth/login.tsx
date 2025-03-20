@@ -3,6 +3,7 @@ import { createClient, Session } from '@supabase/supabase-js'
 import { Auth } from '@supabase/auth-ui-react'
 import { ThemeSupa } from '@supabase/auth-ui-shared'
 import { supabase } from '@/supabase.client'
+import { Stack } from 'tamagui'
 
 
 export default function Login() {
@@ -23,7 +24,10 @@ export default function Login() {
   }, [])
 
   if (!session) {
-    return (<Auth supabaseClient={supabase} appearance={{ theme: ThemeSupa }} />)
+    return (
+      <Stack flex={1} backgroundColor={"$background"} justifyContent="center" alignItems="center">
+        <Auth supabaseClient={supabase} appearance={{ theme: ThemeSupa }} />
+      </Stack>)
   }
   else {
     return (<div>Logged in!</div>)
