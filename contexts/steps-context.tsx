@@ -122,7 +122,27 @@ export const ProjectStepsProvider = ({ children, projectId }: { children: ReactN
     }
   })
 
-  const steps = data || [];
+  useEffect(() => {
+    const updateSubscription = supabase
+      .channel("projects")
+      .on(
+        "postgres_changes",
+        { event: "UPDATE", schema: "public", table: "projects", filter: `id=eq.${projectId}` },
+        (payload) => {
+          console.log("Project steps updated:", payload);
+          refetch();
+        }
+      )
+      .subscribe();
+
+    return () => {
+      console.log("Unsubscribing from todos channel");
+      void updateSubscription.unsubscribe();
+    };
+  }, []);
+
+
+  const steps = data || [skeletonStep];
 
 
   type callbackType = (prevState: OnboardingStep[]) => OnboardingStep[];
