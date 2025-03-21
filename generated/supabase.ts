@@ -15,18 +15,21 @@ export type Database = {
           created_by: string
           id: string
           name: string
+          steps: Json | null
         }
         Insert: {
           created_at?: string
           created_by: string
           id?: string
           name: string
+          steps?: Json | null
         }
         Update: {
           created_at?: string
           created_by?: string
           id?: string
           name?: string
+          steps?: Json | null
         }
         Relationships: []
       }

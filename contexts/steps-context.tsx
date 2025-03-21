@@ -2,6 +2,8 @@ import { createContext, useContext, useState, ReactNode, useEffect } from 'react
 import { OnboardingStep, STEP_TYPES } from '../OnboardingSteps/step.type';
 import { exportSteps } from '@/utils/export.utils';
 import { v4 as uuidv4 } from 'uuid'
+import { supabase } from '@/supabase.client';
+import { useQuery } from '@tanstack/react-query';
 
 type Variable = {
   name: string;
@@ -88,6 +90,92 @@ export const OfflineStepsProvider = ({ children }: { children: ReactNode }) => {
     </StepsContext.Provider>
   );
 };
+
+export const ProjectStepsProvider = ({ children, projectId }: { children: ReactNode, projectId: string }) => {
+  console.log('ProjectStepsProvider', projectId);
+
+  const { data } = useQuery({
+    queryKey: ['project-steps', projectId],
+    queryFn: async () => {
+      const response = await supabase.
+        from('projects')
+        .select('steps')
+        .eq('id', projectId)
+        .single();
+      if (response.error) {
+        throw new Error('Failed to fetch project steps');
+      }
+      return response.data.steps;
+    }
+  })
+
+  console.log('ProjectStepsProvider data', data);
+
+
+  const urlParams = new URLSearchParams(window.location.search);
+  const projectKey = urlParams.get('project');
+
+  useEffect(() => {
+    if (!projectKey) {
+      window.location.search = '?project=default';
+    }
+  }, [projectKey]);
+
+  const localStorageKey = projectKey || 'steps';
+  const [steps, setSteps] = useState<OnboardingStep[]>(() => {
+    const storedSteps = localStorage.getItem(localStorageKey);
+    return storedSteps ? JSON.parse(storedSteps) : initialSteps;
+  });
+  const [selectedStep, setSelectedStep] = useState<OnboardingStep>(steps[0]);
+
+  useEffect(() => {
+    const jsonSteps = exportSteps(steps);
+    localStorage.setItem(localStorageKey, jsonSteps); // Store JSON in local storage whenever steps change
+  }, [steps]);
+
+
+  const addStep = (step: OnboardingStep) => {
+    setSteps((prevSteps) => [...prevSteps, step]);
+  };
+
+  const setStep = (id: OnboardingStep['id'], updatedStep: OnboardingStep) => {
+    setSteps((prevSteps) =>
+      prevSteps.map((step) => (step.id === id ? updatedStep : step))
+    );
+    if (id === selectedStep?.id) {
+      setSelectedStep(updatedStep);
+    }
+  };
+
+  const deleteStep = (id: OnboardingStep['id']) => {
+    setSteps((prevSteps) => prevSteps.filter((step) => step.id !== id));
+  };
+
+  const getJsonSteps = () => {
+    return exportSteps(steps);
+  }
+
+
+  const localStorageVariableKey = projectKey ? `${projectKey}-variables` : 'noproject-variable';
+  const [variables, setVariables] = useState<Variable[]>(() => {
+    const storedVariables = localStorage.getItem(localStorageVariableKey);
+    return storedVariables ? JSON.parse(storedVariables) : [];
+  });
+
+  useEffect(() => {
+    const variablesString = JSON.stringify(variables);
+    localStorage.setItem(localStorageVariableKey, variablesString);
+  }, [variables]);
+
+
+  return (
+    <StepsContext.Provider
+      value={{ steps, addStep, setStep, setSteps, selectedStep, setSelectedStep, deleteStep, getJsonSteps, variables, setVariables }}
+    >
+      {children}
+    </StepsContext.Provider>
+  );
+}
 
 export const useSteps = () => {
   const context = useContext(StepsContext);
