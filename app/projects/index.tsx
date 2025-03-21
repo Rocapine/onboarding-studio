@@ -1,6 +1,7 @@
 import { useProjects } from "@/hooks/useProjects";
 import { Stack, ListItem, Button, ScrollView, H1, Dialog } from "tamagui";
 import { useState } from "react";
+import { format } from "date-fns";
 import NewProjectDialog from "@/components/Lib/NewProjectDialog";
 
 export default function Projects() {
@@ -19,7 +20,7 @@ export default function Projects() {
         <ScrollView>
 
           {projects?.map((project) => (
-            <ListItem key={project.id} title={project.name} subTitle={`ID: ${project.id}`}>
+            <ListItem key={project.id} title={project.name} subTitle={`${format(new Date(project.created_at), 'yyyy-MM-d, h:mm a')}`}>
               <Button
                 size="$2"
                 color="$red10"

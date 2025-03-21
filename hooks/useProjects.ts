@@ -15,7 +15,12 @@ export const useProjects = () => {
   const { data: projects, refetch } = useQuery({
     queryKey: [ProjectQueryKey],
     queryFn: async () => {
-      const { data, error } = await supabase.from("projects").select("*");
+      const { data, error } = await supabase
+        .from("projects")
+        .select("*")
+        .order("created_at", {
+          ascending: false,
+        });
       if (error) {
         throw new Error("Network response was not ok", error);
       }
@@ -88,8 +93,8 @@ export const useProjects = () => {
         created_at: new Date().toISOString(),
       } satisfies Project;
       queryClient.setQueryData<Project[]>([ProjectQueryKey], (oldProjects) => [
-        ...(oldProjects || []),
         newProject,
+        ...(oldProjects || []),
       ]);
       return { previousProjects };
     },
