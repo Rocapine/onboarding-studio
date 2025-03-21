@@ -1,6 +1,6 @@
 import update from 'immutability-helper'
 import type { FC } from 'react'
-import { useCallback } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 
 import { StepCard } from '../components/StepCard'
 import { DndProvider } from 'react-dnd'
@@ -14,38 +14,63 @@ import React from 'react'
 import { ImportSheet } from './ImportSheet'
 import { VariableSheet } from './VariableSheet'
 
+const DraggableStepList = ({ steps, handleAddStep, deleteStep, setSteps }: { steps: OnboardingStep[], handleAddStep: () => void, deleteStep: (id: OnboardingStep["id"]) => void, setSteps: (steps: OnboardingStep[]) => void }) => {
 
+  const [localSteps, setLocalSteps] = useState<OnboardingStep[]>(steps);
+
+  useEffect(() => {
+    setLocalSteps(steps);
+  }, [steps]);
+
+  const onDrop = useCallback(() => {
+    setLocalSteps((prevCards: OnboardingStep[]) => {
+      setSteps(prevCards);
+      return prevCards;
+    })
+
+
+  }, [localSteps, setSteps]);
+
+  const moveCard = useCallback((dragIndex: number, hoverIndex: number, ...args: any) => {
+    setLocalSteps((prevCards: OnboardingStep[]) =>
+      update(prevCards, {
+        $splice: [
+          [dragIndex, 1],
+          [hoverIndex, 0, prevCards[dragIndex] as OnboardingStep],
+        ],
+      }),
+    )
+  }, [])
+
+  const renderCard = useCallback(
+    (step: OnboardingStep, index: number) => {
+      return (
+        <StepCard
+          key={step.id}
+          index={index}
+          id={step.id}
+          stepProperties={step}
+          moveCard={moveCard}
+          onDelete={() => deleteStep(step.id)}
+          onDrop={onDrop}
+        />
+      )
+    },
+    [],
+  )
+
+  return (
+    <>
+      <View width={"100%"}>{localSteps.map((card, i) => renderCard(card, i))}</View>
+      <Button variant="outlined" onPress={handleAddStep}>Add Step</Button>
+    </>
+  )
+}
 
 const StepList: FC = () => {
   {
     const { steps, setSteps, setSelectedStep, addStep, selectedStep, deleteStep, getJsonSteps } = useSteps();
 
-    const moveCard = useCallback((dragIndex: number, hoverIndex: number) => {
-      setSteps((prevCards: OnboardingStep[]) =>
-        update(prevCards, {
-          $splice: [
-            [dragIndex, 1],
-            [hoverIndex, 0, prevCards[dragIndex] as OnboardingStep],
-          ],
-        }),
-      )
-    }, [])
-
-    const renderCard = useCallback(
-      (step: OnboardingStep, index: number) => {
-        return (
-          <StepCard
-            key={step.id}
-            index={index}
-            id={step.id}
-            stepProperties={step}
-            moveCard={moveCard}
-            onDelete={() => deleteStep(step.id)}
-          />
-        )
-      },
-      [],
-    )
 
     const handleRadioChange = (id: OnboardingStep['id']) => {
       const step = steps.find(step => step.id === id);
@@ -84,8 +109,7 @@ const StepList: FC = () => {
             <ScrollView width={"100%"}>
               <RadioGroup aria-labelledby="Select one item" name="form" value={selectedStep?.id} onValueChange={handleRadioChange}>
                 <DndProvider backend={HTML5Backend}>
-                  <View width={"100%"}>{steps.map((card, i) => renderCard(card, i))}</View>
-                  <Button variant="outlined" onPress={handleAddStep}>Add Step</Button>
+                  <DraggableStepList steps={steps} deleteStep={deleteStep} handleAddStep={handleAddStep} setSteps={setSteps} />
                 </DndProvider>
               </RadioGroup>
             </ScrollView>

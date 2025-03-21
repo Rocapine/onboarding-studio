@@ -16,6 +16,7 @@ export interface CardProps {
   index: number
   stepProperties: OnboardingStep
   moveCard: (dragIndex: number, hoverIndex: number) => void
+  onDrop: () => void
   onDelete: () => void
 }
 
@@ -25,7 +26,7 @@ interface DragItem {
   type: string
 }
 
-export const StepCard: FC<CardProps> = ({ id, index, stepProperties, moveCard, onDelete }) => {
+export const StepCard: FC<CardProps> = ({ id, index, stepProperties, moveCard, onDelete, onDrop }) => {
   const ref = useRef<HTMLDivElement>(null)
   const [{ handlerId }, drop] = useDrop<
     DragItem,
@@ -33,6 +34,9 @@ export const StepCard: FC<CardProps> = ({ id, index, stepProperties, moveCard, o
     { handlerId: Identifier | null }
   >({
     accept: ItemTypes.CARD,
+    drop(item: DragItem, monitor) {
+      onDrop()
+    },
     collect(monitor) {
       return {
         handlerId: monitor.getHandlerId(),

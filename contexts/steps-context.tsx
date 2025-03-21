@@ -105,7 +105,6 @@ export const OfflineStepsProvider = ({ children }: { children: ReactNode }) => {
 };
 
 export const ProjectStepsProvider = ({ children, projectId }: { children: ReactNode, projectId: string }) => {
-  console.log('ProjectStepsProvider', projectId);
 
   const { data, refetch } = useQuery({
     queryKey: ['project-steps', projectId],
@@ -143,7 +142,6 @@ export const ProjectStepsProvider = ({ children, projectId }: { children: ReactN
     }
   }, [])
 
-  console.log('ProjectStepsProvider data', steps);
 
   const [selectedStep, setSelectedStep] = useState<OnboardingStep>(steps[0] || skeletonStep);
 
