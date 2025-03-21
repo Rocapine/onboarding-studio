@@ -1,14 +1,27 @@
-import { createContext, useContext, useState, ReactNode, useEffect } from 'react';
+import { createContext, useContext, useState, ReactNode, useEffect, useCallback } from 'react';
 import { OnboardingStep, STEP_TYPES } from '../OnboardingSteps/step.type';
 import { exportSteps } from '@/utils/export.utils';
 import { v4 as uuidv4 } from 'uuid'
 import { supabase } from '@/supabase.client';
 import { useQuery } from '@tanstack/react-query';
+import { Json } from '@/generated/supabase';
 
 type Variable = {
   name: string;
   value: string;
 }
+
+const skeletonStep = {
+  id: "skeletinon",
+  type: STEP_TYPES.MediaContent,
+  name: 'Skeleton',
+  displayProgressHeader: true,
+  payload: {
+    imageUrl: 'https://api-ninjas.com/images/cats/abyssinian.jpg',
+    title: 'Hello',
+    description: 'World',
+  }
+} as OnboardingStep;
 
 type StepsContextType = {
   steps: OnboardingStep[];
@@ -94,7 +107,7 @@ export const OfflineStepsProvider = ({ children }: { children: ReactNode }) => {
 export const ProjectStepsProvider = ({ children, projectId }: { children: ReactNode, projectId: string }) => {
   console.log('ProjectStepsProvider', projectId);
 
-  const { data } = useQuery({
+  const { data, refetch } = useQuery({
     queryKey: ['project-steps', projectId],
     queryFn: async () => {
       const response = await supabase.
@@ -105,50 +118,50 @@ export const ProjectStepsProvider = ({ children, projectId }: { children: ReactN
       if (response.error) {
         throw new Error('Failed to fetch project steps');
       }
-      return response.data.steps;
+      const steps = response.data.steps as OnboardingStep[];
+      return steps;
     }
   })
 
-  console.log('ProjectStepsProvider data', data);
+  const steps = data || [];
 
 
-  const urlParams = new URLSearchParams(window.location.search);
-  const projectKey = urlParams.get('project');
-
-  useEffect(() => {
-    if (!projectKey) {
-      window.location.search = '?project=default';
+  type callbackType = (prevState: OnboardingStep[]) => OnboardingStep[];
+  const setSteps = useCallback(async (newStepsOrCallback: OnboardingStep[] | callbackType) => {
+    if (typeof newStepsOrCallback === 'function') {
+      const newSteps = newStepsOrCallback(steps);
+      setSteps(newSteps);
+      return;
     }
-  }, [projectKey]);
+    const jsonifiedSteps = JSON.parse(JSON.stringify(newStepsOrCallback));
+    const { error } = await supabase
+      .from('projects')
+      .update({ steps: jsonifiedSteps })
+      .eq('id', projectId);
+    if (error) {
+      throw new Error('Failed to update project steps');
+    }
+  }, [])
 
-  const localStorageKey = projectKey || 'steps';
-  const [steps, setSteps] = useState<OnboardingStep[]>(() => {
-    const storedSteps = localStorage.getItem(localStorageKey);
-    return storedSteps ? JSON.parse(storedSteps) : initialSteps;
-  });
-  const [selectedStep, setSelectedStep] = useState<OnboardingStep>(steps[0]);
+  console.log('ProjectStepsProvider data', steps);
 
-  useEffect(() => {
-    const jsonSteps = exportSteps(steps);
-    localStorage.setItem(localStorageKey, jsonSteps); // Store JSON in local storage whenever steps change
-  }, [steps]);
-
+  const [selectedStep, setSelectedStep] = useState<OnboardingStep>(steps[0] || skeletonStep);
 
   const addStep = (step: OnboardingStep) => {
-    setSteps((prevSteps) => [...prevSteps, step]);
+    setSteps([...steps, step]);
   };
 
   const setStep = (id: OnboardingStep['id'], updatedStep: OnboardingStep) => {
-    setSteps((prevSteps) =>
-      prevSteps.map((step) => (step.id === id ? updatedStep : step))
-    );
+    const newSteps = steps.map((step) => (step.id === id ? updatedStep : step));
+    setSteps(newSteps);
     if (id === selectedStep?.id) {
       setSelectedStep(updatedStep);
     }
   };
 
   const deleteStep = (id: OnboardingStep['id']) => {
-    setSteps((prevSteps) => prevSteps.filter((step) => step.id !== id));
+    const newSteps = steps.filter((step) => step.id !== id);
+    setSteps(newSteps);
   };
 
   const getJsonSteps = () => {
@@ -156,16 +169,8 @@ export const ProjectStepsProvider = ({ children, projectId }: { children: ReactN
   }
 
 
-  const localStorageVariableKey = projectKey ? `${projectKey}-variables` : 'noproject-variable';
-  const [variables, setVariables] = useState<Variable[]>(() => {
-    const storedVariables = localStorage.getItem(localStorageVariableKey);
-    return storedVariables ? JSON.parse(storedVariables) : [];
-  });
+  const [variables, setVariables] = useState<Variable[]>([]);
 
-  useEffect(() => {
-    const variablesString = JSON.stringify(variables);
-    localStorage.setItem(localStorageVariableKey, variablesString);
-  }, [variables]);
 
 
   return (
