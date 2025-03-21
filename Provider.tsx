@@ -1,5 +1,4 @@
 import { TamaguiProvider, Theme } from "tamagui";
-import { StepsProvider } from "./contexts/steps-context";
 import { ToastProvider } from "@tamagui/toast";
 import tamaguiConfig from "./tamagui.config";
 import { ReactNode } from "react";
@@ -14,13 +13,11 @@ export const Provider = ({ children }: { children: ReactNode }) => {
     <QueryClientProvider client={queryClient}>
 
       <TamaguiProvider config={tamaguiConfig} >
-        <StepsProvider>
-          <Theme name={theme} >
-            <ToastProvider>
-              {children}
-            </ToastProvider>
-          </Theme>
-        </StepsProvider>
+        <Theme name={theme} >
+          <ToastProvider>
+            {children}
+          </ToastProvider>
+        </Theme>
       </TamaguiProvider>
     </QueryClientProvider>
   );

@@ -23,7 +23,7 @@ type StepsContextType = {
 
 const StepsContext = createContext<StepsContextType | undefined>(undefined);
 
-export const StepsProvider = ({ children }: { children: ReactNode }) => {
+export const OfflineStepsProvider = ({ children }: { children: ReactNode }) => {
   const urlParams = new URLSearchParams(window.location.search);
   const projectKey = urlParams.get('project');
 

@@ -6,18 +6,21 @@ import EditPageForm from '@/layout/EditPageForm';
 import MobileScreenPreview from "@/layout/MobileScreenPreview";
 import StepsList from '@/layout/StepsList';
 import { useLocalSearchParams } from "expo-router/build/hooks";
+import { OfflineStepsProvider } from "@/contexts/steps-context";
 
 const Layout = () => {
   const { projectId } = useLocalSearchParams<{ projectId: string }>();
   console.log('projectId', projectId)
   return (
-    <View backgroundColor={"$background"} flex={1} flexDirection="row">
-      <ToastViewport />
-      <CurrentToast />
-      <StepsList />
-      <MobileScreenPreview />
-      <EditPageForm />
-    </View>
+    <OfflineStepsProvider>
+      <View backgroundColor={"$background"} flex={1} flexDirection="row">
+        <ToastViewport />
+        <CurrentToast />
+        <StepsList />
+        <MobileScreenPreview />
+        <EditPageForm />
+      </View>
+    </OfflineStepsProvider>
   );
 };
 const CurrentToast = () => {
