@@ -3,9 +3,15 @@ import { Stack, ListItem, Button, ScrollView, H1, Dialog } from "tamagui";
 import { useState } from "react";
 import { format } from "date-fns";
 import NewProjectDialog from "@/components/Lib/NewProjectDialog";
+import { useRouter } from "expo-router";
 
 export default function Projects() {
   const { projects, createNewProject, deleteProject } = useProjects();
+
+  const router = useRouter();
+  const onProjectPress = (projectId: string) => {
+    router.push(`/projects/${projectId}`);
+  };
 
   const [isModalVisible, setModalVisible] = useState(false);
 
@@ -20,7 +26,7 @@ export default function Projects() {
         <ScrollView>
 
           {projects?.map((project) => (
-            <ListItem key={project.id} title={project.name} subTitle={`${format(new Date(project.created_at), 'yyyy-MM-d, h:mm a')}`}>
+            <ListItem onPress={() => onProjectPress(project.id)} key={project.id} title={project.name} subTitle={`${format(new Date(project.created_at), 'yyyy-MM-d, h:mm a')}`}>
               <Button
                 size="$2"
                 color="$red10"

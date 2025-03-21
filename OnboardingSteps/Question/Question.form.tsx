@@ -2,6 +2,7 @@ import { Button, Checkbox, Heading, Input, Label, Stack, TextArea, XStack, YStac
 import { Answer, QuestionStepType } from "../step.type"
 import React, { useState } from "react";
 import { Wand2, Check as CheckIcon, Trash2 } from "@tamagui/lucide-icons";
+import { generateSlug } from "@/utils/string.utils";
 
 type StepType = QuestionStepType
 type StepPayload = StepType['payload']
@@ -96,7 +97,7 @@ const AnswerEditor = ({ answers, onUpdate }: { answers: Answer[], onUpdate: (ans
 
   const handleGenerateValue = (answerIndex: number) => {
     const label = answers[answerIndex].label;
-    const generatedValue = generateValueFromLabel(label);
+    const generatedValue = generateSlug(label);
     handleInputChange(answerIndex, 'value', generatedValue);
   };
 
@@ -133,16 +134,3 @@ const AnswerEditor = ({ answers, onUpdate }: { answers: Answer[], onUpdate: (ans
   )
 };
 
-const generateValueFromLabel = (label: string) => {
-  // Remove all non-alphanumeric characters except hyphens and convert to lowercase
-  if (typeof label !== 'string') {
-    return ''; // Handle non-string input gracefully
-  }
-
-  return label
-    .toLowerCase()
-    .replace(/[^\w\s-]/g, '') // Remove special characters except - and word chars
-    .replace(/\s+/g, '-') // Replace spaces with hyphens
-    .replace(/-+/g, '-') // Replace multiple hyphens with a single hyphen
-    .replace(/^-+|-+$/g, ''); // Remove leading/trailing hyphens};
-}
