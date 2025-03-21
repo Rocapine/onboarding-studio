@@ -24,13 +24,23 @@ export const useProjects = () => {
   });
 
   useEffect(() => {
-    const subscription = supabase
+    const insertSubscription = supabase
       .channel("projects")
       .on(
         "postgres_changes",
         { event: "INSERT", schema: "public", table: "projects" },
         (payload) => {
-          console.log("Change received!", payload);
+          refetch();
+        }
+      )
+      .subscribe();
+
+    const deleteSubscription = supabase
+      .channel("projects")
+      .on(
+        "postgres_changes",
+        { event: "DELETE", schema: "public", table: "projects" },
+        (payload) => {
           refetch();
         }
       )
@@ -39,7 +49,8 @@ export const useProjects = () => {
     console.log("Subscribed to todos channel");
     return () => {
       console.log("Unsubscribing from todos channel");
-      void subscription.unsubscribe();
+      void insertSubscription.unsubscribe();
+      void deleteSubscription.unsubscribe();
     };
   }, []);
 
@@ -59,7 +70,7 @@ export const useProjects = () => {
       }
       return data;
     },
-    onMutate: async () => {
+    onMutate: async (name: string) => {
       console.log("Creating new project...");
       const user = await supabase.auth.getUser();
       if (!user.data.user) {
@@ -72,7 +83,7 @@ export const useProjects = () => {
       ]);
       const newProject = {
         id: Date.now().toString(),
-        name: "New Project",
+        name: name,
         created_by: user.data.user?.id,
         created_at: new Date().toISOString(),
       } satisfies Project;
@@ -92,17 +103,46 @@ export const useProjects = () => {
     },
   });
 
-  const deleteProject = async (id: string) => {
-    const { data, error } = await supabase
-      .from("projects")
-      .delete()
-      .eq("id", id)
-      .select("*");
-    if (error) {
-      throw new Error("Network response was not ok", error);
-    }
-    return data;
-  };
+  const deleteProject = useMutation({
+    mutationFn: async (id: string) => {
+      const { data, error } = await supabase
+        .from("projects")
+        .delete()
+        .eq("id", id)
+        .select("*");
+      if (error) {
+        throw new Error("Network response was not ok", error);
+      }
+      return data;
+    },
+    onMutate: async (id: string) => {
+      console.log("Deleting project...", id);
+      const user = await supabase.auth.getUser();
+      if (!user.data.user) {
+        throw new Error("User not authenticated");
+      }
+      // Optimistically update the UI here if needed
+      await queryClient.cancelQueries({ queryKey: [ProjectQueryKey] });
+      const previousProjects = queryClient.getQueryData<Project[]>([
+        ProjectQueryKey,
+      ]);
+      const previousProjectWithoutDeletedProject = previousProjects?.filter(
+        (project) => project.id !== id
+      );
+      queryClient.setQueryData<Project[]>(
+        [ProjectQueryKey],
+        previousProjectWithoutDeletedProject
+      );
+      return { previousProjects };
+    },
+    onError: (err, projectId, context) => {
+      console.error("Error deleting new project:", err);
+      queryClient.setQueryData([ProjectQueryKey], context?.previousProjects);
+    },
+    onSettled: () => {
+      queryClient.invalidateQueries({ queryKey: [ProjectQueryKey] });
+    },
+  });
 
   return { projects, createNewProject, deleteProject };
 };
