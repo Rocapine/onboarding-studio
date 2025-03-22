@@ -106,7 +106,7 @@ const StepList: FC = () => {
       <YStack>
         <YStack flex={1} padding={"$4"} gap="$2">
           <View flex={1} alignItems="center" justifyContent="flex-start" >
-            <ScrollView width={"100%"}>
+            <ScrollView width={"100%"} scrollbarWidth={"none"}>
               <RadioGroup aria-labelledby="Select one item" name="form" value={selectedStep?.id} onValueChange={handleRadioChange}>
                 <DndProvider backend={HTML5Backend}>
                   <DraggableStepList steps={steps} deleteStep={deleteStep} handleAddStep={handleAddStep} setSteps={setSteps} />

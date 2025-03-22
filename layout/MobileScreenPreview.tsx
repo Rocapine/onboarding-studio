@@ -16,7 +16,7 @@ function MobileScreenPreview() {
   };
 
   return (
-    <YStack overflow="scroll" paddingHorizontal={"5vw"} alignItems="center" justifyContent="space-around" backgroundColor={"$accentBackground"}>
+    <YStack overflow="scroll" scrollbarWidth={"none"} paddingHorizontal={"5vw"} alignItems="center" justifyContent="space-around" backgroundColor={"$accentBackground"}>
       <SelectModel selectedModel={iphoneModel} handleModelChange={handleModelChange} />
       <Theme name="light">
         <IPhoneFrame model={iphoneModel} >
