@@ -3,7 +3,7 @@ import { isOnboardingStepArray, OnboardingStep, STEP_TYPES } from '../Onboarding
 import { exportSteps } from '@/utils/export.utils';
 import { v4 as uuidv4 } from 'uuid'
 import { supabase } from '@/supabase.client';
-import { useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery } from '@tanstack/react-query';
 import { Json } from '@/generated/supabase';
 
 type Variable = {
@@ -34,6 +34,7 @@ type StepsContextType = {
   getJsonSteps: () => string;
   variables: Variable[];
   setVariables: (variables: Variable[]) => void;
+  syncStepsStatus?: 'idle' | 'pending' | 'error' | 'success';
 };
 
 const StepsContext = createContext<StepsContextType | undefined>(undefined);
@@ -148,6 +149,19 @@ export const ProjectStepsProvider = ({ children, projectId }: { children: ReactN
 
   const steps = data || [skeletonStep];
 
+  const { mutate: syncSteps, status: syncStepsStatus } = useMutation({
+    mutationFn: async (newSteps: OnboardingStep[]) => {
+      const jsonifiedSteps = JSON.parse(JSON.stringify(newSteps));
+      const { error } = await supabase
+        .from('projects')
+        .update({ steps: jsonifiedSteps })
+        .eq('id', projectId);
+      if (error) {
+        throw new Error('Failed to update project steps');
+      }
+    },
+  })
+
 
   type callbackType = (prevState: OnboardingStep[]) => OnboardingStep[];
   const setSteps = useCallback(async (newStepsOrCallback: OnboardingStep[] | callbackType) => {
@@ -156,14 +170,7 @@ export const ProjectStepsProvider = ({ children, projectId }: { children: ReactN
       setSteps(newSteps);
       return;
     }
-    const jsonifiedSteps = JSON.parse(JSON.stringify(newStepsOrCallback));
-    const { error } = await supabase
-      .from('projects')
-      .update({ steps: jsonifiedSteps })
-      .eq('id', projectId);
-    if (error) {
-      throw new Error('Failed to update project steps');
-    }
+    syncSteps(newStepsOrCallback);
   }, [])
 
 
@@ -197,7 +204,7 @@ export const ProjectStepsProvider = ({ children, projectId }: { children: ReactN
 
   return (
     <StepsContext.Provider
-      value={{ steps, addStep, setStep, setSteps, selectedStep, setSelectedStep, deleteStep, getJsonSteps, variables, setVariables }}
+      value={{ steps, addStep, setStep, setSteps, selectedStep, setSelectedStep, deleteStep, getJsonSteps, variables, setVariables, syncStepsStatus }}
     >
       {children}
     </StepsContext.Provider>
