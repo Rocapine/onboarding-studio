@@ -51,9 +51,7 @@ export const useProjects = () => {
       )
       .subscribe();
 
-    console.log("Subscribed to todos channel");
     return () => {
-      console.log("Unsubscribing from todos channel");
       void insertSubscription.unsubscribe();
       void deleteSubscription.unsubscribe();
     };
@@ -76,7 +74,6 @@ export const useProjects = () => {
       return data;
     },
     onMutate: async (name: string) => {
-      console.log("Creating new project...");
       const user = await supabase.auth.getUser();
       if (!user.data.user) {
         throw new Error("User not authenticated");
@@ -121,7 +118,6 @@ export const useProjects = () => {
       return data;
     },
     onMutate: async (id: string) => {
-      console.log("Deleting project...", id);
       const user = await supabase.auth.getUser();
       if (!user.data.user) {
         throw new Error("User not authenticated");

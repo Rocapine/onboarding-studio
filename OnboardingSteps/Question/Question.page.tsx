@@ -37,13 +37,10 @@ export const QuestionPage = ({ step }: { step: QuestionStepType }) => {
     });
   };
 
-  console.log("step.payload.subtitle", typeof step.payload.subtitle, step.payload.subtitle?.length)
-
 
   const subtitle = (step.payload.subtitle && step.payload.subtitle.length > 0 && <Heading fontSize="$5" fontWeight={400}>
     {step.payload.subtitle}
   </Heading>)
-  console.log(subtitle)
 
   return (
     <IPhoneSafeArea>

@@ -12,7 +12,6 @@ export const VariableSheet = ({ open, setOpen }: { open: boolean, setOpen: (open
   const { variables, setVariables } = useSteps();
 
   const handleInputChange = (variableIndex: number, variable: Variable) => {
-    console.log(variable)
     setVariables(variables.map((v, index) => index === variableIndex ? variable : v))
   };
 
