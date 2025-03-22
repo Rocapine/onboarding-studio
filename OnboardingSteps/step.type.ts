@@ -115,6 +115,22 @@ export type OnboardingStep =
   | CarouselStepType
   | ReminderStepType;
 
+export const isOnboardingStep = (step: any): step is OnboardingStep => {
+  return (
+    step &&
+    typeof step.id === "string" &&
+    typeof step.type === "string" &&
+    typeof step.name === "string" &&
+    typeof step.displayProgressHeader === "boolean" &&
+    typeof step.payload === "object"
+  );
+};
+export const isOnboardingStepArray = (
+  steps: any
+): steps is OnboardingStep[] => {
+  return Array.isArray(steps) && steps.every(isOnboardingStep);
+};
+
 export const getInitialStepPayload = <T extends OnboardingStep>(
   type: T["type"]
 ): T["payload"] => {

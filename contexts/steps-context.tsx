@@ -1,5 +1,5 @@
 import { createContext, useContext, useState, ReactNode, useEffect, useCallback } from 'react';
-import { OnboardingStep, STEP_TYPES } from '../OnboardingSteps/step.type';
+import { isOnboardingStepArray, OnboardingStep, STEP_TYPES } from '../OnboardingSteps/step.type';
 import { exportSteps } from '@/utils/export.utils';
 import { v4 as uuidv4 } from 'uuid'
 import { supabase } from '@/supabase.client';
@@ -117,8 +117,12 @@ export const ProjectStepsProvider = ({ children, projectId }: { children: ReactN
       if (response.error) {
         throw new Error('Failed to fetch project steps');
       }
-      const steps = response.data.steps as OnboardingStep[];
-      return steps;
+      const steps = response.data.steps;
+      if (isOnboardingStepArray(steps)) {
+        return steps;
+      } else {
+        throw new Error('Steps are not in the expected format');
+      }
     }
   })
 
@@ -238,3 +242,4 @@ const initialSteps = [
     },
   },
 ] satisfies OnboardingStep[];
+
