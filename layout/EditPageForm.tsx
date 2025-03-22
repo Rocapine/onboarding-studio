@@ -1,6 +1,6 @@
 import { View } from "@tamagui/core";
 import { useSteps } from "../contexts/steps-context";
-import { Checkbox, Heading, Label, TextArea, XStack, YStack } from "tamagui";
+import { Checkbox, Heading, Input, Label, XStack, YStack } from "tamagui";
 import { Check as CheckIcon } from '@tamagui/lucide-icons'
 import React from "react";
 import { SelectType } from "../components/SelectType";
@@ -12,11 +12,12 @@ import { CustomScreenEditor } from "../OnboardingSteps/CustomScreen/CustomScreen
 import { PickerEditor } from "../OnboardingSteps/Picker/Picker.form";
 import { CarouselEditor } from "../OnboardingSteps/Carousel/Carousel.form";
 import { ReminderEditor } from "../OnboardingSteps/Reminder/Reminder.form";
+import { SyncStatus } from "@/components/SyncStatus";
 
 
 export default function EditPageForm() {
 
-  const { selectedStep, setStep } = useSteps();
+  const { selectedStep, setStep, syncStepsStatus } = useSteps();
 
   const setSelectedType = React.useCallback((type: StepType) => {
     if (selectedStep) {
@@ -48,17 +49,21 @@ export default function EditPageForm() {
     }
   }, [selectedStep])
 
+
   return (
     <View key={selectedStep.id} flex={1} alignItems="center" justifyContent="flex-start">
       {selectedStep ? (
-        <YStack flex={1} width={"100%"} gap="$2" padding={"$4"} overflow="scroll" scrollbarWidth={"none"} >
-          <TextArea
-            value={selectedStep.name}
-            onChange={handleNameChange}
-            placeholder="Enter step name"
-            lineHeight={1.2 * 24}
-            style={{ minHeight: 48, height: 48, fontSize: 24, fontWeight: 'bold', borderColor: 'transparent', borderRadius: 0, borderWidth: 0, padding: 0, backgroundColor: 'transparent' }} // Apply heading styles
-          />
+        <YStack flex={1} width={"100%"} gap="$2" padding={"$4"} overflow="scroll" scrollbarWidth={"none"}>
+          <XStack justifyContent="space-between" alignItems="center" width="100%" gap="$2">
+            <Input
+              value={selectedStep.name}
+              onChange={handleNameChange}
+              placeholder="Enter step name"
+              lineHeight={1.2 * 24}
+              style={{ minHeight: 48, height: 48, fontSize: 24, fontWeight: 'bold', borderColor: 'transparent', borderRadius: 0, borderWidth: 0, padding: 0, backgroundColor: 'transparent' }} // Apply heading styles
+            />
+            {syncStepsStatus && <SyncStatus syncStatus={syncStepsStatus} size={24} />}
+          </XStack>
           <SelectType selectedType={selectedStep.type} setSelectedType={setSelectedType} />
           <XStack justifyContent="space-between" alignItems="center" width="100%">
             <Label>Display progress in header</Label>
