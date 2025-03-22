@@ -4,7 +4,7 @@ import { exportSteps } from '@/utils/export.utils';
 import { v4 as uuidv4 } from 'uuid'
 import { supabase } from '@/supabase.client';
 import { useMutation, useQuery } from '@tanstack/react-query';
-import { Json } from '@/generated/supabase';
+import { debounce } from 'tamagui';
 
 type Variable = {
   name: string;
@@ -162,6 +162,8 @@ export const ProjectStepsProvider = ({ children, projectId }: { children: ReactN
     },
   })
 
+  const debouncedSyncSteps = debounce(syncSteps, 500);
+
 
   type callbackType = (prevState: OnboardingStep[]) => OnboardingStep[];
   const setSteps = useCallback(async (newStepsOrCallback: OnboardingStep[] | callbackType) => {
@@ -170,7 +172,7 @@ export const ProjectStepsProvider = ({ children, projectId }: { children: ReactN
       setSteps(newSteps);
       return;
     }
-    syncSteps(newStepsOrCallback);
+    debouncedSyncSteps(newStepsOrCallback);
   }, [])
 
 
