@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { createClient, Session } from '@supabase/supabase-js'
 import { Auth } from '@supabase/auth-ui-react'
-import { ThemeSupa } from '@supabase/auth-ui-shared'
+import { ThemeSupa, darkThemes } from '@supabase/auth-ui-shared'
 import { supabase } from '@/supabase.client'
 import { Button, H1, Paragraph, Stack, XStack } from 'tamagui'
 import { Link, useRouter } from 'expo-router'
@@ -34,8 +34,8 @@ export default function Login() {
   if (!session) {
     return (
       <XStack flex={1} backgroundColor={"$background"}>
-        <Stack flex={1} justifyContent="center" alignItems="center">
-          <Auth supabaseClient={supabase} appearance={{ theme: ThemeSupa }} />
+        <Stack flex={1} justifyContent="center" alignItems="center" >
+          <Auth supabaseClient={supabase} theme="dark" appearance={{ theme: ThemeSupa }} />
         </Stack>
         <Stack flex={1} gap={"$2"} justifyContent="center" alignItems="center">
           <H1>Welcome to Supabase</H1>

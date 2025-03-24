@@ -11,7 +11,6 @@ export const Provider = ({ children }: { children: ReactNode }) => {
 
   return (
     <QueryClientProvider client={queryClient}>
-
       <TamaguiProvider config={tamaguiConfig} >
         <Theme name={theme} >
           <ToastProvider>
