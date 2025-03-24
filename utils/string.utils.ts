@@ -11,3 +11,11 @@ export const generateSlug = (label: string) => {
     .replace(/-+/g, "-") // Replace multiple hyphens with a single hyphen
     .replace(/^-+|-+$/g, ""); // Remove leading/trailing hyphens};
 };
+
+export const capitalizeFirstLetter = (str: string) => {
+  if (typeof str !== "string") {
+    return ""; // Handle non-string input gracefully
+  }
+
+  return str.charAt(0).toUpperCase() + str.slice(1);
+};

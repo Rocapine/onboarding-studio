@@ -1,6 +1,6 @@
 import { queryClient } from "@/Provider";
 import { supabase } from "@/supabase.client";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useSuspenseQuery } from "@tanstack/react-query";
 import { useEffect } from "react";
 
 const ProjectQueryKey = "projects";
@@ -12,7 +12,7 @@ type Project = {
 };
 
 export const useProjects = () => {
-  const { data: projects, refetch } = useQuery({
+  const { data: projects, refetch } = useSuspenseQuery({
     queryKey: [ProjectQueryKey],
     queryFn: async () => {
       const { data, error } = await supabase

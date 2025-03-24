@@ -3,9 +3,14 @@ import { Stack, ListItem, Button, ScrollView, H1, Dialog } from "tamagui";
 import { format } from "date-fns";
 import NewProjectDialog from "@/components/Lib/CreationDialog/NewProjectDialog";
 import { useRouter } from "expo-router";
+import { useTeams } from "@/hooks/useTeams";
+
 
 export default function Projects() {
   const { projects, createNewProject, deleteProject } = useProjects();
+  console.log("projects", projects);
+  const { teams } = useTeams();
+  console.log("teams", teams);
 
   const router = useRouter();
   const onProjectPress = (projectId: string) => {
@@ -36,6 +41,7 @@ export default function Projects() {
         </Dialog.Trigger>
       </Stack>
       <NewProjectDialog
+        teams={teams}
         onSubmit={handleCreateProject}
       />
     </Dialog>

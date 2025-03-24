@@ -1,13 +1,17 @@
 import React, { useState } from 'react';
 import { Dialog, Input, Button, YStack } from 'tamagui';
 import { CreationDialog } from './CreationDialog';
+import { Team } from '@/hooks/useTeams';
+import { SelectItem } from '../Select';
 
 interface NewProjectDialogProps {
   onSubmit: (projectName: string) => void;
+  teams: Team[]
 }
 
-const NewProjectDialog: React.FC<NewProjectDialogProps> = ({ onSubmit }) => {
+const NewProjectDialog: React.FC<NewProjectDialogProps> = ({ onSubmit, teams }) => {
   const [projectName, setProjectName] = useState('');
+  const teamSelectState = useState<Team["id"] | undefined>(teams[0]?.id);
 
   const handleSubmit = () => {
     onSubmit(projectName);
@@ -17,6 +21,7 @@ const NewProjectDialog: React.FC<NewProjectDialogProps> = ({ onSubmit }) => {
   return (
     <CreationDialog>
       <YStack gap={"$4"}>
+        <SelectItem state={teamSelectState} items={teams} selectLabel='Teams' />
         <Input
           placeholder="Enter Project Name"
           value={projectName}
