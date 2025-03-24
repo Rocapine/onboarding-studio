@@ -24,7 +24,6 @@ export default function Projects() {
       <Stack flex={1} backgroundColor={"$background"} padding={"$4"} gap={"$4"}>
         <H1>Projects</H1>
         <ScrollView>
-
           {projects?.map((project) => (
             <ListItem onPress={() => onProjectPress(project.id)} key={project.id} title={project.name} subTitle={`${format(new Date(project.created_at), 'yyyy-MM-d, h:mm a')}`}>
               <Button
@@ -38,7 +37,6 @@ export default function Projects() {
           ))}
         </ScrollView>
         <Dialog.Trigger asChild>
-
           <Button
             size="$3"
             marginTop="$4"
