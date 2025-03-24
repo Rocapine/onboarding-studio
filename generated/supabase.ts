@@ -9,6 +9,21 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
+      profiles: {
+        Row: {
+          email: string | null
+          id: string
+        }
+        Insert: {
+          email?: string | null
+          id: string
+        }
+        Update: {
+          email?: string | null
+          id?: string
+        }
+        Relationships: []
+      }
       projects: {
         Row: {
           created_at: string
@@ -44,34 +59,32 @@ export type Database = {
           },
         ]
       }
-      team_members: {
+      team_memberships: {
         Row: {
-          created_at: string
-          created_by: string
-          id: string
-          member_id: string
           team_id: string
+          user_id: string
         }
         Insert: {
-          created_at?: string
-          created_by?: string
-          id?: string
-          member_id: string
           team_id: string
+          user_id: string
         }
         Update: {
-          created_at?: string
-          created_by?: string
-          id?: string
-          member_id?: string
           team_id?: string
+          user_id?: string
         }
         Relationships: [
           {
-            foreignKeyName: "team_members_team_id_fkey"
+            foreignKeyName: "team_memberships_team_id_fkey"
             columns: ["team_id"]
             isOneToOne: false
             referencedRelation: "teams"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "team_memberships_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
             referencedColumns: ["id"]
           },
         ]

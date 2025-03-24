@@ -36,6 +36,7 @@ export const useTeams = () => {
             {
               name: defaultTeamName,
               slug: defaultTeamSlug,
+              team_members: [user.data.user.id],
             },
           ])
           .select("*");
@@ -43,6 +44,7 @@ export const useTeams = () => {
           console.error("Error creating default team:", defaultTeamError);
           throw new Error("Failed to create default team", defaultTeamError);
         }
+
         return defaultTeam;
       }
 

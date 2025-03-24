@@ -3,29 +3,44 @@ import { queryClient } from "@/Provider";
 import { supabase } from "@/supabase.client";
 import { useMutation, useQuery } from "@tanstack/react-query";
 
-type TeamMember = Tables<"team_members">;
+type TeamMember = Tables<"team_memberships">;
 
 export const useTeam = (teamId: string) => {
   const { data: teamMembers } = useQuery({
     queryKey: ["team_members", teamId],
     queryFn: async () => {
       const { data, error } = await supabase
-        .from("team_members")
-        .select("*")
+        .from("team_memberships")
+        .select("*, profiles(*)")
         .eq("team_id", teamId);
+      console.log({ data, error });
       if (!data) {
         console.error("Error fetching team members:", error);
         throw new Error("Failed to fetch team members", error);
       }
+      if (data.length === 0) {
+        console.warn("No team found");
+        return [];
+      }
+
       return data;
     },
   });
 
   const createTeamMemberMutation = useMutation({
-    mutationFn: async ({ memberId }: { memberId: string }) => {
+    mutationFn: async ({ email }: { email: string }) => {
+      const { data: existingUser, error: existingUserError } = await supabase
+        .from("profiles")
+        .select("id")
+        .eq("email", email)
+        .single();
+      if (!existingUser) {
+        console.error("User not found:", existingUserError);
+        throw new Error("User not found", existingUserError);
+      }
       const { data, error } = await supabase
-        .from("team_members")
-        .insert([{ member_id: memberId, team_id: teamId }])
+        .from("team_memberships")
+        .insert([{ user_id: existingUser?.id, team_id: teamId }])
         .select("*");
       if (error) {
         console.error("Error creating team member:", error);
@@ -33,7 +48,7 @@ export const useTeam = (teamId: string) => {
       }
       return data;
     },
-    onMutate: async ({ memberId }: { memberId: string }) => {
+    onMutate: async ({ email }: { email: string }) => {
       const user = await supabase.auth.getUser();
       if (!user.data.user) {
         throw new Error("User not authenticated");
@@ -45,12 +60,13 @@ export const useTeam = (teamId: string) => {
         teamId,
       ]);
       const newTeamMember = {
-        id: Date.now().toString(),
-        member_id: memberId,
+        user_id: email,
         team_id: teamId,
-        created_by: user.data.user?.id,
-        created_at: new Date().toISOString(),
-      } satisfies TeamMember;
+        profiles: {
+          id: email,
+          email: email,
+        },
+      };
       queryClient.setQueryData<TeamMember[]>(
         ["team_members", teamId],
         (oldTeamMembers) => [newTeamMember, ...(oldTeamMembers || [])]

@@ -17,7 +17,7 @@ export default function Teams() {
         <H1>Teams</H1>
         <ScrollView>
           {teams?.map((team) => (
-            <ListItem onPress={() => onTeamPress(team.slug)} key={team.id} title={team.name} subTitle={team.slug}>  </ListItem>
+            <ListItem onPress={() => onTeamPress(team.id)} key={team.id} title={team.name} subTitle={team.slug}>  </ListItem>
           ))}
         </ScrollView>
         <Dialog.Trigger asChild>
