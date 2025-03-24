@@ -16,6 +16,7 @@ export type Database = {
           id: string
           name: string
           steps: Json | null
+          team_id: string | null
         }
         Insert: {
           created_at?: string
@@ -23,6 +24,7 @@ export type Database = {
           id?: string
           name: string
           steps?: Json | null
+          team_id?: string | null
         }
         Update: {
           created_at?: string
@@ -30,6 +32,71 @@ export type Database = {
           id?: string
           name?: string
           steps?: Json | null
+          team_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "projects_team_id_fkey"
+            columns: ["team_id"]
+            isOneToOne: false
+            referencedRelation: "teams"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      team_members: {
+        Row: {
+          created_at: string
+          created_by: string
+          id: number
+          member_id: string
+          team_id: string
+        }
+        Insert: {
+          created_at?: string
+          created_by?: string
+          id?: number
+          member_id: string
+          team_id: string
+        }
+        Update: {
+          created_at?: string
+          created_by?: string
+          id?: number
+          member_id?: string
+          team_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "team_members_team_id_fkey"
+            columns: ["team_id"]
+            isOneToOne: false
+            referencedRelation: "teams"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      teams: {
+        Row: {
+          created_at: string
+          created_by: string
+          id: string
+          name: string
+          slug: string
+        }
+        Insert: {
+          created_at?: string
+          created_by?: string
+          id?: string
+          name: string
+          slug: string
+        }
+        Update: {
+          created_at?: string
+          created_by?: string
+          id?: string
+          name?: string
+          slug?: string
         }
         Relationships: []
       }
