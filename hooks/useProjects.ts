@@ -1,3 +1,4 @@
+import { initialSteps } from "@/contexts/steps-context";
 import { queryClient } from "@/Provider";
 import { supabase } from "@/supabase.client";
 import { useMutation, useSuspenseQuery } from "@tanstack/react-query";
@@ -65,7 +66,11 @@ export const useProjects = () => {
       }
       const { data, error } = await supabase
         .from("projects")
-        .insert({ created_by: user.data.user?.id, name: name })
+        .insert({
+          created_by: user.data.user?.id,
+          name: name,
+          steps: initialSteps,
+        })
         .select("*");
 
       if (error) {

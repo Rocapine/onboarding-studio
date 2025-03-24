@@ -12,7 +12,7 @@ type Variable = {
 }
 
 const skeletonStep = {
-  id: "skeletinon",
+  id: "skeleton",
   type: STEP_TYPES.MediaContent,
   name: 'Skeleton',
   displayProgressHeader: true,
@@ -220,7 +220,7 @@ export const useSteps = () => {
 };
 
 
-const initialSteps = [
+export const initialSteps = [
   {
     id: uuidv4(),
     type: STEP_TYPES.MediaContent,
