@@ -1,6 +1,5 @@
 import { useProjects } from "@/hooks/useProjects";
 import { Stack, ListItem, Button, ScrollView, H1, Dialog } from "tamagui";
-import { useState } from "react";
 import { format } from "date-fns";
 import NewProjectDialog from "@/components/Lib/CreationDialog/NewProjectDialog";
 import { useRouter } from "expo-router";
@@ -12,8 +11,6 @@ export default function Projects() {
   const onProjectPress = (projectId: string) => {
     router.push(`/projects/${projectId}`);
   };
-
-  const [isModalVisible, setModalVisible] = useState(false);
 
   const handleCreateProject = (projectName: string) => {
     createNewProject.mutate(projectName);
@@ -40,15 +37,12 @@ export default function Projects() {
           <Button
             size="$3"
             marginTop="$4"
-            onPress={() => setModalVisible(true)}
           >
             Create New Project
           </Button>
         </Dialog.Trigger>
       </Stack>
       <NewProjectDialog
-        visible={isModalVisible}
-        onClose={() => setModalVisible(false)}
         onSubmit={handleCreateProject}
       />
     </Dialog>

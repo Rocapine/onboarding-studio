@@ -3,18 +3,15 @@ import { Dialog, Input, Button, YStack } from 'tamagui';
 import { CreationDialog } from './CreationDialog';
 
 interface NewProjectDialogProps {
-  visible: boolean;
-  onClose: () => void;
   onSubmit: (projectName: string) => void;
 }
 
-const NewProjectDialog: React.FC<NewProjectDialogProps> = ({ visible, onClose, onSubmit }) => {
+const NewProjectDialog: React.FC<NewProjectDialogProps> = ({ onSubmit }) => {
   const [projectName, setProjectName] = useState('');
 
   const handleSubmit = () => {
     onSubmit(projectName);
     setProjectName('');
-    onClose();
   };
 
   return (
@@ -29,7 +26,7 @@ const NewProjectDialog: React.FC<NewProjectDialogProps> = ({ visible, onClose, o
           <Button onPress={handleSubmit}>Submit</Button>
         </Dialog.Close>
         <Dialog.Close asChild>
-          <Button onPress={onClose}>Close</Button>
+          <Button>Close</Button>
         </Dialog.Close>
       </YStack>
     </CreationDialog>
