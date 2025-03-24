@@ -18,7 +18,7 @@ export const useProjects = () => {
     queryFn: async () => {
       const { data, error } = await supabase
         .from("projects")
-        .select("*")
+        .select("*, teams(*)")
         .order("created_at", {
           ascending: false,
         });

@@ -27,7 +27,7 @@ export default function Projects() {
         <H1>Projects</H1>
         <ScrollView>
           {projects?.map((project) => (
-            <ListItem onPress={() => onProjectPress(project.id)} key={project.id} title={project.name} subTitle={`${format(new Date(project.created_at), 'yyyy-MM-d, h:mm a')}`}>
+            <ListItem onPress={() => onProjectPress(project.id)} key={project.id} title={project.name} subTitle={`${project.teams?.name} ${format(new Date(project.created_at), 'yyyy-MM-d, h:mm a')}`}>
               <Button size="$2" color="$red10" onPress={() => deleteProject.mutate(project.id)}>
                 Delete
               </Button>
