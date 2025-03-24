@@ -1,30 +1,11 @@
 import { NewTeamDialog } from "@/components/Lib/CreationDialog/NewTeamDialog";
+import { useTeams } from "@/hooks/useTeams";
 import { useRouter } from "expo-router";
-import { useState } from "react";
 import { Button, Dialog, H1, ListItem, ScrollView, Stack } from "tamagui";
 
-const initialTeams = [
-  {
-    name: "Sammy's team",
-    id: "cskldjfskljflskjflskd",
-    slug: "sammy"
-  },
-  {
-    name: "Rocapine",
-    id: "dkjfslkfjskjslkdfjsdfs",
-    slug: "rocapine"
-  }
-]
-
 export default function Teams() {
-  const [teams, setTeams] = useState(initialTeams)
   const router = useRouter()
-
-  const handleTeamCreate = ({ teamName, teamSlug }: { teamName: string, teamSlug: string }) => {
-    setTeams((prevTeams) => {
-      return [...prevTeams, { name: teamName, slug: teamSlug, id: teamSlug + "skdfjslkfjslkdj" }]
-    })
-  }
+  const { teams, handleTeamCreate } = useTeams()
 
   const onTeamPress = (teamId: string) => {
     router.push(`/teams/${teamId}`)

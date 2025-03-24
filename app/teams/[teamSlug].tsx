@@ -1,21 +1,12 @@
 import { NewTeamMemberDialog } from "@/components/Lib/CreationDialog/NewTeamMemberDialog";
-import { useState } from "react";
+import { useTeam } from "@/hooks/useTeam";
 import { Button, Dialog, H1, H2, ListItem, ScrollView, Stack } from "tamagui";
 
-const initialTeamMembers = [
-  { id: "kdfjslkfjsdlkffskjls", email: "hildegarde@croute.lol" },
-  { id: "qdskljqdflkqsjldkqjqsld", email: "philipe@croute.lol" }
-]
+
+const teamId = 'teamId'
 
 export default function TeamSlug() {
-  const [teamMembers, setTeamMembers] = useState(initialTeamMembers)
-
-  const handleTeamCreate = ({ email }: { email: string }) => {
-    setTeamMembers((prevTeams) => {
-      return [...prevTeams, { email, id: email + "skdfjslkfjslkdj" }]
-    })
-  }
-
+  const { teamMembers, handleTeamMemberCreate } = useTeam(teamId)
 
   return (
     <Dialog modal>
@@ -34,7 +25,7 @@ export default function TeamSlug() {
         </Dialog.Trigger>
       </Stack>
       <NewTeamMemberDialog
-        onSubmit={handleTeamCreate}
+        onSubmit={handleTeamMemberCreate}
       />
     </Dialog>
   );
