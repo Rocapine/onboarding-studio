@@ -1,4 +1,4 @@
-import { NewTeamDialog } from "@/components/Lib/newTeamDialog";
+import { NewTeamDialog } from "@/components/Lib/CreationDialog/NewTeamDialog";
 import { useState } from "react";
 import { Button, Dialog, H1, ListItem, ScrollView, Stack } from "tamagui";
 

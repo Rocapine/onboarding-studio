@@ -2,7 +2,7 @@ import { useProjects } from "@/hooks/useProjects";
 import { Stack, ListItem, Button, ScrollView, H1, Dialog } from "tamagui";
 import { useState } from "react";
 import { format } from "date-fns";
-import NewProjectDialog from "@/components/Lib/NewProjectDialog";
+import NewProjectDialog from "@/components/Lib/CreationDialog/NewProjectDialog";
 import { useRouter } from "expo-router";
 
 export default function Projects() {
