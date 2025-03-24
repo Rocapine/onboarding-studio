@@ -3,9 +3,6 @@ import { useTeam } from "@/hooks/useTeam";
 import { useLocalSearchParams } from "expo-router";
 import { Button, Dialog, H1, H2, ListItem, ScrollView, Stack } from "tamagui";
 
-
-const teamId = 'fe3bceff-ad42-4c3f-a658-878e5cd9c8ec'
-
 export default function Team() {
   const { teamId } = useLocalSearchParams<{ teamId: string }>();
   const { teamMembers, handleTeamMemberCreate } = useTeam(teamId)
@@ -22,7 +19,7 @@ export default function Team() {
         </ScrollView>
         <Dialog.Trigger asChild>
           <Button size="$3" marginTop="$4">
-            Create New Team
+            Invite member
           </Button>
         </Dialog.Trigger>
       </Stack>

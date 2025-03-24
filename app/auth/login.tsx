@@ -35,7 +35,7 @@ export default function Login() {
     return (
       <XStack flex={1} backgroundColor={"$background"}>
         <Stack flex={1} justifyContent="center" alignItems="center" >
-          <Auth supabaseClient={supabase} theme="dark" appearance={{ theme: ThemeSupa }} />
+          <Auth supabaseClient={supabase} theme="dark" appearance={{ theme: ThemeSupa }} providers={["github"]} />
         </Stack>
         <Stack flex={1} gap={"$2"} justifyContent="center" alignItems="center">
           <H1>Welcome to Supabase</H1>

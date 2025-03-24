@@ -63,6 +63,14 @@ export const useTeams = () => {
         console.error("Error creating team:", error);
         throw new Error("Failed to create team", error);
       }
+      const { data: memberShip } = await supabase
+        .from("team_memberships")
+        .insert([
+          {
+            user_id: data?.[0].created_by,
+            team_id: data?.[0].id,
+          },
+        ]);
       return data;
     },
     onMutate: async ({ name, slug }: { name: string; slug: string }) => {
