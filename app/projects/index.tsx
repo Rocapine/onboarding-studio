@@ -23,21 +23,14 @@ export default function Projects() {
         <ScrollView>
           {projects?.map((project) => (
             <ListItem onPress={() => onProjectPress(project.id)} key={project.id} title={project.name} subTitle={`${format(new Date(project.created_at), 'yyyy-MM-d, h:mm a')}`}>
-              <Button
-                size="$2"
-                color="$red10"
-                onPress={() => deleteProject.mutate(project.id)}
-              >
+              <Button size="$2" color="$red10" onPress={() => deleteProject.mutate(project.id)}>
                 Delete
               </Button>
             </ListItem>
           ))}
         </ScrollView>
         <Dialog.Trigger asChild>
-          <Button
-            size="$3"
-            marginTop="$4"
-          >
+          <Button size="$3" marginTop="$4" >
             Create New Project
           </Button>
         </Dialog.Trigger>
