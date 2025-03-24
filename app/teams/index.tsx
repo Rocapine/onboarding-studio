@@ -1,4 +1,5 @@
 import { NewTeamDialog } from "@/components/Lib/CreationDialog/NewTeamDialog";
+import { useRouter } from "expo-router";
 import { useState } from "react";
 import { Button, Dialog, H1, ListItem, ScrollView, Stack } from "tamagui";
 
@@ -17,6 +18,7 @@ const initialTeams = [
 
 export default function Teams() {
   const [teams, setTeams] = useState(initialTeams)
+  const router = useRouter()
 
   const handleTeamCreate = ({ teamName, teamSlug }: { teamName: string, teamSlug: string }) => {
     setTeams((prevTeams) => {
@@ -24,21 +26,21 @@ export default function Teams() {
     })
   }
 
+  const onTeamPress = (teamId: string) => {
+    router.push(`/teams/${teamId}`)
+  }
+
   return (
     <Dialog modal>
       <Stack flex={1} backgroundColor={"$background"} padding={"$4"} gap={"$4"}>
-        <H1> Teams </H1>
+        <H1>Teams</H1>
         <ScrollView>
           {teams?.map((team) => (
-            <ListItem key={team.id} title={team.name} subTitle={team.slug}>
-            </ListItem>
+            <ListItem onPress={() => onTeamPress(team.slug)} key={team.id} title={team.name} subTitle={team.slug}>  </ListItem>
           ))}
         </ScrollView>
         <Dialog.Trigger asChild>
-          <Button
-            size="$3"
-            marginTop="$4"
-          >
+          <Button size="$3" marginTop="$4">
             Create New Team
           </Button>
         </Dialog.Trigger>
@@ -46,5 +48,6 @@ export default function Teams() {
       <NewTeamDialog
         onSubmit={handleTeamCreate}
       />
-    </Dialog>);
+    </Dialog>
+  );
 };
