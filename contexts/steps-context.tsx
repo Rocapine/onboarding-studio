@@ -155,6 +155,7 @@ export const ProjectStepsProvider = ({ children, projectId }: { children: ReactN
         .update({ steps: jsonifiedSteps })
         .eq('id', projectId);
       if (error) {
+        console.error('Failed to update project steps', error);
         throw new Error('Failed to update project steps');
       }
     },
