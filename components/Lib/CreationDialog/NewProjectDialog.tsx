@@ -5,7 +5,7 @@ import { Team } from '@/hooks/useTeams';
 import { SelectItem } from '../Select';
 
 interface NewProjectDialogProps {
-  onSubmit: (projectName: string) => void;
+  onSubmit: (projectName: string, teamId: string) => void;
   teams: Team[]
 }
 
@@ -14,12 +14,17 @@ const NewProjectDialog: React.FC<NewProjectDialogProps> = ({ onSubmit, teams }) 
   const teamSelectState = useState<Team["id"] | undefined>(teams[0]?.id);
 
   const handleSubmit = () => {
-    onSubmit(projectName);
+    if (!teamSelectState[0]) {
+      console.error("No team selected");
+      return;
+    }
+    onSubmit(projectName, teamSelectState[0]);
     setProjectName('');
   };
 
   return (
     <CreationDialog>
+      <Dialog.Title>Create Project</Dialog.Title>
       <YStack gap={"$4"}>
         <SelectItem state={teamSelectState} items={teams} selectLabel='Teams' />
         <Input

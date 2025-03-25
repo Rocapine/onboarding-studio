@@ -36,7 +36,6 @@ export const useTeams = () => {
             {
               name: defaultTeamName,
               slug: defaultTeamSlug,
-              team_members: [user.data.user.id],
             },
           ])
           .select("*");

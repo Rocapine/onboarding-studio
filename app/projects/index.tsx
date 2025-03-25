@@ -17,8 +17,8 @@ export default function Projects() {
     router.push(`/projects/${projectId}`);
   };
 
-  const handleCreateProject = (projectName: string) => {
-    createNewProject.mutate(projectName);
+  const handleCreateProject = (projectName: string, teamId: string) => {
+    createNewProject.mutate({ name: projectName, teamId });
   };
 
   return (

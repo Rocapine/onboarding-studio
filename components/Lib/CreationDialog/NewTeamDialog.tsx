@@ -18,6 +18,7 @@ export const NewTeamDialog: React.FC<NewProjectDialogProps> = ({ onSubmit }) => 
 
   return (
     <CreationDialog>
+      <Dialog.Title>Create Team</Dialog.Title>
       <YStack gap={"$4"}>
         <Input
           placeholder="Enter Team Name"

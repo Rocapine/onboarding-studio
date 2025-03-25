@@ -59,7 +59,7 @@ export const useProjects = () => {
   }, []);
 
   const createNewProject = useMutation({
-    mutationFn: async (name: string) => {
+    mutationFn: async ({ name, teamId }: { name: string; teamId: string }) => {
       const user = await supabase.auth.getUser();
       if (!user.data.user) {
         throw new Error("User not authenticated");
@@ -70,6 +70,7 @@ export const useProjects = () => {
           created_by: user.data.user?.id,
           name: name,
           steps: initialSteps,
+          team_id: teamId,
         })
         .select("*");
 
@@ -78,7 +79,7 @@ export const useProjects = () => {
       }
       return data;
     },
-    onMutate: async (name: string) => {
+    onMutate: async ({ name, teamId }: { name: string; teamId: string }) => {
       const user = await supabase.auth.getUser();
       if (!user.data.user) {
         throw new Error("User not authenticated");
