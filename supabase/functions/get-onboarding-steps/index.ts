@@ -24,7 +24,9 @@ const supabaseClient = createClient<Database>(
 
 Deno.serve(async (req) => {
   try {
-    const { projectId } = await req.json();
+    const url = new URL(req.url);
+    const projectId = url.searchParams.get("projectId");
+    const environment = url.searchParams.get("environment");
 
     if (!projectId) {
       throw new Error("projectId is required");
