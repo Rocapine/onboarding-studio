@@ -3,7 +3,7 @@ import { isOnboardingStepArray, OnboardingStep, STEP_TYPES } from '../Onboarding
 import { exportSteps } from '@/utils/export.utils';
 import { v4 as uuidv4 } from 'uuid'
 import { supabase } from '@/supabase.client';
-import { useMutation, useQuery } from '@tanstack/react-query';
+import { useMutation, useSuspenseQuery } from '@tanstack/react-query';
 import { debounce } from 'tamagui';
 
 type Variable = {
@@ -107,7 +107,7 @@ export const OfflineStepsProvider = ({ children }: { children: ReactNode }) => {
 
 export const ProjectStepsProvider = ({ children, projectId }: { children: ReactNode, projectId: string }) => {
 
-  const { data, refetch } = useQuery({
+  const { data, refetch } = useSuspenseQuery({
     queryKey: ['project-steps', projectId],
     queryFn: async () => {
       const response = await supabase.
