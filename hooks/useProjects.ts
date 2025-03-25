@@ -6,14 +6,14 @@ import { useEffect } from "react";
 import { Tables } from "../generated/supabase";
 
 const ProjectQueryKey = "projects";
-type Project = Tables<"projects">;
+export type Project = Tables<"projects">;
 
 export const useProjects = () => {
   const { data: projects, refetch } = useSuspenseQuery({
     queryKey: [ProjectQueryKey],
     queryFn: async () => {
       const { data, error } = await supabase
-        .from("projects")
+        .from("user_projects")
         .select("*, teams(*)")
         .order("created_at", {
           ascending: false,

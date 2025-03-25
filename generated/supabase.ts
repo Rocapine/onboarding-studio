@@ -9,6 +9,48 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
+      deployments: {
+        Row: {
+          created_at: string
+          created_by: string
+          environment: string
+          id: number
+          project_id: string
+          steps: Json
+        }
+        Insert: {
+          created_at?: string
+          created_by: string
+          environment: string
+          id?: number
+          project_id: string
+          steps: Json
+        }
+        Update: {
+          created_at?: string
+          created_by?: string
+          environment?: string
+          id?: number
+          project_id?: string
+          steps?: Json
+        }
+        Relationships: [
+          {
+            foreignKeyName: "deployments_project_id_fkey"
+            columns: ["project_id"]
+            isOneToOne: false
+            referencedRelation: "projects"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "deployments_project_id_fkey"
+            columns: ["project_id"]
+            isOneToOne: false
+            referencedRelation: "user_projects"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       profiles: {
         Row: {
           email: string | null
@@ -118,10 +160,59 @@ export type Database = {
       }
     }
     Views: {
-      [_ in never]: never
+      user_projects: {
+        Row: {
+          created_at: string | null
+          created_by: string | null
+          id: string | null
+          name: string | null
+          steps: Json | null
+          team_id: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "projects_team_id_fkey"
+            columns: ["team_id"]
+            isOneToOne: false
+            referencedRelation: "teams"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      user_teams: {
+        Row: {
+          team_id: string | null
+        }
+        Insert: {
+          team_id?: string | null
+        }
+        Update: {
+          team_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "team_memberships_team_id_fkey"
+            columns: ["team_id"]
+            isOneToOne: false
+            referencedRelation: "teams"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Functions: {
-      [_ in never]: never
+      user_has_access_to_project: {
+        Args: {
+          project_id: string
+        }
+        Returns: boolean
+      }
+      user_in_team: {
+        Args: {
+          team_id: string
+        }
+        Returns: boolean
+      }
     }
     Enums: {
       [_ in never]: never
