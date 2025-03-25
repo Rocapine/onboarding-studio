@@ -26,10 +26,6 @@ export const useTeams = () => {
         }
         const defaultTeamName = `${capitalizeFirstLetter(username)}'s Team`;
         const defaultTeamSlug = generateSlug(defaultTeamName);
-        console.log({
-          defaultTeamName,
-          defaultTeamSlug,
-        });
         const { data: defaultTeam, error: defaultTeamError } = await supabase
           .from("teams")
           .insert([
@@ -80,7 +76,7 @@ export const useTeams = () => {
       // Optimistically update the UI here if needed
       await queryClient.cancelQueries({ queryKey: [teamsQueryKey] });
       const previousTeams = queryClient.getQueryData<Team[]>([teamsQueryKey]);
-      const newProject = {
+      const newTeam = {
         id: Date.now().toString(),
         name: name,
         slug: slug,
@@ -88,8 +84,8 @@ export const useTeams = () => {
         created_at: new Date().toISOString(),
       } satisfies Team;
       queryClient.setQueryData<Team[]>([teamsQueryKey], (oldProjects) => [
-        newProject,
         ...(oldProjects || []),
+        newTeam,
       ]);
       return { previousProjects: previousTeams };
     },
