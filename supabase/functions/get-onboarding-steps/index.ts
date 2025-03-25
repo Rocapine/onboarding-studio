@@ -31,7 +31,7 @@ Deno.serve(async (req) => {
     }
 
     // Rest of the code remains the same
-    const { data: steps, error } = await supabaseClient
+    const { data, error } = await supabaseClient
       .from("projects")
       .select("steps")
       .eq("id", projectId)
@@ -39,7 +39,7 @@ Deno.serve(async (req) => {
 
     if (error) throw error;
 
-    return new Response(JSON.stringify({ steps }), {
+    return new Response(JSON.stringify(data), {
       headers: { "Content-Type": "application/json" },
     });
   } catch (error) {
