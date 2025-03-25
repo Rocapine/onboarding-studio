@@ -3,14 +3,10 @@ import { queryClient } from "@/Provider";
 import { supabase } from "@/supabase.client";
 import { useMutation, useSuspenseQuery } from "@tanstack/react-query";
 import { useEffect } from "react";
+import { Tables } from "../generated/supabase";
 
 const ProjectQueryKey = "projects";
-type Project = {
-  created_at: string;
-  created_by: string;
-  id: string;
-  name: string;
-};
+type Project = Tables<"projects">;
 
 export const useProjects = () => {
   const { data: projects, refetch } = useSuspenseQuery({
@@ -94,6 +90,8 @@ export const useProjects = () => {
         name: name,
         created_by: user.data.user?.id,
         created_at: new Date().toISOString(),
+        team_id: teamId,
+        steps: [],
       } satisfies Project;
       queryClient.setQueryData<Project[]>([ProjectQueryKey], (oldProjects) => [
         newProject,
