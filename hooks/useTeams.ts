@@ -24,6 +24,22 @@ export const useTeams = () => {
         if (!username || !user.data.user) {
           throw new Error("User not authenticated");
         }
+
+        // Create or update user profile
+        supabase
+          .from("profiles")
+          .upsert({
+            id: user.data.user.id,
+            email: user.data.user.email,
+          })
+          .select()
+          .single()
+          .then(({ error }) => {
+            if (error) {
+              console.error("Error creating profile:", error);
+            }
+          });
+
         const defaultTeamName = `${capitalizeFirstLetter(username)}'s Team`;
         const defaultTeamSlug = generateSlug(defaultTeamName);
         const { data: defaultTeam, error: defaultTeamError } = await supabase
@@ -34,13 +50,21 @@ export const useTeams = () => {
               slug: defaultTeamSlug,
             },
           ])
-          .select("*");
+          .select("*")
+          .single();
+
         if (defaultTeamError) {
           console.error("Error creating default team:", defaultTeamError);
           throw new Error("Failed to create default team", defaultTeamError);
         }
+        await supabase.from("team_memberships").insert([
+          {
+            user_id: user.data.user.id,
+            team_id: defaultTeam.id,
+          },
+        ]);
 
-        return defaultTeam;
+        return [defaultTeam];
       }
 
       return data;
