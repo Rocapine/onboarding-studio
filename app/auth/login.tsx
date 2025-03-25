@@ -14,6 +14,22 @@ export default function Login() {
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
       setSession(session)
+      if (session) {
+        // Create or update user profile
+        supabase
+          .from('profiles')
+          .upsert({
+            id: session.user.id,
+            email: session.user.email,
+            updated_at: new Date().toISOString(),
+          })
+          .select()
+          .single().then(({ error }) => {
+            if (error) {
+              console.error('Error creating profile:', error)
+            }
+          })
+      }
     })
 
     const {

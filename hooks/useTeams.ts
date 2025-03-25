@@ -28,7 +28,7 @@ export const useTeams = () => {
         const defaultTeamSlug = generateSlug(defaultTeamName);
         const { data: defaultTeam, error: defaultTeamError } = await supabase
           .from("teams")
-          .insert([
+          .upsert([
             {
               name: defaultTeamName,
               slug: defaultTeamSlug,
