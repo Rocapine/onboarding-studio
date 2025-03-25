@@ -61,14 +61,17 @@ export type Database = {
       }
       team_memberships: {
         Row: {
+          created_at: string
           team_id: string
           user_id: string
         }
         Insert: {
+          created_at?: string
           team_id: string
           user_id: string
         }
         Update: {
+          created_at?: string
           team_id?: string
           user_id?: string
         }

@@ -62,6 +62,7 @@ export const useTeam = (teamId: string) => {
       const newTeamMember = {
         user_id: email,
         team_id: teamId,
+        created_at: new Date().toISOString(),
         profiles: {
           id: email,
           email: email,
