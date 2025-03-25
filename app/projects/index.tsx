@@ -1,8 +1,8 @@
 import { useProjects } from "@/hooks/useProjects";
-import { Stack, ListItem, Button, ScrollView, H1, Dialog } from "tamagui";
+import { Stack, ListItem, Button, ScrollView, H1, Dialog, XStack } from "tamagui";
 import { format } from "date-fns";
 import NewProjectDialog from "@/components/Lib/CreationDialog/NewProjectDialog";
-import { useRouter } from "expo-router";
+import { Link, useRouter } from "expo-router";
 import { useTeams } from "@/hooks/useTeams";
 
 
@@ -13,9 +13,6 @@ export default function Projects() {
   console.log("teams", teams);
 
   const router = useRouter();
-  const onProjectPress = (projectId: string) => {
-    router.push(`/projects/${projectId}`);
-  };
 
   const handleCreateProject = (projectName: string, teamId: string) => {
     createNewProject.mutate({ name: projectName, teamId });
@@ -27,7 +24,19 @@ export default function Projects() {
         <H1>Projects</H1>
         <ScrollView>
           {projects?.map((project) => (
-            <ListItem onPress={() => onProjectPress(project.id)} key={project.id} title={project.name} subTitle={`${project.teams?.name} ${format(new Date(project.created_at), 'yyyy-MM-d, h:mm a')}`}>
+            <ListItem hoverTheme key={project.id} title={project.name} subTitle={`${project.teams?.name} ${format(new Date(project.created_at), 'yyyy-MM-d, h:mm a')}`}>
+              <XStack gap="$2" marginLeft="auto">
+                <Link href={`/projects/${project.id}/steps`}>
+                  <Button size="$2">
+                    Steps
+                  </Button>
+                </Link>
+                <Link href={`/projects/${project.id}/deployments`}>
+                  <Button size="$2">
+                    Deployments
+                  </Button>
+                </Link>
+              </XStack>
             </ListItem>
           ))}
         </ScrollView>
