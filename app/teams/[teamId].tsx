@@ -1,7 +1,7 @@
 import { NewTeamMemberDialog } from "@/components/Lib/CreationDialog/NewTeamMemberDialog";
 import { useTeam } from "@/hooks/useTeam";
 import { useLocalSearchParams } from "expo-router";
-import { Button, Dialog, H1, H2, ListItem, ScrollView, Stack } from "tamagui";
+import { Button, Dialog, H1, H2, ScrollView, Stack, XStack, YStack, Card, Text } from "tamagui";
 
 export default function Team() {
   const { teamId } = useLocalSearchParams<{ teamId: string }>();
@@ -14,7 +14,19 @@ export default function Team() {
         <H2>Team Members</H2>
         <ScrollView>
           {teamMembers?.map((teamMember) => (
-            <ListItem key={teamMember.profiles.id} title={teamMember.profiles.email}></ListItem>
+            <Card
+              key={teamMember.profiles.id}
+              elevate
+              bordered
+              padding="$4"
+              marginVertical="$2"
+            >
+              <XStack alignItems="center" justifyContent="space-between">
+                <YStack>
+                  <Text fontSize="$6" fontWeight="bold">{teamMember.profiles.email}</Text>
+                </YStack>
+              </XStack>
+            </Card>
           ))}
         </ScrollView>
         <Dialog.Trigger asChild>

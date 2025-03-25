@@ -1,7 +1,7 @@
 import { NewTeamDialog } from "@/components/Lib/CreationDialog/NewTeamDialog";
 import { useTeams } from "@/hooks/useTeams";
 import { useRouter } from "expo-router";
-import { Button, Dialog, H1, ListItem, ScrollView, Stack } from "tamagui";
+import { Button, Dialog, H1, ScrollView, Stack, XStack, YStack, Card, Text } from "tamagui";
 
 export default function Teams() {
   const router = useRouter()
@@ -17,7 +17,21 @@ export default function Teams() {
         <H1>Teams</H1>
         <ScrollView>
           {teams?.map((team) => (
-            <ListItem onPress={() => onTeamPress(team.id)} key={team.id} title={team.name} subTitle={team.slug}>  </ListItem>
+            <Card
+              key={team.id}
+              elevate
+              bordered
+              padding="$4"
+              marginVertical="$2"
+              onPress={() => onTeamPress(team.id)}
+            >
+              <XStack alignItems="center" justifyContent="space-between">
+                <YStack>
+                  <Text fontSize="$6" fontWeight="bold">{team.name}</Text>
+                  <Text color="$gray11">{team.slug}</Text>
+                </YStack>
+              </XStack>
+            </Card>
           ))}
         </ScrollView>
         <Dialog.Trigger asChild>

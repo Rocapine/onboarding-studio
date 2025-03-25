@@ -1,5 +1,5 @@
 import { useProjects } from "@/hooks/useProjects";
-import { Stack, ListItem, Button, ScrollView, H1, Dialog, XStack } from "tamagui";
+import { Stack, Button, ScrollView, H1, Dialog, XStack, Card, YStack, Text } from "tamagui";
 import { format } from "date-fns";
 import NewProjectDialog from "@/components/Lib/CreationDialog/NewProjectDialog";
 import { Link, useRouter } from "expo-router";
@@ -24,20 +24,22 @@ export default function Projects() {
         <H1>Projects</H1>
         <ScrollView>
           {projects?.map((project) => (
-            <ListItem hoverTheme key={project.id} title={project.name} subTitle={`${project.teams?.name} ${format(new Date(project.created_at), 'yyyy-MM-d, h:mm a')}`}>
-              <XStack gap="$2" marginLeft="auto">
-                <Link href={`/projects/${project.id}/steps`}>
-                  <Button size="$2">
-                    Steps
-                  </Button>
-                </Link>
-                <Link href={`/projects/${project.id}/deployments`}>
-                  <Button size="$2">
-                    Deployments
-                  </Button>
-                </Link>
+            <Card key={project.id} elevate bordered padding="$4" marginVertical="$2">
+              <XStack alignItems="center" justifyContent="space-between">
+                <YStack>
+                  <Text fontSize="$6" fontWeight="bold">{project.name}</Text>
+                  <Text color="$gray11">{`${project.teams?.name} • ${format(new Date(project.created_at), 'yyyy-MM-d, h:mm a')}`}</Text>
+                </YStack>
+                <XStack gap="$2">
+                  <Link href={`/projects/${project.id}/steps`}>
+                    <Button size="$2">Steps</Button>
+                  </Link>
+                  <Link href={`/projects/${project.id}/deployments`}>
+                    <Button size="$2">Deployments</Button>
+                  </Link>
+                </XStack>
               </XStack>
-            </ListItem>
+            </Card>
           ))}
         </ScrollView>
         <Dialog.Trigger asChild>
