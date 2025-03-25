@@ -33,13 +33,12 @@ export default function RootLayout() {
 
           >
             <YStack gap={"$2"} >
-              <Link href="/projects">
-                <Paragraph >Projects</Paragraph>
-              </Link>
               <Link href="/teams">
                 <Paragraph >Teams</Paragraph>
               </Link>
-
+              <Link href="/projects">
+                <Paragraph >Projects</Paragraph>
+              </Link>
             </YStack>
           </Stack>
           }
