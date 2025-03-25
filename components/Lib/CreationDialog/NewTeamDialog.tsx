@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Dialog, Input, Button, YStack } from 'tamagui';
 import { CreationDialog } from './CreationDialog';
+import { generateSlug } from '../../../utils/string.utils';
 
 interface NewProjectDialogProps {
   onSubmit: ({ name, slug }: { name: string, slug: string }) => void;
@@ -11,8 +12,9 @@ export const NewTeamDialog: React.FC<NewProjectDialogProps> = ({ onSubmit }) => 
   const [teamSlug, setTeamSlug] = useState('')
 
   const handleSubmit = () => {
-    onSubmit({ name: teamName, slug: teamSlug });
-    setTeamName('');
+    const slug = teamSlug || generateSlug(teamName);
+    onSubmit({ name: teamName, slug });
+    setTeamName("");
     setTeamSlug("");
   };
 
@@ -26,7 +28,7 @@ export const NewTeamDialog: React.FC<NewProjectDialogProps> = ({ onSubmit }) => 
           onChangeText={setTeamName}
         />
         <Input
-          placeholder="Team Slug"
+          placeholder={generateSlug(teamName) || "Team Slug"}
           value={teamSlug}
           onChangeText={setTeamSlug}
         />
