@@ -1,0 +1,9 @@
+{
+  "version": "1",
+  "name": "Onboarding Studio",
+  "type": "collection",
+  "ignore": [
+    "node_modules",
+    ".git"
+  ]
+}

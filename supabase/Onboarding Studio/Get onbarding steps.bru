@@ -1,0 +1,19 @@
+meta {
+  name: Get onbarding steps
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{baseUrl}}/functions/v1/get-onboarding-steps
+  body: json
+  auth: none
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:json {
+  {"name":"Functions"}
+}
