@@ -11,12 +11,12 @@ import { LoadingScreen } from "../../components/Loading";
 export default function Projects() {
   return (
     <Suspense fallback={<LoadingScreen />}>
-      <InternalProjects />
+      <ProjectsPage />
     </Suspense>
   );
 }
 
-function InternalProjects() {
+function ProjectsPage() {
   const { projects, createNewProject, deleteProject } = useProjects();
   console.log("projects", projects);
   const { teams } = useTeams();

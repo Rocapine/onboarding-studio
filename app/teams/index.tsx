@@ -4,15 +4,16 @@ import { useRouter } from "expo-router";
 import { Button, Dialog, H1, ScrollView, Stack, XStack, YStack, Card, Text } from "tamagui";
 import { Suspense } from "react";
 import { LoadingScreen } from "../../components/Loading";
+
 export default function Teams() {
   return (
     <Suspense fallback={<LoadingScreen />}>
-      <TeamsComponent />
+      <TeamsPage />
     </Suspense>
   );
 }
 
-function TeamsComponent() {
+function TeamsPage() {
   const router = useRouter()
   const { teams, handleTeamCreate } = useTeams()
 

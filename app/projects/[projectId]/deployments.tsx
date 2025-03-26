@@ -1,9 +1,18 @@
 import { Link, useLocalSearchParams } from "expo-router";
 import { Button, H1, H2, Stack, Text, XStack, YStack } from "tamagui";
 import { useDeployments } from "@/hooks/useDeployments";
-import { useState } from "react";
+import { Suspense, useState } from "react";
+import { LoadingScreen } from "@/components/Loading";
 
 export default function Deployments() {
+  return (
+    <Suspense fallback={<LoadingScreen />}>
+      <DeploymentsPage />
+    </Suspense>
+  );
+}
+
+function DeploymentsPage() {
   const { projectId } = useLocalSearchParams<{ projectId: string }>();
   const deployment = useDeployments(projectId);
   const baseUrl = `${process.env.EXPO_PUBLIC_SUPABASE_URL}/functions/v1/get-onboarding-steps?projectId=${projectId}`;
