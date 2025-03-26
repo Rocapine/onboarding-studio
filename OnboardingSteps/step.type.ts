@@ -17,12 +17,12 @@ export const STEP_TYPES = {
 type BaseStepProperties = {
   id: string;
   type:
-    | typeof MediaContent
-    | typeof Question
-    | typeof Picker
-    | typeof CustomScreen
-    | typeof Carousel
-    | typeof Reminder;
+  | typeof MediaContent
+  | typeof Question
+  | typeof Picker
+  | typeof CustomScreen
+  | typeof Carousel
+  | typeof Reminder;
   name: string;
   displayProgressHeader: boolean;
   payload?: Record<string, any>;
@@ -30,10 +30,22 @@ type BaseStepProperties = {
 
 export type StepType = BaseStepProperties["type"];
 
+export type MediaSource =
+  {
+    type: "image" | "lottie" | "rive";
+  } & (
+    | {
+      localPathId: string;
+    }
+    | {
+      url: string;
+    }
+  );
+
 export interface MediaContentStepType extends BaseStepProperties {
   type: typeof MediaContent;
   payload: {
-    imageUrl: string;
+    mediaSource: MediaSource;
     title: string;
     description: string;
     socialProof?: {
@@ -143,7 +155,10 @@ export const getInitialStepPayload = <T extends OnboardingStep>(
   }
   if (type === MediaContent) {
     return {
-      imageUrl: "https://api-ninjas.com/images/cats/abyssinian.jpg",
+      mediaSource: {
+        type: "image",
+        url: "https://api-ninjas.com/images/cats/abyssinian.jpg",
+      },
       title: "Hello",
       description: "World",
     };
