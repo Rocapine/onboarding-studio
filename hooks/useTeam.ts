@@ -13,7 +13,6 @@ export const useTeam = (teamId: string) => {
         .from("team_memberships")
         .select("*, profiles(*)")
         .eq("team_id", teamId);
-      console.log({ data, error });
       if (!data) {
         console.error("Error fetching team members:", error);
         throw new Error("Failed to fetch team members", error);

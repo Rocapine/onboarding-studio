@@ -4,7 +4,6 @@ import { supabase } from "../supabase.client";
 
 const queryKey = "deployments";
 export const useDeployments = (projectId: Project["id"]) => {
-  console.log("projectId", projectId);
   const query = useSuspenseQuery({
     queryKey: [queryKey],
     queryFn: async () => {

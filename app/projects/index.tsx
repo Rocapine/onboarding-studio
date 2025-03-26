@@ -18,11 +18,7 @@ export default function Projects() {
 
 function ProjectsPage() {
   const { projects, createNewProject, deleteProject } = useProjects();
-  console.log("projects", projects);
   const { teams } = useTeams();
-  console.log("teams", teams);
-
-  const router = useRouter();
 
   const handleCreateProject = (projectName: string, teamId: string) => {
     createNewProject.mutate({ name: projectName, teamId });
