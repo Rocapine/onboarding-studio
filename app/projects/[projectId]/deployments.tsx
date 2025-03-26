@@ -50,7 +50,7 @@ function DeploymentsPage() {
             >
               {copiedProduction ? "Copied!" : "Copy URL"}
             </Button>
-            <Button size="$3" onPress={() => { promote("production") }}>
+            <Button size="$3" onPress={() => { promote({ environment: "production" }) }}>
               Promote to Production
             </Button>
           </XStack>
@@ -77,7 +77,7 @@ function DeploymentsPage() {
             >
               {copiedSandbox ? "Copied!" : "Copy URL"}
             </Button>
-            <Button size="$3" onPress={() => { promote("sandbox") }}>
+            <Button size="$3" onPress={() => { promote({ environment: "sandbox" }) }}>
               Promote to Sandbox
             </Button>
           </XStack>
@@ -85,7 +85,7 @@ function DeploymentsPage() {
       </YStack>
       {deployments.map(deployment => {
         return (
-          <H1>{deployment.id}</H1>
+          <H1 key={deployment.id}>{deployment.id}</H1>
         )
       })}
     </Stack>
