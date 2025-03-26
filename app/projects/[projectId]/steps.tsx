@@ -14,7 +14,6 @@ const Layout = () => {
   const { projectId } = useLocalSearchParams<{ projectId: string }>();
   return (
     <Suspense fallback={<LoadingScreen />}>
-
       <ProjectStepsProvider projectId={projectId}>
         <View backgroundColor={"$background"} flex={1} flexDirection="row">
           <ToastViewport />

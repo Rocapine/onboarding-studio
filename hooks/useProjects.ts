@@ -13,7 +13,7 @@ export const useProjects = () => {
     queryKey: [ProjectQueryKey],
     queryFn: async () => {
       const { data, error } = await supabase
-        .from("user_projects")
+        .from("projects")
         .select("*, teams(*)")
         .order("created_at", {
           ascending: false,
