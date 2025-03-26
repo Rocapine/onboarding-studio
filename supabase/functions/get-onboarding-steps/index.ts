@@ -31,9 +31,11 @@ Deno.serve(async (req) => {
     if (!projectId) {
       throw new Error("projectId is required");
     }
+    if (!environment) {
+      throw new Error("Environment is required");
+    }
 
-    // Rest of the code remains the same
-    const { data, error } = await supabaseClient
+    const { data: projectSteps, error } = await supabaseClient
       .from("projects")
       .select("steps")
       .eq("id", projectId)
@@ -41,8 +43,32 @@ Deno.serve(async (req) => {
 
     if (error) throw error;
 
-    return new Response(JSON.stringify(data), {
-      headers: { "Content-Type": "application/json" },
+    const { data: latestDeployment, error: deploymentError } =
+      await supabaseClient
+        .from("deployments")
+        .select("*")
+        .eq("project_id", projectId)
+        .eq("environment", environment)
+        .order("created_at", { ascending: false })
+        .limit(1)
+        .single();
+
+    if (deploymentError) {
+      console.error(deploymentError);
+      return new Response(JSON.stringify(projectSteps.steps), {
+        headers: {
+          "Content-Type": "application/json",
+          deployment_id: "no deployment found",
+        },
+      });
+    }
+
+    return new Response(JSON.stringify(latestDeployment), {
+      headers: {
+        "Content-Type": "application/json",
+        deployment_id: `${latestDeployment.id}`,
+        created_at: latestDeployment.created_at,
+      },
     });
   } catch (error) {
     if (error instanceof FunctionsHttpError) {
