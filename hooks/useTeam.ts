@@ -5,9 +5,11 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 
 type TeamMember = Tables<"team_memberships">;
 
+const queryKey = "team_members";
+
 export const useTeam = (teamId: string) => {
   const { data: teamMembers } = useQuery({
-    queryKey: ["team_members", teamId],
+    queryKey: [queryKey, teamId],
     queryFn: async () => {
       const { data, error } = await supabase
         .from("team_memberships")
@@ -53,9 +55,9 @@ export const useTeam = (teamId: string) => {
         throw new Error("User not authenticated");
       }
       // Optimistically update the UI here if needed
-      await queryClient.cancelQueries({ queryKey: ["team_members", teamId] });
+      await queryClient.cancelQueries({ queryKey: [queryKey, teamId] });
       const previousTeamMembers = queryClient.getQueryData<TeamMember[]>([
-        "team_members",
+        queryKey,
         teamId,
       ]);
       const newTeamMember = {
@@ -68,7 +70,7 @@ export const useTeam = (teamId: string) => {
         },
       };
       queryClient.setQueryData<TeamMember[]>(
-        ["team_members", teamId],
+        [queryKey, teamId],
         (oldTeamMembers) => [newTeamMember, ...(oldTeamMembers || [])]
       );
       return { previousTeamMembers };
@@ -76,12 +78,12 @@ export const useTeam = (teamId: string) => {
     onError: (err, _, context) => {
       console.error("Error creating new team member:", err);
       queryClient.setQueryData(
-        ["team_members", teamId],
+        [queryKey, teamId],
         context?.previousTeamMembers
       );
     },
     onSettled: () => {
-      queryClient.invalidateQueries({ queryKey: ["team_members", teamId] });
+      queryClient.invalidateQueries({ queryKey: [queryKey, teamId] });
     },
   });
   const handleTeamMemberCreate = createTeamMemberMutation.mutate;

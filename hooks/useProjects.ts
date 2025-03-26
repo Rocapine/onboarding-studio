@@ -5,12 +5,12 @@ import { useMutation, useSuspenseQuery } from "@tanstack/react-query";
 import { useEffect } from "react";
 import { Tables } from "../generated/supabase";
 
-const ProjectQueryKey = "projects";
+const queryKey = "projects";
 export type Project = Tables<"projects">;
 
 export const useProjects = () => {
   const { data: projects, refetch } = useSuspenseQuery({
-    queryKey: [ProjectQueryKey],
+    queryKey: [queryKey],
     queryFn: async () => {
       const { data, error } = await supabase
         .from("projects")
@@ -81,10 +81,8 @@ export const useProjects = () => {
         throw new Error("User not authenticated");
       }
       // Optimistically update the UI here if needed
-      await queryClient.cancelQueries({ queryKey: [ProjectQueryKey] });
-      const previousProjects = queryClient.getQueryData<Project[]>([
-        ProjectQueryKey,
-      ]);
+      await queryClient.cancelQueries({ queryKey: [queryKey] });
+      const previousProjects = queryClient.getQueryData<Project[]>([queryKey]);
       const newProject = {
         id: Date.now().toString(),
         name: name,
@@ -93,7 +91,7 @@ export const useProjects = () => {
         team_id: teamId,
         steps: [],
       } satisfies Project;
-      queryClient.setQueryData<Project[]>([ProjectQueryKey], (oldProjects) => [
+      queryClient.setQueryData<Project[]>([queryKey], (oldProjects) => [
         newProject,
         ...(oldProjects || []),
       ]);
@@ -101,11 +99,11 @@ export const useProjects = () => {
     },
     onError: (err, newTodo, context) => {
       console.error("Error creating new project:", err);
-      queryClient.setQueryData([ProjectQueryKey], context?.previousProjects);
+      queryClient.setQueryData([queryKey], context?.previousProjects);
     },
     // Always refetch after error or success:
     onSettled: () => {
-      queryClient.invalidateQueries({ queryKey: [ProjectQueryKey] });
+      queryClient.invalidateQueries({ queryKey: [queryKey] });
     },
   });
 
@@ -127,25 +125,23 @@ export const useProjects = () => {
         throw new Error("User not authenticated");
       }
       // Optimistically update the UI here if needed
-      await queryClient.cancelQueries({ queryKey: [ProjectQueryKey] });
-      const previousProjects = queryClient.getQueryData<Project[]>([
-        ProjectQueryKey,
-      ]);
+      await queryClient.cancelQueries({ queryKey: [queryKey] });
+      const previousProjects = queryClient.getQueryData<Project[]>([queryKey]);
       const previousProjectWithoutDeletedProject = previousProjects?.filter(
         (project) => project.id !== id
       );
       queryClient.setQueryData<Project[]>(
-        [ProjectQueryKey],
+        [queryKey],
         previousProjectWithoutDeletedProject
       );
       return { previousProjects };
     },
     onError: (err, projectId, context) => {
       console.error("Error deleting new project:", err);
-      queryClient.setQueryData([ProjectQueryKey], context?.previousProjects);
+      queryClient.setQueryData([queryKey], context?.previousProjects);
     },
     onSettled: () => {
-      queryClient.invalidateQueries({ queryKey: [ProjectQueryKey] });
+      queryClient.invalidateQueries({ queryKey: [queryKey] });
     },
   });
 
