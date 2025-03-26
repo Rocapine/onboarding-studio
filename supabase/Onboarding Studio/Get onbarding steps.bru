@@ -4,10 +4,15 @@ meta {
   seq: 2
 }
 
-post {
-  url: {{baseUrl}}/functions/v1/get-onboarding-steps
+get {
+  url: {{baseUrl}}/functions/v1/get-onboarding-steps?projectId=914d144f-eae5-4f94-a433-45adc799b901&environment=production
   body: json
   auth: none
+}
+
+params:query {
+  projectId: 914d144f-eae5-4f94-a433-45adc799b901
+  environment: production
 }
 
 headers {
