@@ -11,18 +11,6 @@ type Variable = {
   value: string;
 }
 
-const skeletonStep = {
-  id: "skeleton",
-  type: STEP_TYPES.MediaContent,
-  name: 'Skeleton',
-  displayProgressHeader: true,
-  payload: {
-    imageUrl: 'https://api-ninjas.com/images/cats/abyssinian.jpg',
-    title: 'Hello',
-    description: 'World',
-  }
-} as OnboardingStep;
-
 type StepsContextType = {
   steps: OnboardingStep[];
   addStep: (step: OnboardingStep) => void;
@@ -145,7 +133,7 @@ export const ProjectStepsProvider = ({ children, projectId }: { children: ReactN
   }, []);
 
 
-  const steps = data || [skeletonStep];
+  const steps = data;
 
   const { mutate: syncSteps, status: syncStepsStatus } = useMutation({
     mutationFn: async (newSteps: OnboardingStep[]) => {
@@ -175,7 +163,7 @@ export const ProjectStepsProvider = ({ children, projectId }: { children: ReactN
   }, [])
 
 
-  const [selectedStep, setSelectedStep] = useState<OnboardingStep>(steps[0] || skeletonStep);
+  const [selectedStep, setSelectedStep] = useState<OnboardingStep>(steps[0]);
 
   const addStep = (step: OnboardingStep) => {
     setSteps([...steps, step]);
