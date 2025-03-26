@@ -1,23 +1,25 @@
-import { View } from "@tamagui/core";
-import { useSteps } from "../contexts/steps-context";
-import { Checkbox, Heading, Input, Label, XStack, YStack } from "tamagui";
-import { Check as CheckIcon } from '@tamagui/lucide-icons'
-import React from "react";
-import { SelectType } from "../components/SelectType";
-import { getInitialStepPayload, OnboardingStep, StepType, STEP_TYPES } from "../OnboardingSteps/step.type";
-import { MediaContentEditor } from "../OnboardingSteps/MediaContent/MediaContent.form";
-import { NativeSyntheticEvent, TextInputChangeEventData } from "react-native";
-import { QuestionEditor } from "../OnboardingSteps/Question/Question.form";
-import { CustomScreenEditor } from "../OnboardingSteps/CustomScreen/CustomScreen.form";
-import { PickerEditor } from "../OnboardingSteps/Picker/Picker.form";
-import { CarouselEditor } from "../OnboardingSteps/Carousel/Carousel.form";
-import { ReminderEditor } from "../OnboardingSteps/Reminder/Reminder.form";
 import { SyncStatus } from "@/components/SyncStatus";
+import { View } from "@tamagui/core";
+import { Check as CheckIcon } from '@tamagui/lucide-icons';
+import React, { useState } from "react";
+import { NativeSyntheticEvent, TextInputChangeEventData } from "react-native";
+import { Checkbox, Heading, Input, Label, TextArea, XStack, YStack } from "tamagui";
+import { SelectType } from "../components/SelectType";
+import { useSteps } from "../contexts/steps-context";
+import { CarouselEditor } from "../OnboardingSteps/Carousel/Carousel.form";
+import { CustomScreenEditor } from "../OnboardingSteps/CustomScreen/CustomScreen.form";
+import { MediaContentEditor } from "../OnboardingSteps/MediaContent/MediaContent.form";
+import { PickerEditor } from "../OnboardingSteps/Picker/Picker.form";
+import { QuestionEditor } from "../OnboardingSteps/Question/Question.form";
+import { ReminderEditor } from "../OnboardingSteps/Reminder/Reminder.form";
+import { getInitialStepPayload, OnboardingStep, STEP_TYPES, StepType } from "../OnboardingSteps/step.type";
 
 
 export default function EditPageForm() {
-
   const { selectedStep, setStep, syncStepsStatus } = useSteps();
+
+  const [customPayloadString, setCustomPayloadString] = useState<string>(JSON.stringify(selectedStep.customPayload, null, 2));
+  const [isValidCustomPayloadString, setIsValidCustomPayloadString] = useState<boolean>(true);
 
   const setSelectedType = React.useCallback((type: StepType) => {
     if (selectedStep) {
@@ -36,6 +38,17 @@ export default function EditPageForm() {
   const updateStep = React.useCallback((step: OnboardingStep) => {
     setStep(selectedStep.id, step)
   }, [selectedStep, setStep])
+
+  const validateContent = (value: string) => {
+    setCustomPayloadString(value);
+    try {
+      const parsedValue = JSON.parse(value);
+      updateStep({ ...selectedStep, customPayload: parsedValue });
+      setIsValidCustomPayloadString(true);
+    } catch (error) {
+      setIsValidCustomPayloadString(false);
+    }
+  };
 
   const editor = React.useMemo(() => {
     switch (selectedStep?.type) {
@@ -77,6 +90,15 @@ export default function EditPageForm() {
             </Checkbox>
           </XStack>
           {editor}
+          <Label>Custom Payload <Label color={isValidCustomPayloadString ? 'green' : 'red'}>{isValidCustomPayloadString ? 'Valid' : 'Invalid'}</Label></Label>
+          <TextArea
+            minHeight={100}
+            placeholder="Custom Screen ID"
+            value={customPayloadString}
+            onChangeText={validateContent}
+            // @ts-ignore
+            style={{ resize: 'vertical' }}
+          />
         </YStack>
       ) : <Heading width="$20">No step selected</Heading>}
     </View>

@@ -1,38 +1,34 @@
-import { YStack, Text, Image, XStack, Stack, View } from "tamagui";
-import { MediaContentStepType } from "../step.type";
-import { useIPhoneContext } from "../../contexts/iphone-context";
-import { Button } from "../../components/Lib/Button";
 import LottieView from "lottie-react-native";
+import { Image, Stack, Text, View, XStack, YStack } from "tamagui";
+import { Button } from "../../components/Lib/Button";
+import { useIPhoneContext } from "../../contexts/iphone-context";
+import { MediaContentStepType } from "../step.type";
 
 type ContentProps = {
   step: MediaContentStepType;
 };
 
 export const MediaContentStep = ({ step }: ContentProps) => {
-  const { useSafeAreaInsets, Dimensions } = useIPhoneContext();
+  const { useSafeAreaInsets } = useIPhoneContext();
   const question = step.payload;
   const { bottom } = useSafeAreaInsets();
-  const { height } = Dimensions.get("window");
-  let imageHeight = height - 320 - bottom;
-  if (!question.imageUrl) {
-    imageHeight += 60;
-  }
+
 
   const goNext = () => { };
 
-  const isLottie = question.imageUrl?.endsWith('.json');
+  const isLottie = question.mediaSource.type === 'lottie';
 
-  const mediaContent = isLottie ? (
+  const mediaContent = 'url' in question.mediaSource ? isLottie ? (
 
     <LottieView
-      source={{ uri: question.imageUrl }}
+      source={{ uri: question.mediaSource.url }}
       autoPlay
       loop={false}
       style={{ alignSelf: "center", width: 100, height: 100, backgroundColor: "red" }}
     />
-  ) : question.imageUrl ? (
+  ) : question.mediaSource.type === 'image' ? (
     <Image
-      source={{ uri: question.imageUrl }}
+      source={{ uri: question.mediaSource.url }}
       alignSelf="center"
       width="100%"
       height={"50%"}
@@ -40,7 +36,7 @@ export const MediaContentStep = ({ step }: ContentProps) => {
     />
   ) : (
     <View width="100%" height={"50%"} backgroundColor="green" />
-  );
+  ) : <View width="100%" height={"50%"} backgroundColor="green" />;
 
   return (
     <YStack flex={1} backgroundColor={"black"}>

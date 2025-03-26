@@ -1,10 +1,10 @@
-import { createContext, useContext, useState, ReactNode, useEffect, useCallback } from 'react';
-import { isOnboardingStepArray, OnboardingStep, STEP_TYPES } from '../OnboardingSteps/step.type';
-import { exportSteps } from '@/utils/export.utils';
-import { v4 as uuidv4 } from 'uuid'
 import { supabase } from '@/supabase.client';
+import { exportSteps } from '@/utils/export.utils';
 import { useMutation, useSuspenseQuery } from '@tanstack/react-query';
+import { createContext, ReactNode, useCallback, useContext, useEffect, useState } from 'react';
 import { debounce } from 'tamagui';
+import { v4 as uuidv4 } from 'uuid';
+import { isOnboardingStepArray, OnboardingStep, STEP_TYPES } from '../OnboardingSteps/step.type';
 
 type Variable = {
   name: string;
@@ -216,7 +216,10 @@ export const initialSteps = [
     name: 'What is the problem you are solving?',
     displayProgressHeader: true,
     payload: {
-      imageUrl: 'https://api-ninjas.com/images/cats/abyssinian.jpg',
+      mediaSource: {
+        type: 'image',
+        url: 'https://api-ninjas.com/images/cats/abyssinian.jpg',
+      },
       title: 'Hello',
       description: 'World',
       socialProof: {

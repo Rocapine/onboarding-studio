@@ -25,7 +25,8 @@ type BaseStepProperties = {
   | typeof Reminder;
   name: string;
   displayProgressHeader: boolean;
-  payload?: Record<string, any>;
+  payload: Record<string, any>;
+  customPayload?: object;
 };
 
 export type StepType = BaseStepProperties["type"];
@@ -100,7 +101,6 @@ export interface CustomScreenStepType extends BaseStepProperties {
   payload: {
     customScreenId: string;
     type: string;
-    content: object;
   };
 }
 
