@@ -5,11 +5,14 @@ import { createContext, ReactNode, useCallback, useContext, useEffect, useState 
 import { debounce } from 'tamagui';
 import { v4 as uuidv4 } from 'uuid';
 import { isOnboardingStepArray, OnboardingStep, STEP_TYPES } from '../OnboardingSteps/step.type';
+import { queryClient } from '../Provider';
 
 type Variable = {
   name: string;
   value: string;
 }
+
+const queryKey = "project-steps";
 
 type StepsContextType = {
   steps: OnboardingStep[];
@@ -96,7 +99,7 @@ export const OfflineStepsProvider = ({ children }: { children: ReactNode }) => {
 export const ProjectStepsProvider = ({ children, projectId }: { children: ReactNode, projectId: string }) => {
 
   const { data, refetch } = useSuspenseQuery({
-    queryKey: ['project-steps', projectId],
+    queryKey: [queryKey, projectId],
     queryFn: async () => {
       const response = await supabase.
         from('projects')
@@ -147,6 +150,22 @@ export const ProjectStepsProvider = ({ children, projectId }: { children: ReactN
         throw new Error('Failed to update project steps');
       }
     },
+    onMutate: async (newSteps: OnboardingStep[]) => {
+      console.log("Updating Steps", newSteps);
+
+      await queryClient.cancelQueries({ queryKey: [queryKey] });
+      const previousSteps = queryClient.getQueryData<OnboardingStep[]>([queryKey]);
+
+      queryClient.setQueryData([queryKey], newSteps);
+      return { previousSteps };
+    },
+    onError: (err, _, context) => {
+      console.error("Error creating new project:", err);
+      queryClient.setQueryData([queryKey], context?.previousSteps);
+    },
+    onSettled: () => {
+      queryClient.invalidateQueries({ queryKey: [queryKey] });
+    },
   })
 
   const debouncedSyncSteps = debounce(syncSteps, 500);
@@ -166,12 +185,12 @@ export const ProjectStepsProvider = ({ children, projectId }: { children: ReactN
   const [selectedStep, setSelectedStep] = useState<OnboardingStep>(steps[0]);
 
   const addStep = (step: OnboardingStep) => {
-    setSteps([...steps, step]);
+    syncSteps([...steps, step]);
   };
 
   const setStep = (id: OnboardingStep['id'], updatedStep: OnboardingStep) => {
     const newSteps = steps.map((step) => (step.id === id ? updatedStep : step));
-    setSteps(newSteps);
+    syncSteps(newSteps);
     if (id === selectedStep?.id) {
       setSelectedStep(updatedStep);
     }
@@ -179,7 +198,7 @@ export const ProjectStepsProvider = ({ children, projectId }: { children: ReactN
 
   const deleteStep = (id: OnboardingStep['id']) => {
     const newSteps = steps.filter((step) => step.id !== id);
-    setSteps(newSteps);
+    syncSteps(newSteps);
   };
 
   const getJsonSteps = () => {
