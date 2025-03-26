@@ -39,5 +39,8 @@ export const useDeployments = (projectId: Project["id"]) => {
     } satisfies Partial<Deployment>;
     console.log("promoting to", deployment);
   };
-  return { deployments, project, promote };
+  const baseUrl = `${process.env.EXPO_PUBLIC_SUPABASE_URL}/functions/v1/get-onboarding-steps?projectId=${projectId}`;
+  const productionUrl = `${baseUrl}&environment=production`;
+  const sandboxUrl = `${baseUrl}&environment=sandbox`;
+  return { deployments, project, promote, productionUrl, sandboxUrl };
 };

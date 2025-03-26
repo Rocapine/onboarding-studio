@@ -14,10 +14,8 @@ export default function Deployments() {
 
 function DeploymentsPage() {
   const { projectId } = useLocalSearchParams<{ projectId: string }>();
-  const { deployments, project, promote } = useDeployments(projectId);
-  const baseUrl = `${process.env.EXPO_PUBLIC_SUPABASE_URL}/functions/v1/get-onboarding-steps?projectId=${projectId}`;
-  const productionUrl = `${baseUrl}&environment=production`;
-  const sandboxUrl = `${baseUrl}&environment=sandbox`;
+  const { deployments, project, promote, productionUrl, sandboxUrl } = useDeployments(projectId);
+
   const [copiedProduction, setCopiedProduction] = useState(false);
   const [copiedSandbox, setCopiedSandbox] = useState(false);
 
