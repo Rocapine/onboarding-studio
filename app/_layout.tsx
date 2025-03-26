@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react';
 import { supabase } from '@/supabase.client';
 
 export default function RootLayout() {
-  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false)
+  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(true)
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {

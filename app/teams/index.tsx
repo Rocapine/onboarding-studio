@@ -2,8 +2,17 @@ import { NewTeamDialog } from "@/components/Lib/CreationDialog/NewTeamDialog";
 import { useTeams } from "@/hooks/useTeams";
 import { useRouter } from "expo-router";
 import { Button, Dialog, H1, ScrollView, Stack, XStack, YStack, Card, Text } from "tamagui";
-
+import { Suspense } from "react";
+import { LoadingScreen } from "../../components/Loading";
 export default function Teams() {
+  return (
+    <Suspense fallback={<LoadingScreen />}>
+      <TeamsComponent />
+    </Suspense>
+  );
+}
+
+function TeamsComponent() {
   const router = useRouter()
   const { teams, handleTeamCreate } = useTeams()
 
