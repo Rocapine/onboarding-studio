@@ -14,7 +14,7 @@ export default function Deployments() {
 
 function DeploymentsPage() {
   const { projectId } = useLocalSearchParams<{ projectId: string }>();
-  const deployment = useDeployments(projectId);
+  const { deployments, project, promote } = useDeployments(projectId);
   const baseUrl = `${process.env.EXPO_PUBLIC_SUPABASE_URL}/functions/v1/get-onboarding-steps?projectId=${projectId}`;
   const productionUrl = `${baseUrl}&environment=production`;
   const sandboxUrl = `${baseUrl}&environment=sandbox`;
@@ -29,7 +29,7 @@ function DeploymentsPage() {
 
   return <Stack backgroundColor={"$background"} flex={1} flexDirection="row">
     <Stack flex={1} backgroundColor={"$background"} padding={"$4"} gap={"$4"}>
-      <H1>Project {deployment.data.name}</H1>
+      <H1>Project {project.name}</H1>
       <YStack gap="$4">
         <YStack gap="$2">
           <H2>Production URL</H2>
@@ -48,10 +48,12 @@ function DeploymentsPage() {
             <Button
               size="$3"
               onPress={() => handleCopy(productionUrl, setCopiedProduction)}
-              backgroundColor={copiedProduction ? "$green8" : "$blue8"}
               color="white"
             >
               {copiedProduction ? "Copied!" : "Copy URL"}
+            </Button>
+            <Button size="$3" onPress={() => { promote("production") }}>
+              Promote to Production
             </Button>
           </XStack>
         </YStack>
@@ -73,14 +75,21 @@ function DeploymentsPage() {
             <Button
               size="$3"
               onPress={() => handleCopy(sandboxUrl, setCopiedSandbox)}
-              backgroundColor={copiedSandbox ? "$green8" : "$blue8"}
               color="white"
             >
               {copiedSandbox ? "Copied!" : "Copy URL"}
             </Button>
+            <Button size="$3" onPress={() => { promote("sandbox") }}>
+              Promote to Sandbox
+            </Button>
           </XStack>
         </YStack>
       </YStack>
+      {deployments.map(deployment => {
+        return (
+          <H1>{deployment.id}</H1>
+        )
+      })}
     </Stack>
   </Stack>
 }
