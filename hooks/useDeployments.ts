@@ -14,8 +14,12 @@ export const useDeployments = (projectId: Project["id"]) => {
     queryFn: async () => {
       const { data, error } = await supabase
         .from("projects")
-        .select("*, deployments(*)")
+        .select("*, deployments(*, created_by(*))")
         .eq("id", projectId)
+        .order("created_at", {
+          ascending: false,
+          referencedTable: "deployments",
+        })
         .single();
 
       if (error) {

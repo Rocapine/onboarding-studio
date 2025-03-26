@@ -1,8 +1,9 @@
 import { Link, useLocalSearchParams } from "expo-router";
-import { Button, H1, H2, Stack, Text, XStack, YStack } from "tamagui";
+import { Button, Card, H1, H2, ScrollView, Stack, Text, XStack, YStack } from "tamagui";
 import { useDeployments } from "@/hooks/useDeployments";
 import { Suspense, useState } from "react";
 import { LoadingScreen } from "@/components/Loading";
+import { format } from "date-fns";
 
 export default function Deployments() {
   return (
@@ -83,11 +84,19 @@ function DeploymentsPage() {
           </XStack>
         </YStack>
       </YStack>
-      {deployments.map(deployment => {
-        return (
-          <H1 key={deployment.id}>{deployment.id}</H1>
-        )
-      })}
+      <ScrollView>
+        {deployments.map(deployment => {
+          return (
+            <Card key={deployment.id} elevate bordered padding="$4" marginVertical="$2">
+
+              <YStack>
+                <Text fontSize="$6" fontWeight="bold">{`${deployment.id} • ${deployment.environment}`}</Text>
+                <Text color="$gray11">{`${format(new Date(deployment.created_at), 'yyyy-MM-d, h:mm a')}`}</Text>
+              </YStack>
+            </Card>
+          )
+        })}
+      </ScrollView>
     </Stack>
-  </Stack>
+  </Stack >
 }
