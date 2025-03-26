@@ -2,15 +2,15 @@ import update from 'immutability-helper'
 import type { FC } from 'react'
 import { useCallback, useEffect, useState } from 'react'
 
-import { StepCard } from '../components/StepCard'
+import React from 'react'
 import { DndProvider } from 'react-dnd'
 import { HTML5Backend } from 'react-dnd-html5-backend'
 import { Button, RadioGroup, ScrollView, View, YStack } from 'tamagui'
-import { useSteps } from '../contexts/steps-context'
 import { v4 as uuidv4 } from 'uuid'
-import { QuestionStepType, OnboardingStep, STEP_TYPES } from '../OnboardingSteps/step.type'
+import { StepCard } from '../components/StepCard'
+import { useSteps } from '../contexts/steps-context'
+import { OnboardingStep, QuestionStepType, STEP_TYPES } from '../OnboardingSteps/step.type'
 import { ExportSheet } from './ExportSheet'
-import React from 'react'
 import { ImportSheet } from './ImportSheet'
 import { VariableSheet } from './VariableSheet'
 
@@ -93,7 +93,8 @@ const StepList: FC = () => {
             content: "",
             title: ""
           }
-        }
+        },
+        customPayload: {}
       } satisfies QuestionStepType;
       addStep(newStep);
       setSelectedStep(newStep);

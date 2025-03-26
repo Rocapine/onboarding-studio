@@ -93,7 +93,7 @@ export default function EditPageForm() {
           <Label>Custom Payload <Label color={isValidCustomPayloadString ? 'green' : 'red'}>{isValidCustomPayloadString ? 'Valid' : 'Invalid'}</Label></Label>
           <TextArea
             minHeight={100}
-            placeholder="Custom Screen ID"
+            placeholder="Enter custom payload as JSON"
             value={customPayloadString}
             onChangeText={validateContent}
             // @ts-ignore
