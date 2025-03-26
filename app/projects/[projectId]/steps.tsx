@@ -7,19 +7,24 @@ import MobileScreenPreview from "@/layout/MobileScreenPreview";
 import StepsList from '@/layout/StepsList';
 import { useLocalSearchParams } from "expo-router/build/hooks";
 import { ProjectStepsProvider } from "@/contexts/steps-context";
+import { LoadingScreen } from "../../../components/Loading";
+import { Suspense } from "react";
 
 const Layout = () => {
   const { projectId } = useLocalSearchParams<{ projectId: string }>();
   return (
-    <ProjectStepsProvider projectId={projectId}>
-      <View backgroundColor={"$background"} flex={1} flexDirection="row">
-        <ToastViewport />
-        <CurrentToast />
-        <StepsList />
-        <MobileScreenPreview />
-        <EditPageForm />
-      </View>
-    </ProjectStepsProvider >
+    <Suspense fallback={<LoadingScreen />}>
+
+      <ProjectStepsProvider projectId={projectId}>
+        <View backgroundColor={"$background"} flex={1} flexDirection="row">
+          <ToastViewport />
+          <CurrentToast />
+          <StepsList />
+          <MobileScreenPreview />
+          <EditPageForm />
+        </View>
+      </ProjectStepsProvider >
+    </Suspense>
   );
 };
 const CurrentToast = () => {

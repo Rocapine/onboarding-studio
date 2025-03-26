@@ -4,9 +4,19 @@ import { format } from "date-fns";
 import NewProjectDialog from "@/components/Lib/CreationDialog/NewProjectDialog";
 import { Link, useRouter } from "expo-router";
 import { useTeams } from "@/hooks/useTeams";
+import { Suspense } from "react";
+import { LoadingScreen } from "../../components/Loading";
 
 
 export default function Projects() {
+  return (
+    <Suspense fallback={<LoadingScreen />}>
+      <InternalProjects />
+    </Suspense>
+  );
+}
+
+function InternalProjects() {
   const { projects, createNewProject, deleteProject } = useProjects();
   console.log("projects", projects);
   const { teams } = useTeams();
@@ -19,6 +29,7 @@ export default function Projects() {
   };
 
   return (
+
     <Dialog modal>
       <Stack flex={1} backgroundColor={"$background"} padding={"$4"} gap={"$4"}>
         <H1>Projects</H1>
