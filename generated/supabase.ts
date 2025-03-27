@@ -66,7 +66,6 @@ export type Database = {
           id: string
           name: string
           project_id: string
-          published_at: string
           steps: Json
         }
         Insert: {
@@ -76,7 +75,6 @@ export type Database = {
           id?: string
           name: string
           project_id: string
-          published_at?: string
           steps: Json
         }
         Update: {
@@ -86,7 +84,6 @@ export type Database = {
           id?: string
           name?: string
           project_id?: string
-          published_at?: string
           steps?: Json
         }
         Relationships: [

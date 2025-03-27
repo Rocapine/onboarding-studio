@@ -19,22 +19,20 @@ export const OnboardingCard = ({ onboarding, createdBy, projectId, updateOnboard
   }, [onboarding.id, updateOnboardingName]);
 
   return <Card key={onboarding.id} elevate bordered padding="$4" marginVertical="$2">
-    <XStack alignItems="center" justifyContent="space-between">
-      <YStack>
+    <XStack gap="$2" alignItems="center" justifyContent="space-between">
+      <YStack flex={1}>
         <Input padding={0} margin={0} borderWidth={0} fontSize="$6" fontWeight="bold" value={name} onChangeText={localUpdateOnboardingName} />
-        <Text fontSize="$6" fontWeight="bold" color="$gray11">{createdBy}</Text>
-        <Text color="$gray11">
-          Last edited: {format(new Date(onboarding.edited_at), 'yyyy-MM-dd, h:mm a')} •
-          {onboarding.published_at
-            ? ` Last published: ${format(new Date(onboarding.published_at), 'yyyy-MM-dd, h:mm a')}`
-            : ' Never published'}
-        </Text>
+        <XStack gap="$2" alignItems="baseline">
+          <Text fontSize="$6" fontWeight="bold" color="$gray11">{createdBy}</Text>
+          <Text color="$gray11">
+            Last edited: {format(new Date(onboarding.edited_at), 'yyyy-MM-dd, h:mm a')}
+          </Text>
+        </XStack>
       </YStack>
       <XStack gap="$2">
         <Link href={`/projects/${projectId}/onboardings/${onboarding.id}/steps`}>
           <Button size="$2">Edit Steps</Button>
         </Link>
-        <Button size="$2">Publish</Button>
       </XStack>
     </XStack>
   </Card>
