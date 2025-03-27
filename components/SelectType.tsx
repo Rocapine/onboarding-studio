@@ -1,5 +1,5 @@
-import React from 'react'
 import { Check, ChevronDown, ChevronUp } from '@tamagui/lucide-icons'
+import React from 'react'
 
 import type { FontSizeTokens, SelectProps } from 'tamagui'
 import { Adapt, Label, Select, Sheet, XStack, YStack, getFontSize } from 'tamagui'
@@ -45,7 +45,7 @@ export function SelectTypeItem(props: SelectProps & SelectTypeProps) {
           </Select.Item>
         )
       }),
-    [StepTypes]
+    []
   )
   return (
     <Select value={selectedType} onValueChange={setSelectedType} disablePreventBodyScroll {...props}>

@@ -1,10 +1,10 @@
-import { useState, useEffect } from 'react'
-import { createClient, Session } from '@supabase/supabase-js'
-import { Auth } from '@supabase/auth-ui-react'
-import { ThemeSupa, darkThemes } from '@supabase/auth-ui-shared'
 import { supabase } from '@/supabase.client'
-import { Button, H1, Paragraph, Stack, XStack } from 'tamagui'
+import { Auth } from '@supabase/auth-ui-react'
+import { ThemeSupa } from '@supabase/auth-ui-shared'
+import { Session } from '@supabase/supabase-js'
 import { Link, useRouter } from 'expo-router'
+import { useEffect, useState } from 'react'
+import { Button, H1, Paragraph, Stack, XStack } from 'tamagui'
 
 
 export default function Login() {
@@ -29,7 +29,7 @@ export default function Login() {
     if (session) {
       router.push('/projects')
     }
-  }, [session])
+  }, [session, router])
 
   if (!session) {
     return (

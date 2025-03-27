@@ -46,6 +46,7 @@ export default function EditPageForm() {
       updateStep({ ...selectedStep, customPayload: parsedValue });
       setIsValidCustomPayloadString(true);
     } catch (error) {
+      console.error(error);
       setIsValidCustomPayloadString(false);
     }
   };
@@ -60,7 +61,7 @@ export default function EditPageForm() {
       case STEP_TYPES.Reminder: return <ReminderEditor key={selectedStep.id} updateStep={updateStep} step={selectedStep} />
       default: return null
     }
-  }, [selectedStep])
+  }, [selectedStep, updateStep])
 
 
   return (

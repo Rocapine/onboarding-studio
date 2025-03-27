@@ -1,8 +1,8 @@
-import { useMutation, useSuspenseQuery } from "@tanstack/react-query";
-import { Project, useProjects } from "./useProjects";
-import { supabase } from "../supabase.client";
 import { Tables } from "@/generated/supabase";
+import { useMutation, useSuspenseQuery } from "@tanstack/react-query";
 import { useEffect } from "react";
+import { supabase } from "../supabase.client";
+import { Project } from "./useProjects";
 
 type Deployment = Tables<"deployments">;
 
@@ -51,7 +51,7 @@ export const useDeployments = (projectId: Project["id"]) => {
     return () => {
       void deploymentSubscription.unsubscribe();
     };
-  }, []);
+  }, [refetch, projectId]);
 
   const { deployments, ...project } = data;
 

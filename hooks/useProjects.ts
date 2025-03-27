@@ -40,7 +40,7 @@ export const useProjects = () => {
     return () => {
       void projectSubscription.unsubscribe();
     };
-  }, []);
+  }, [refetch]);
 
   const createNewProject = useMutation({
     mutationFn: async ({ name, teamId }: { name: string; teamId: string }) => {

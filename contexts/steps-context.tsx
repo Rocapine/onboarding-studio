@@ -50,7 +50,7 @@ export const OfflineStepsProvider = ({ children }: { children: ReactNode }) => {
   useEffect(() => {
     const jsonSteps = exportSteps(steps);
     localStorage.setItem(localStorageKey, jsonSteps); // Store JSON in local storage whenever steps change
-  }, [steps]);
+  }, [steps, localStorageKey]);
 
 
   const addStep = (step: OnboardingStep) => {
@@ -84,7 +84,7 @@ export const OfflineStepsProvider = ({ children }: { children: ReactNode }) => {
   useEffect(() => {
     const variablesString = JSON.stringify(variables);
     localStorage.setItem(localStorageVariableKey, variablesString);
-  }, [variables]);
+  }, [variables, localStorageVariableKey]);
 
 
   return (
@@ -133,7 +133,7 @@ export const ProjectStepsProvider = ({ children, projectId }: { children: ReactN
     return () => {
       void updateSubscription.unsubscribe();
     };
-  }, []);
+  }, [projectId, refetch]);
 
 
   const steps = data;
@@ -179,7 +179,7 @@ export const ProjectStepsProvider = ({ children, projectId }: { children: ReactN
       return;
     }
     debouncedSyncSteps(newStepsOrCallback);
-  }, [])
+  }, [steps, debouncedSyncSteps]);
 
 
   const [selectedStep, setSelectedStep] = useState<OnboardingStep>(steps[0]);

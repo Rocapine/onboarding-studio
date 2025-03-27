@@ -1,9 +1,9 @@
-import { Heading, Stack, styled, YStack, Text, View, Progress, XStack, SelectIcon, Paragraph } from "tamagui"
-import { QuestionStepType } from "../step.type"
-import { useState } from "react";
-import { IPhoneSafeArea } from "../../components/StepsRenderer/SafeArea";
-import { Button } from "../../components/Lib/Button";
 import { MessageCircleQuestion } from "@tamagui/lucide-icons";
+import { useState } from "react";
+import { Heading, Paragraph, Progress, Stack, styled, Text, View, XStack, YStack } from "tamagui";
+import { Button } from "../../components/Lib/Button";
+import { IPhoneSafeArea } from "../../components/StepsRenderer/SafeArea";
+import { QuestionStepType } from "../step.type";
 import { infoBoxIsDefined } from "./Question.helpers";
 
 export const QuestionPage = ({ step }: { step: QuestionStepType }) => {
@@ -36,11 +36,6 @@ export const QuestionPage = ({ step }: { step: QuestionStepType }) => {
       }
     });
   };
-
-
-  const subtitle = (step.payload.subtitle && step.payload.subtitle.length > 0 && <Heading fontSize="$5" fontWeight={400}>
-    {step.payload.subtitle}
-  </Heading>)
 
   return (
     <IPhoneSafeArea>

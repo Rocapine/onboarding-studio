@@ -1,9 +1,9 @@
-import { Select, YStack } from "tamagui"
-import { SelectProps } from "tamagui/types"
 import { Check, ChevronDown, ChevronUp } from "@tamagui/lucide-icons"
-import { IPhoneModel } from "./iPhone"
 import React from "react"
+import { Select, YStack } from "tamagui"
 import { LinearGradient } from "tamagui/linear-gradient"
+import { SelectProps } from "tamagui/types"
+import { IPhoneModel } from "./iPhone"
 
 type SelectModelProps = SelectProps & {
   selectedModel: IPhoneModel
@@ -47,24 +47,21 @@ export const SelectModel = (props: SelectModelProps) => {
         >
           <Select.Group>
             <Select.Label>Model</Select.Label>
-            {React.useMemo(
-              () =>
-                Object.values(IPhoneModel).map((item, i) => {
-                  return (
-                    <Select.Item
-                      index={i}
-                      key={item}
-                      value={item}
-                    >
-                      <Select.ItemText>{item}</Select.ItemText>
-                      <Select.ItemIndicator marginLeft="auto">
-                        <Check size={16} />
-                      </Select.ItemIndicator>
-                    </Select.Item>
-                  )
-                }),
-              [Object.values(IPhoneModel)]
-            )}
+            {
+              Object.values(IPhoneModel).map((item, i) => {
+                return (
+                  <Select.Item
+                    index={i}
+                    key={item}
+                    value={item}
+                  >
+                    <Select.ItemText>{item}</Select.ItemText>
+                    <Select.ItemIndicator marginLeft="auto">
+                      <Check size={16} />
+                    </Select.ItemIndicator>
+                  </Select.Item>
+                )
+              })}
           </Select.Group>
 
         </Select.Viewport>

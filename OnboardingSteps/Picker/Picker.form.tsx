@@ -1,6 +1,6 @@
-import { H5, Heading, Input, Label, SizableText, TextArea, XStack, YStack } from "tamagui"
-import { PickerStepType, PickerType } from "../step.type"
 import { useState } from "react";
+import { Heading, Input, Label, SizableText, TextArea, XStack, YStack } from "tamagui";
+import { PickerStepType, PickerType } from "../step.type";
 
 type StepType = PickerStepType
 type StepPayload = PickerStepType['payload']

@@ -1,6 +1,6 @@
+import { AlertCircle, Check, RefreshCw } from '@tamagui/lucide-icons';
 import React from 'react';
-import { View, Spinner, Tooltip, TooltipSimple } from 'tamagui';
-import { Check, AlertCircle, RefreshCw } from '@tamagui/lucide-icons';
+import { Spinner, TooltipSimple, View } from 'tamagui';
 
 type SyncStatusProps = {
   syncStatus: 'idle' | 'pending' | 'error' | 'success';

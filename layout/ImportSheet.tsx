@@ -1,6 +1,5 @@
 import { useState } from 'react';
-import { Button, TextArea, Sheet, Text, XStack, YStack } from 'tamagui';
-import { useSteps } from '../contexts/steps-context';
+import { Button, Sheet, Text, TextArea, XStack, YStack } from 'tamagui';
 import { OnboardingStep } from '../OnboardingSteps/step.type';
 
 const assertHasUniqueIds = (steps: OnboardingStep[]) => {
