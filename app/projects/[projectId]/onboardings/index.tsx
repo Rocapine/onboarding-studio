@@ -15,10 +15,10 @@ export default function Onboardings() {
 
 function OnboardingsPage() {
   const { projectId } = useLocalSearchParams<{ projectId: string }>();
-  const { onboardings, updateOnboardingName } = useOnboardings(projectId);
+  const { onboardings, updateOnboardingName, project } = useOnboardings(projectId);
   return (
     <View flex={1} backgroundColor={"$background"} padding={"$4"} gap={"$4"}>
-      <H1>Onboardings</H1>
+      <H1>Onboardings {project.name}</H1>
       <ScrollView>
         {onboardings.map((onboarding) => (
           <OnboardingCard key={onboarding.id} onboarding={onboarding} createdBy={onboarding.created_by.email} projectId={projectId} updateOnboardingName={updateOnboardingName} />
