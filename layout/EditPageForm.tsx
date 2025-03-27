@@ -18,6 +18,12 @@ import { getInitialStepPayload, OnboardingStep, STEP_TYPES, StepType } from "../
 export default function EditPageForm() {
   const { selectedStep, setStep, syncStepsStatus } = useSteps();
 
+  return (
+    <EditStepForm selectedStep={selectedStep} setStep={setStep} syncStepsStatus={syncStepsStatus} />
+  )
+}
+
+const EditStepForm = ({ selectedStep, setStep, syncStepsStatus }: { selectedStep: OnboardingStep, setStep: (id: string, updatedStep: OnboardingStep) => void, syncStepsStatus: "idle" | "pending" | "error" | "success" | undefined }) => {
   const [customPayloadString, setCustomPayloadString] = useState<string>(JSON.stringify(selectedStep.customPayload, null, 2));
   const [isValidCustomPayloadString, setIsValidCustomPayloadString] = useState<boolean>(true);
 
