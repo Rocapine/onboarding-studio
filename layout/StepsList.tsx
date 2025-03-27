@@ -27,9 +27,7 @@ const DraggableStepList = ({ steps, handleAddStep, deleteStep, setSteps }: { ste
       setSteps(prevCards);
       return prevCards;
     })
-
-
-  }, [localSteps, setSteps]);
+  }, [setSteps]);
 
   const moveCard = useCallback((dragIndex: number, hoverIndex: number, ...args: any) => {
     setLocalSteps((prevCards: OnboardingStep[]) =>
@@ -56,7 +54,7 @@ const DraggableStepList = ({ steps, handleAddStep, deleteStep, setSteps }: { ste
         />
       )
     },
-    [],
+    [deleteStep, onDrop, moveCard],
   )
 
   return (

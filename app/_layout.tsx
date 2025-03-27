@@ -1,8 +1,8 @@
 import { Provider } from '@/Provider';
-import { Link, Slot } from 'expo-router';
-import { PortalProvider, Stack, H2, Paragraph, YStack } from 'tamagui';
-import { useEffect, useState } from 'react';
 import { supabase } from '@/supabase.client';
+import { Link, Slot } from 'expo-router';
+import { useEffect, useState } from 'react';
+import { Paragraph, PortalProvider, Stack, YStack } from 'tamagui';
 
 export default function RootLayout() {
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(true)

@@ -107,7 +107,7 @@ export interface CustomScreenStepType extends BaseStepProperties {
 export interface CarouselStepType extends BaseStepProperties {
   type: typeof Carousel;
   payload: {
-    screens: Array<{ mediaUrl: string; title: string; subtitle: string }>;
+    screens: { mediaUrl: string; title: string; subtitle: string }[];
   };
 }
 

@@ -1,10 +1,10 @@
-import { useProjects } from "@/hooks/useProjects";
-import { Stack, Button, ScrollView, H1, Dialog, XStack, Card, YStack, Text } from "tamagui";
-import { format } from "date-fns";
 import NewProjectDialog from "@/components/Lib/CreationDialog/NewProjectDialog";
-import { Link, useRouter } from "expo-router";
+import { useProjects } from "@/hooks/useProjects";
 import { useTeams } from "@/hooks/useTeams";
+import { format } from "date-fns";
+import { Link } from "expo-router";
 import { Suspense } from "react";
+import { Button, Card, Dialog, H1, ScrollView, Stack, Text, XStack, YStack } from "tamagui";
 import { LoadingScreen } from "../../components/Loading";
 
 
@@ -17,7 +17,7 @@ export default function Projects() {
 }
 
 function ProjectsPage() {
-  const { projects, createNewProject, deleteProject } = useProjects();
+  const { projects, createNewProject } = useProjects();
   const { teams } = useTeams();
 
   const handleCreateProject = (projectName: string, teamId: string) => {

@@ -15,7 +15,7 @@ export default function Logout() {
     supabase.auth.signOut().then(() => {
       router.push("/");
     })
-  }, [navigatorReady]);
+  }, [navigatorReady, router]);
   return (<Stack flex={1} backgroundColor={"$background"} justifyContent="center" alignItems="center"><Paragraph>Logging out</Paragraph></Stack>)
 
 }
