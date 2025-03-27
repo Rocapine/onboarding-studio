@@ -47,7 +47,7 @@ function ProjectsPage() {
                     <Button size="$2">[old] Steps</Button>
                   </Link>
                   <Link href={`/projects/${project.id}/deployments`}>
-                    <Button size="$2">Sandbox</Button>
+                    <Button size="$2">Deployments</Button>
                   </Link>
                 </XStack>
               </XStack>
