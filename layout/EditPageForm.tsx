@@ -19,7 +19,7 @@ export default function EditPageForm() {
   const { selectedStep, setStep, syncStepsStatus } = useSteps();
 
   return (
-    <EditStepForm selectedStep={selectedStep} setStep={setStep} syncStepsStatus={syncStepsStatus} />
+    <EditStepForm key={selectedStep.id} selectedStep={selectedStep} setStep={setStep} syncStepsStatus={syncStepsStatus} />
   )
 }
 
