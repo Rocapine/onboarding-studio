@@ -26,22 +26,11 @@ export const useProjects = () => {
   });
 
   useEffect(() => {
-    const insertSubscription = supabase
+    const projectSubscription = supabase
       .channel("projects")
       .on(
         "postgres_changes",
-        { event: "INSERT", schema: "public", table: "projects" },
-        (payload) => {
-          refetch();
-        }
-      )
-      .subscribe();
-
-    const deleteSubscription = supabase
-      .channel("projects")
-      .on(
-        "postgres_changes",
-        { event: "DELETE", schema: "public", table: "projects" },
+        { event: "*", schema: "public", table: "projects" },
         (payload) => {
           refetch();
         }
@@ -49,8 +38,7 @@ export const useProjects = () => {
       .subscribe();
 
     return () => {
-      void insertSubscription.unsubscribe();
-      void deleteSubscription.unsubscribe();
+      void projectSubscription.unsubscribe();
     };
   }, []);
 
