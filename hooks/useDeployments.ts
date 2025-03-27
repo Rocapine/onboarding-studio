@@ -23,6 +23,7 @@ export const useDeployments = (projectId: Project["id"]) => {
         .single();
 
       if (error) {
+        console.error(error);
         throw new Error("Network response was not ok", error);
       }
       return data;
