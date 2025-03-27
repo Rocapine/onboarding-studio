@@ -3,8 +3,9 @@ import { useMutation, useSuspenseQuery } from "@tanstack/react-query";
 import { useEffect } from "react";
 import { supabase } from "../supabase.client";
 import { Project } from "./useProjects";
+import { debounce } from "tamagui";
 
-type Onboarding = Tables<"onboardings">;
+export type Onboarding = Tables<"onboardings">;
 
 const queryKey = "onboardings";
 
@@ -78,6 +79,28 @@ export const useOnboardings = (projectId: Project["id"]) => {
     },
   });
 
+  const updateOnboardingNameMutation = useMutation({
+    mutationFn: async ({ id, name }: { id: string; name: string }) => {
+      const { data, error } = await supabase
+        .from("onboardings")
+        .update({ name })
+        .eq("id", id);
+      if (error) {
+        console.error("Error updating onboarding name:", error);
+        throw new Error("Failed to update onboarding name", error);
+      }
+      return data;
+    },
+  });
+
+  const updateOnboardingName = updateOnboardingNameMutation.mutate;
+  const debouncedSyncSteps = debounce(updateOnboardingName, 500);
+
   const createNewOnboarding = createNewOnboardingMutation.mutate;
-  return { onboardings, project, createNewOnboarding };
+  return {
+    onboardings,
+    project,
+    createNewOnboarding,
+    updateOnboardingName,
+  };
 };

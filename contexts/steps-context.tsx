@@ -270,8 +270,8 @@ export const OnboardingStepsProvider = ({ children, onboardingId }: { children: 
     mutationFn: async (newSteps: OnboardingStep[]) => {
       const jsonifiedSteps = JSON.parse(JSON.stringify(newSteps));
       const { error } = await supabase
-        .from('projects')
-        .update({ steps: jsonifiedSteps })
+        .from('onboardings')
+        .update({ steps: jsonifiedSteps, edited_at: new Date().toISOString() })
         .eq('id', onboardingId);
       if (error) {
         console.error('Failed to update project steps', error);
