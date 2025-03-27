@@ -41,13 +41,13 @@ function ProjectsPage() {
                     <Button size="$2">Onboardings</Button>
                   </Link>
                   <Link href={`/projects/${project.id}/experiments`}>
-                    <Button size="$2">experiments</Button>
+                    <Button size="$2">Coming Soon: Experiments</Button>
                   </Link>
                   <Link href={`/projects/${project.id}/steps`}>
-                    <Button size="$2">Steps</Button>
+                    <Button size="$2">[old] Steps</Button>
                   </Link>
                   <Link href={`/projects/${project.id}/deployments`}>
-                    <Button size="$2">Deployments</Button>
+                    <Button size="$2">Sandbox</Button>
                   </Link>
                 </XStack>
               </XStack>

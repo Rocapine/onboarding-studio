@@ -62,25 +62,31 @@ export type Database = {
         Row: {
           created_at: string
           created_by: string
+          edited_at: string
           id: string
           name: string
           project_id: string
+          published_at: string
           steps: Json
         }
         Insert: {
           created_at?: string
           created_by: string
+          edited_at?: string
           id?: string
           name: string
           project_id: string
+          published_at?: string
           steps: Json
         }
         Update: {
           created_at?: string
           created_by?: string
+          edited_at?: string
           id?: string
           name?: string
           project_id?: string
+          published_at?: string
           steps?: Json
         }
         Relationships: [

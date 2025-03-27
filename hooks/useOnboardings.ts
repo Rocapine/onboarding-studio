@@ -4,21 +4,21 @@ import { useEffect } from "react";
 import { supabase } from "../supabase.client";
 import { Project } from "./useProjects";
 
-type Deployment = Tables<"deployments">;
+type Onboarding = Tables<"onboardings">;
 
-const queryKey = "deployments";
+const queryKey = "onboardings";
 
-export const useDeployments = (projectId: Project["id"]) => {
+export const useOnboardings = (projectId: Project["id"]) => {
   const { data, refetch } = useSuspenseQuery({
     queryKey: [queryKey],
     queryFn: async () => {
       const { data, error } = await supabase
         .from("projects")
-        .select("*, deployments(*, created_by(*))")
+        .select("*, onboardings(*, created_by(*))")
         .eq("id", projectId)
         .order("created_at", {
           ascending: false,
-          referencedTable: "deployments",
+          referencedTable: "onboardings",
         })
         .single();
 
@@ -31,14 +31,14 @@ export const useDeployments = (projectId: Project["id"]) => {
   });
 
   useEffect(() => {
-    const deploymentSubscription = supabase
-      .channel("deployments")
+    const onboardingSubscription = supabase
+      .channel("onboardings")
       .on(
         "postgres_changes",
         {
           event: "*",
           schema: "public",
-          table: "deployments",
+          table: "onboardings",
           filter: `project_id=eq.${projectId}`,
         },
         (payload) => {
@@ -48,43 +48,36 @@ export const useDeployments = (projectId: Project["id"]) => {
       .subscribe();
 
     return () => {
-      void deploymentSubscription.unsubscribe();
+      void onboardingSubscription.unsubscribe();
     };
   }, [refetch, projectId]);
 
-  const { deployments, ...project } = data;
+  const { onboardings, ...project } = data;
 
-  const mutation = useMutation({
-    mutationFn: async ({
-      environment,
-    }: {
-      environment: Deployment["environment"];
-    }) => {
+  const createNewOnboardingMutation = useMutation({
+    mutationFn: async ({ name }: { name: string }) => {
       const user = await supabase.auth.getUser();
       if (!user.data.user) {
         throw new Error("User not authenticated");
       }
-      const deployment = {
+      const newOnboarding = {
         created_by: user.data.user.id,
         created_at: new Date().toISOString(),
         project_id: projectId,
-        environment,
+        name,
         steps: project.steps,
-      } satisfies Partial<Deployment>;
+      } satisfies Partial<Onboarding>;
       const { data, error } = await supabase
-        .from("deployments")
-        .insert(deployment);
+        .from("onboardings")
+        .insert(newOnboarding);
       if (error) {
-        console.error("Error creating deployment:", error);
-        throw new Error("Failed to create deployment", error);
+        console.error("Error creating onboardings:", error);
+        throw new Error("Failed to create onboardings", error);
       }
       return data;
     },
   });
 
-  const promote = mutation.mutate;
-  const baseUrl = `${process.env.EXPO_PUBLIC_SUPABASE_URL}/functions/v1/get-onboarding-steps?projectId=${projectId}`;
-  const productionUrl = `${baseUrl}&environment=production`;
-  const sandboxUrl = `${baseUrl}&environment=sandbox`;
-  return { deployments, project, promote, productionUrl, sandboxUrl };
+  const createNewOnboarding = createNewOnboardingMutation.mutate;
+  return { onboardings, project, createNewOnboarding };
 };
