@@ -36,6 +36,13 @@ export type Database = {
         }
         Relationships: [
           {
+            foreignKeyName: "deployments_created_by_fkey1"
+            columns: ["created_by"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
             foreignKeyName: "deployments_project_id_fkey"
             columns: ["project_id"]
             isOneToOne: false
@@ -44,6 +51,55 @@ export type Database = {
           },
           {
             foreignKeyName: "deployments_project_id_fkey"
+            columns: ["project_id"]
+            isOneToOne: false
+            referencedRelation: "user_projects"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      onboardings: {
+        Row: {
+          created_at: string
+          created_by: string
+          id: string
+          name: string
+          project_id: string
+          steps: Json
+        }
+        Insert: {
+          created_at?: string
+          created_by: string
+          id?: string
+          name: string
+          project_id: string
+          steps: Json
+        }
+        Update: {
+          created_at?: string
+          created_by?: string
+          id?: string
+          name?: string
+          project_id?: string
+          steps?: Json
+        }
+        Relationships: [
+          {
+            foreignKeyName: "onboardings_created_by_fkey"
+            columns: ["created_by"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "onboardings_project_id_fkey"
+            columns: ["project_id"]
+            isOneToOne: false
+            referencedRelation: "projects"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "onboardings_project_id_fkey"
             columns: ["project_id"]
             isOneToOne: false
             referencedRelation: "user_projects"
