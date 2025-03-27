@@ -6,13 +6,17 @@ import { debounce } from 'tamagui';
 import { v4 as uuidv4 } from 'uuid';
 import { isOnboardingStepArray, OnboardingStep, STEP_TYPES } from '../OnboardingSteps/step.type';
 import { queryClient } from '../Provider';
+import { Tables } from '@/generated/supabase';
 
 type Variable = {
   name: string;
   value: string;
 }
 
-const queryKey = "project-steps";
+type Onboarding = Tables<'onboardings'>
+
+const queryKeyProject = "project-steps";
+const queryKeyOnboarding = "onboarding-steps";
 
 type StepsContextType = {
   steps: OnboardingStep[];
@@ -99,7 +103,7 @@ export const OfflineStepsProvider = ({ children }: { children: ReactNode }) => {
 export const ProjectStepsProvider = ({ children, projectId }: { children: ReactNode, projectId: string }) => {
 
   const { data, refetch } = useSuspenseQuery({
-    queryKey: [queryKey, projectId],
+    queryKey: [queryKeyProject, projectId],
     queryFn: async () => {
       const response = await supabase.
         from('projects')
@@ -153,18 +157,142 @@ export const ProjectStepsProvider = ({ children, projectId }: { children: ReactN
     onMutate: async (newSteps: OnboardingStep[]) => {
       console.log("Updating Steps", newSteps);
 
-      await queryClient.cancelQueries({ queryKey: [queryKey] });
-      const previousSteps = queryClient.getQueryData<OnboardingStep[]>([queryKey]);
+      await queryClient.cancelQueries({ queryKey: [queryKeyProject] });
+      const previousSteps = queryClient.getQueryData<OnboardingStep[]>([queryKeyProject]);
 
-      queryClient.setQueryData([queryKey], newSteps);
+      queryClient.setQueryData([queryKeyProject], newSteps);
       return { previousSteps };
     },
     onError: (err, _, context) => {
       console.error("Error creating new project:", err);
-      queryClient.setQueryData([queryKey], context?.previousSteps);
+      queryClient.setQueryData([queryKeyProject], context?.previousSteps);
     },
     onSettled: () => {
-      queryClient.invalidateQueries({ queryKey: [queryKey] });
+      queryClient.invalidateQueries({ queryKey: [queryKeyProject] });
+    },
+  })
+
+  const debouncedSyncSteps = debounce(syncSteps, 500);
+
+
+  type callbackType = (prevState: OnboardingStep[]) => OnboardingStep[];
+  const setSteps = useCallback(async (newStepsOrCallback: OnboardingStep[] | callbackType) => {
+    if (typeof newStepsOrCallback === 'function') {
+      const newSteps = newStepsOrCallback(steps);
+      setSteps(newSteps);
+      return;
+    }
+    debouncedSyncSteps(newStepsOrCallback);
+  }, [steps, debouncedSyncSteps]);
+
+
+  const [selectedStep, setSelectedStep] = useState<OnboardingStep>(steps[0]);
+
+  const addStep = (step: OnboardingStep) => {
+    syncSteps([...steps, step]);
+  };
+
+  const setStep = (id: OnboardingStep['id'], updatedStep: OnboardingStep) => {
+    const newSteps = steps.map((step) => (step.id === id ? updatedStep : step));
+    syncSteps(newSteps);
+    if (id === selectedStep?.id) {
+      setSelectedStep(updatedStep);
+    }
+  };
+
+  const deleteStep = (id: OnboardingStep['id']) => {
+    const newSteps = steps.filter((step) => step.id !== id);
+    syncSteps(newSteps);
+  };
+
+  const getJsonSteps = () => {
+    return exportSteps(steps);
+  }
+
+
+  const [variables, setVariables] = useState<Variable[]>([]);
+
+
+
+  return (
+    <StepsContext.Provider
+      value={{ steps, addStep, setStep, setSteps, selectedStep, setSelectedStep, deleteStep, getJsonSteps, variables, setVariables, syncStepsStatus }}
+    >
+      {children}
+    </StepsContext.Provider>
+  );
+}
+
+export const OnboardingStepsProvider = ({ children, onboardingId }: { children: ReactNode, onboardingId: Onboarding["id"] }) => {
+
+  const { data, refetch } = useSuspenseQuery({
+    queryKey: [queryKeyOnboarding, onboardingId],
+    queryFn: async () => {
+      const response = await supabase.
+        from('onboardings')
+        .select('steps')
+        .eq('id', onboardingId)
+        .single();
+      if (response.error) {
+        console.error('Failed to fetch onboarding steps', response.error);
+        throw new Error('Failed to fetch project steps');
+      }
+      const steps = response.data.steps;
+      if (isOnboardingStepArray(steps)) {
+        return steps;
+      } else {
+        throw new Error('Steps are not in the expected format');
+      }
+    }
+  })
+
+  useEffect(() => {
+    const updateSubscription = supabase
+      .channel("projects")
+      .on(
+        "postgres_changes",
+        { event: "UPDATE", schema: "public", table: "projects", filter: `id=eq.${onboardingId}` },
+        (payload) => {
+          refetch();
+        }
+      )
+      .subscribe();
+
+    return () => {
+      void updateSubscription.unsubscribe();
+    };
+  }, [onboardingId, refetch]);
+
+
+  const steps = data;
+
+  const { mutate: syncSteps, status: syncStepsStatus } = useMutation({
+    mutationFn: async (newSteps: OnboardingStep[]) => {
+      const jsonifiedSteps = JSON.parse(JSON.stringify(newSteps));
+      const { error } = await supabase
+        .from('projects')
+        .update({ steps: jsonifiedSteps })
+        .eq('id', onboardingId);
+      if (error) {
+        console.error('Failed to update project steps', error);
+        throw new Error('Failed to update project steps');
+      }
+    },
+    onMutate: async (newSteps: OnboardingStep[]) => {
+      console.log("Updating Steps", newSteps);
+
+      await queryClient.cancelQueries({ queryKey: [queryKeyOnboarding] });
+      const previousSteps = queryClient.getQueryData<OnboardingStep[]>([queryKeyOnboarding]);
+
+      queryClient.setQueryData([queryKeyOnboarding], newSteps);
+      return { previousSteps };
+    },
+    onError: (err, _, context) => {
+      console.error("Error creating new project:", err);
+      queryClient.setQueryData([queryKeyOnboarding], context?.previousSteps);
+    },
+    onSettled: () => {
+      queryClient.invalidateQueries({ queryKey: [queryKeyOnboarding] });
     },
   })
 

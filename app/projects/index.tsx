@@ -25,7 +25,6 @@ function ProjectsPage() {
   };
 
   return (
-
     <Dialog modal>
       <Stack flex={1} backgroundColor={"$background"} padding={"$4"} gap={"$4"}>
         <H1>Projects</H1>
@@ -38,6 +37,12 @@ function ProjectsPage() {
                   <Text color="$gray11">{`${project.teams?.name} • ${format(new Date(project.created_at), 'yyyy-MM-d, h:mm a')}`}</Text>
                 </YStack>
                 <XStack gap="$2">
+                  <Link href={`/projects/${project.id}/onboardings`}>
+                    <Button size="$2">Onboardings</Button>
+                  </Link>
+                  <Link href={`/projects/${project.id}/experiments`}>
+                    <Button size="$2">experiments</Button>
+                  </Link>
                   <Link href={`/projects/${project.id}/steps`}>
                     <Button size="$2">Steps</Button>
                   </Link>
