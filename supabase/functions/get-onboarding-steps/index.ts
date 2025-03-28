@@ -57,10 +57,33 @@ Deno.serve(async (req) => {
           return new Response(JSON.stringify(onboardingSteps), {
             headers: {
               "Content-Type": "application/json",
+              onboarding_id: onboardingId,
             },
           });
         }
       }
+      const { data: latestOnboarding, error: latestOnboardingError } =
+        await supabaseClient
+          .from("onboardings")
+          .select("id, steps")
+          .eq("project_id", projectId)
+          .order("created_at", { ascending: false })
+          .limit(1)
+          .single();
+
+      if (latestOnboardingError) {
+        console.error(latestOnboardingError);
+      }
+
+      if (latestOnboarding) {
+        return new Response(JSON.stringify(latestOnboarding), {
+          headers: {
+            "Content-Type": "application/json",
+            onboarding_id: latestOnboarding.id,
+          },
+        });
+      }
+
       return new Response(JSON.stringify(projectSteps), {
         headers: {
           "Content-Type": "application/json",
