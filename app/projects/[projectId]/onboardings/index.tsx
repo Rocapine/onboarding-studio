@@ -16,14 +16,18 @@ export default function Onboardings() {
 
 function OnboardingsPage() {
   const { projectId } = useLocalSearchParams<{ projectId: string }>();
-  const { onboardings, updateOnboardingName, project, createNewOnboarding } = useOnboardings(projectId);
+  const { onboardings, updateOnboardingName, project, createNewOnboarding, deployOnboarding } = useOnboardings(projectId);
   return (
     <Dialog modal>
       <View flex={1} backgroundColor={"$background"} padding={"$4"} gap={"$4"}>
         <H1>Onboardings {project.name}</H1>
         <ScrollView>
           {onboardings.map((onboarding) => (
-            <OnboardingCard key={onboarding.id} onboarding={onboarding} createdBy={onboarding.created_by.email} projectId={projectId} updateOnboardingName={updateOnboardingName} />
+            <OnboardingCard
+              key={onboarding.id} onboarding={onboarding}
+              createdBy={onboarding.created_by.email} projectId={projectId}
+              updateOnboardingName={updateOnboardingName}
+              deployOnboarding={() => deployOnboarding({ steps: onboarding.steps })} />
           ))}
         </ScrollView>
         <Dialog.Trigger asChild>

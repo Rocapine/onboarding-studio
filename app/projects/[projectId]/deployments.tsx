@@ -51,9 +51,6 @@ function DeploymentsPage() {
             >
               {copiedProduction ? "Copied!" : "Copy URL"}
             </Button>
-            <Button size="$3" onPress={() => { promote({ environment: "production" }) }}>
-              Promote to Production
-            </Button>
           </XStack>
         </YStack>
 
@@ -78,9 +75,6 @@ function DeploymentsPage() {
             >
               {copiedSandbox ? "Copied!" : "Copy URL"}
             </Button>
-            <Button size="$3" onPress={() => { promote({ environment: "sandbox" }) }}>
-              Promote to Sandbox
-            </Button>
           </XStack>
         </YStack>
       </YStack>
@@ -88,7 +82,6 @@ function DeploymentsPage() {
         {deployments.map(deployment => {
           return (
             <Card key={deployment.id} elevate bordered padding="$4" marginVertical="$2">
-
               <YStack>
                 <Text fontSize="$6" fontWeight="bold">{`${deployment.id} • ${deployment.environment}`}</Text>
                 <Text color="$gray11">{`${format(new Date(deployment.created_at), 'yyyy-MM-d, h:mm a')}`}</Text>

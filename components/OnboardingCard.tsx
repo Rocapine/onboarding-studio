@@ -9,9 +9,10 @@ type OnboardingCardProps = {
   createdBy: string | null;
   projectId: string;
   updateOnboardingName: (arg: { id: Onboarding["id"]; name: Onboarding["name"] }) => void;
+  deployOnboarding: () => void;
 }
 
-export const OnboardingCard = ({ onboarding, createdBy, projectId, updateOnboardingName }: OnboardingCardProps) => {
+export const OnboardingCard = ({ onboarding, createdBy, projectId, updateOnboardingName, deployOnboarding }: OnboardingCardProps) => {
   const [name, setName] = useState(onboarding.name);
   const localUpdateOnboardingName = useCallback((newName: string) => {
     setName(newName)
@@ -30,6 +31,9 @@ export const OnboardingCard = ({ onboarding, createdBy, projectId, updateOnboard
         </XStack>
       </YStack>
       <XStack gap="$2">
+        <Button size="$2" variant="outlined" onPress={deployOnboarding}>
+          Deploy to Production
+        </Button>
         <Link href={`/projects/${projectId}/onboardings/${onboarding.id}/steps`}>
           <Button size="$2">Edit Steps</Button>
         </Link>

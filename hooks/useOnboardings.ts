@@ -99,6 +99,27 @@ export const useOnboardings = (projectId: Project["id"]) => {
     },
   });
 
+  const deployOnboardingMutation = useMutation({
+    mutationFn: async ({ steps }: { steps: Onboarding["steps"] }) => {
+      const user = await supabase.auth.getUser();
+      if (!user.data.user) {
+        throw new Error("User not authenticated");
+      }
+      const { data, error } = await supabase.from("deployments").insert({
+        created_at: new Date().toISOString(),
+        created_by: user.data.user.id,
+        project_id: projectId,
+        environment: "production",
+        steps,
+      });
+      if (error) {
+        console.error("Error deploying onboarding:", error);
+        throw new Error("Failed to deploy onboarding", error);
+      }
+      return data;
+    },
+  });
+
   const updateOnboardingName = updateOnboardingNameMutation.mutate;
   const debouncedSyncSteps = debounce(updateOnboardingName, 500);
 
@@ -108,5 +129,6 @@ export const useOnboardings = (projectId: Project["id"]) => {
     project,
     createNewOnboarding,
     updateOnboardingName: debouncedSyncSteps,
+    deployOnboarding: deployOnboardingMutation.mutate,
   };
 };
