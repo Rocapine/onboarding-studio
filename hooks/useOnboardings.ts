@@ -56,7 +56,13 @@ export const useOnboardings = (projectId: Project["id"]) => {
   const { onboardings, ...project } = data;
 
   const createNewOnboardingMutation = useMutation({
-    mutationFn: async ({ name }: { name: string }) => {
+    mutationFn: async ({
+      name,
+      steps,
+    }: {
+      name: string;
+      steps: Onboarding["steps"];
+    }) => {
       const user = await supabase.auth.getUser();
       if (!user.data.user) {
         throw new Error("User not authenticated");
@@ -66,7 +72,7 @@ export const useOnboardings = (projectId: Project["id"]) => {
         created_at: new Date().toISOString(),
         project_id: projectId,
         name,
-        steps: project.steps,
+        steps,
       } satisfies Partial<Onboarding>;
       const { data, error } = await supabase
         .from("onboardings")
@@ -101,6 +107,6 @@ export const useOnboardings = (projectId: Project["id"]) => {
     onboardings,
     project,
     createNewOnboarding,
-    updateOnboardingName,
+    updateOnboardingName: debouncedSyncSteps,
   };
 };
