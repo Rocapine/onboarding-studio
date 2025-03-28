@@ -27,12 +27,10 @@ Deno.serve(async (req) => {
     const url = new URL(req.url);
     const projectId = url.searchParams.get("projectId");
     const environment = url.searchParams.get("environment");
+    const onboardingId = url.searchParams.get("onboardingId");
 
     if (!projectId) {
       throw new Error("projectId is required");
-    }
-    if (!environment) {
-      throw new Error("Environment is required");
     }
 
     const { data: projectSteps, error } = await supabaseClient
@@ -43,7 +41,26 @@ Deno.serve(async (req) => {
 
     if (error) throw error;
 
-    if (environment !== "production") {
+    if (!environment || environment !== "production") {
+      if (onboardingId) {
+        const { data: onboardingSteps, error } = await supabaseClient
+          .from("onboardings")
+          .select("steps")
+          .eq("id", onboardingId)
+          .single();
+
+        if (error) {
+          console.error(error);
+        }
+
+        if (onboardingSteps) {
+          return new Response(JSON.stringify(onboardingSteps), {
+            headers: {
+              "Content-Type": "application/json",
+            },
+          });
+        }
+      }
       return new Response(JSON.stringify(projectSteps), {
         headers: {
           "Content-Type": "application/json",
