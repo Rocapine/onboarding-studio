@@ -25,9 +25,8 @@ export const OnboardingCard = ({ onboarding, createdBy, projectId, updateOnboard
         <Input padding={0} margin={0} borderWidth={0} fontSize="$6" fontWeight="bold" value={name} onChangeText={localUpdateOnboardingName} />
         <XStack gap="$2" alignItems="baseline">
           <Text fontSize="$6" fontWeight="bold" color="$gray11">{createdBy}</Text>
-
           <Text color="$gray11">
-            Last edited: {format(new Date(onboarding.edited_at), 'yyyy-MM-dd, h:mm a')}
+            | Last edited: {format(new Date(onboarding.edited_at), 'yyyy-MM-dd, h:mm a')} |
           </Text>
           <Text color="$gray11">
             {Array.isArray(onboarding.steps) ? onboarding.steps.length : 0} steps
