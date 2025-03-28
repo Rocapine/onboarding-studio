@@ -43,6 +43,15 @@ Deno.serve(async (req) => {
 
     if (error) throw error;
 
+    if (environment !== "production") {
+      return new Response(JSON.stringify(projectSteps), {
+        headers: {
+          "Content-Type": "application/json",
+          deployment_id: "no deployment found",
+        },
+      });
+    }
+
     const { data: latestDeployment, error: deploymentError } =
       await supabaseClient
         .from("deployments")
@@ -55,7 +64,7 @@ Deno.serve(async (req) => {
 
     if (deploymentError) {
       console.error(deploymentError);
-      return new Response(JSON.stringify(projectSteps.steps), {
+      return new Response(JSON.stringify(projectSteps), {
         headers: {
           "Content-Type": "application/json",
           deployment_id: "no deployment found",
